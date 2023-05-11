@@ -20,6 +20,14 @@ type Animation {
   author: String!
 }
 
+type Review {
+  id: Float!
+  evaluation: Float!
+  comment: String!
+  animationId: Float!
+  userId: Float!
+}
+
 type Query {
   hello: String!
   users: [User!]!
@@ -32,10 +40,18 @@ type Query {
 type Mutation {
   updateUser(input: UpdateUserInput!): User!
   deleteUser(id: Int!): User!
+  createReview(input: CreateInputReview!): Review!
 }
 
 input UpdateUserInput {
   id: Float!
   displayName: String
   pictureUrl: String
+}
+
+input CreateInputReview {
+  evaluation: Float!
+  comment: String
+  animationId: Float!
+  userId: Float
 }

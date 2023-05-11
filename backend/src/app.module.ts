@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CrawlingModule } from './laftel_crawling/crawling.module';
 import { SearchModule } from './search/search.module';
+import { ReviewModule } from './review/review.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -21,7 +22,8 @@ import { SearchModule } from './search/search.module';
     UserModule,
     //GenreTypeModule
     CrawlingModule,
-    SearchModule
+    SearchModule,
+    ReviewModule
   ],
   providers: [AppResolver]
 })
