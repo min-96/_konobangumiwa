@@ -7,8 +7,8 @@ interface MoviePreviewProps {
 
 const MoviePreview: React.FC<MoviePreviewProps> = ({ title, rating }) => {
   return (
-    <div>
-      <h3>{title}</h3>
+    <div className="movie-preview">
+      <h4>{title}</h4>
       <p>평점: {rating}</p>
     </div>
   );

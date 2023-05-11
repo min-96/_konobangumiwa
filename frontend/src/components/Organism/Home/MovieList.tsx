@@ -1,36 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MovieCard from '../../Molecule/Home/MovieCard';
+import './MovieList.css';
+import { Movie } from '../../../types/movie';
 
 interface MovieListProps {
   listName: string;
+  movies: Movie[];
 };
 
-const MovieList: React.FC<MovieListProps> = ({listName}) => {
+const MovieList: React.FC<MovieListProps> = ({listName, movies}) => {
 
-  const movies = [
-    {
-      imageUrl: 'https://an2-img.amz.wtchn.net/image/v2/14PuoHZ3-X5F3BuR1NkGtg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk56YzFOamN5TmpZek56SXdNVFUwTURRaWZRLlBma1RwbHY3eUVSMGRhMUJPVnBEMktIVnVVa3ZxYjFhUllBNzJCTkQ5Unc',
-      altText: '영화 1',
-      title: '영화 제목 1',
-      rating: 4.5,
-    },
-    {
-      imageUrl: 'https://an2-img.amz.wtchn.net/image/v2/p08ht7J3IwJCCljaQa2oPA.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk9ESTBNRGswTURrNE1ERTNNVFF5TmpraWZRLi1KamhSZDdvOTBoaGJYcy1YNXh1UDlyS1E0RE1oXzdlV0ZrYS1NRkNQcVk',
-      altText: '영화 2',
-      title: '영화 제목 2',
-      rating: 3.8,
-    },
-    // 추가적인 영화 객체들...
-  ];
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const isLastPage = currentIndex >= movies.length - 4;
+  const isFirstPage = currentIndex === 0;
+
+  const handleNextSlide = () => {
+    //setCurrentIndex((prevIndex) => (prevIndex + 4) % movies.length);
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = prevIndex + 4;
+      return nextIndex + 4 > movies.length ? movies.length - 4 : nextIndex;
+    });
+  };
+
+  const handlePreviousSlide = () => {
+    //setCurrentIndex((prevIndex) => (prevIndex - 4 + movies.length) % movies.length);
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = prevIndex - 4;
+      return nextIndex < 0 ? 0 : nextIndex;
+    });
+  };
+  
   return (
     <div className="movie-list">
-      <div>{listName}</div>
-      {movies.map((movie, index) => (
-        <MovieCard key={index} movie={movie} />
-      ))}
+      {!isFirstPage && (
+        <button className="slide-button left prev-button" onClick={handlePreviousSlide}>
+          Prev
+        </button>
+      )}
+      <div className="list-name">{listName}</div>
+      <div className="card-list">
+        {movies.slice(currentIndex, currentIndex + 4).map((movie, index) => (
+          <MovieCard key={index} movie={movie} />
+        ))}
+      </div>
+      {!isLastPage && (
+        <button className="slide-button right next-button" onClick={handleNextSlide}>
+          Next
+        </button>
+      )}
     </div>
   );
 };
+
+
 
 export default MovieList;
