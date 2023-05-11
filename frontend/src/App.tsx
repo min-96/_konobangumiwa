@@ -1,15 +1,19 @@
 import React from 'react';
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import Home from './components/Organism/Home';
-import User from './components/Organism/User';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './components/Template/Home';
+import User from './components/Template/User';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/user" element={<User />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/user" element={<User />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
