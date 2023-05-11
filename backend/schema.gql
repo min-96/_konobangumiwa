@@ -1,0 +1,41 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  googleId: String!
+  email: String!
+  displayName: String!
+  pictureUrl: String
+}
+
+type Animation {
+  id: Int!
+  title: String!
+  release: String!
+  introduction: String!
+  thumbnail: String!
+  grade: Float!
+  author: String!
+}
+
+type Query {
+  hello: String!
+  users: [User!]!
+  userRead: User
+  test: String!
+  aniType(type: String!): [Animation!]!
+  searchTitle(title: String!): [Animation!]!
+}
+
+type Mutation {
+  updateUser(input: UpdateUserInput!): User!
+  deleteUser(id: Int!): User!
+}
+
+input UpdateUserInput {
+  id: Float!
+  displayName: String
+  pictureUrl: String
+}
