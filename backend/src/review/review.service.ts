@@ -3,6 +3,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { Review } from './review.model';
 import { CreateInputReview } from './dto/create-review.dto';
 import { Prisma, User } from '@prisma/client';
+import { error } from 'console';
 
 @Injectable()
 export class ReviewService {
@@ -41,13 +42,14 @@ export class ReviewService {
             })
           ],
           {
-            isolationLevel: Prisma.TransactionIsolationLevel.Serializable, // optional, default defined by database configuration
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable, 
           }
         )
         return createReview;
       } catch (error) {
-        retries++;
         if (error.code === 'P2034') {
+          retries++
+          continue
         }
         throw error
       }
