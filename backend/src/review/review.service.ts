@@ -42,7 +42,7 @@ export class ReviewService {
             })
           ],
           {
-            isolationLevel: Prisma.TransactionIsolationLevel.Serializable, 
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
           }
         )
         return createReview;
@@ -56,5 +56,12 @@ export class ReviewService {
     }
 
   }
+
+  async readReivew(user: User): Promise<Review[]> {
+    return this.prisma.review.findMany({
+      where: { userId: user.id }
+    });
+  }
+
 
 }
