@@ -30,7 +30,7 @@ const MovieList: React.FC<MovieListProps> = ({listName, movies}) => {
       return nextIndex < 0 ? 0 : nextIndex;
     });
   };
-  
+
   return (
     <div className="movie-list">
       {!isFirstPage && (
@@ -52,7 +52,5 @@ const MovieList: React.FC<MovieListProps> = ({listName, movies}) => {
     </div>
   );
 };
-
-
 
 export default MovieList;
