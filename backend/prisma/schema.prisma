@@ -28,7 +28,7 @@ model Animation {
   release       String
   introduction  String
   thumbnail     String
-  grade         Float     @default(0)
+  grade         Float?     @default(0)
   author        String
   genreList     Genre[]
   reviewList    Review[]
@@ -51,7 +51,7 @@ model GenreType {
 
 model Review {
   id            Int     @id @default(autoincrement())
-  evaluation    Float
+  evaluation    Int
   comment       String?
   animation     Animation  @relation(fields: [animationId], references: [id])
   animationId   Int  

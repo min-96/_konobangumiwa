@@ -1,28 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { Review } from './review.model';
 import { CreateInputReview } from './dto/create-review.dto';
 import { Prisma, User } from '@prisma/client';
-import { error } from 'console';
+import { UpdateInputReview } from './dto/update-review.dto';
 
 @Injectable()
 export class ReviewService {
+
   constructor(private prisma: PrismaService) { }
 
 
+  private async countAndAnimation(animationId: number) {
+    const [count, animation] = await Promise.all([
+      this.prisma.review.count({ where: { animationId } }),
+      this.prisma.animation.findUnique({ where: { id: animationId } })
+    ]);
+    return { count, animation };
+  }
+
+  //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
-
-    const reviewCount = await this.prisma.review.count({
-      where: { animationId: data.animationId }
+    const existingReview = await this.prisma.review.findMany({
+      where: { 
+          userId: user.id,
+          animationId: data.animationId,
+      },
     });
+  
+    if (existingReview) {
+      throw new Error('You have already reviewed this animation.');
+    }
 
-    const animation = await this.prisma.animation.findUnique({
-      where: { id: data.animationId }
-    });
+    const { count, animation } = await this.countAndAnimation(data.animationId);
 
-    const grade = (reviewCount * animation.grade + data.evaluation) / (reviewCount + 1);
-
-
+    const grade = (count * animation.grade + data.evaluation) / (count + 1);
     const MAX_RETRIES = 5
     let retries = 0
 
@@ -42,7 +54,7 @@ export class ReviewService {
             })
           ],
           {
-            isolationLevel: Prisma.TransactionIsolationLevel.Serializable, 
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
           }
         )
         return createReview;
@@ -57,4 +69,104 @@ export class ReviewService {
 
   }
 
+  async readReivew(user: User): Promise<Review[]> {
+    return this.prisma.review.findMany({
+      where: { userId: user.id }
+    });
+  }
+
+
+  //트랜잭션 적용하기
+  async updateReview(input: UpdateInputReview, user: User): Promise<Review> {
+
+    const oldReview = await this.prisma.review.findUnique({ where: { id: input.id } });
+    if (oldReview.userId !== user.id) throw new Error('Unauthorized');
+
+    const { count, animation } = await this.countAndAnimation(input.animationId);
+
+    const diff = input.evaluation - oldReview.evaluation;
+    const grade = (animation.grade * count + diff) / count;
+
+    const MAX_RETRIES = 5
+    let retries = 0
+
+
+    while (retries < MAX_RETRIES) {
+      try {
+        const [updateReview, updateAnimation] = await this.prisma.$transaction(
+          [
+            this.prisma.review.update({
+              where: { id: input.id }, data: {
+                evaluation: input.evaluation,
+                comment: input.comment,
+                userId: user.id,
+              }
+            }),
+            this.prisma.animation.update({
+              where: { id: input.animationId },
+              data: { grade: grade }
+            }),
+          ],
+          {
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          }
+        )
+        return updateReview;
+      } catch (error) {
+        if (error.code === 'P2034') {
+          retries++
+          continue
+        }
+        throw error
+      };
+    }
+  }
+
+  async deleteReview(reviewId: number, user: User): Promise<Review> {
+    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) throw new NotFoundException(`Review with id ${reviewId} not found`);
+    if (review.userId !== user.id) throw new Error('Unauthorized');
+
+    const { count, animation } = await this.countAndAnimation(review.animationId);
+
+    let grade;
+    if (count === 1) {
+      grade = 0;
+    } else {
+      grade = (animation.grade * count - review.evaluation) / (count - 1);
+    }
+
+
+    const MAX_RETRIES = 5;
+    let retries = 0;
+
+    while (retries < MAX_RETRIES) {
+      try {
+        const [deleteReview, updateAnimation] = await this.prisma.$transaction(
+          [
+            this.prisma.review.delete({
+              where: { id: reviewId }
+            }),
+            this.prisma.animation.update({
+              where: { id: review.animationId },
+              data: { grade: grade }
+            })
+          ],
+          {
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+          }
+        );
+        return deleteReview;
+      } catch (error) {
+        if (error.code === 'P2034') {
+          retries++;
+          continue;
+        }
+        throw error;
+      }
+    }
+  }
 }
+
+
+
