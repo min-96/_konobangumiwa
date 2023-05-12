@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import MovieCard from '../../Molecule/Home/MovieCard';
+import MovieCard from '../Molecule/Home/MovieCard';
 import './MovieList.css';
-import { Movie } from '../../../types/movie';
+import { Movie } from '../../types/movie';
 
 interface MovieListProps {
   listName: string;
