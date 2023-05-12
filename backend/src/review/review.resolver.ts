@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { ReviewService } from './review.service';
 import { Review } from './review.model';
 import { CreateInputReview } from './dto/create-review.dto';
@@ -35,5 +35,12 @@ export class ReviewResolver {
       return this.reviewService.updateReview(input,user);
     }
   
-
+  @Mutation(()=> Review)
+  @UseGuards(AuthGuard)
+  async deleteReview(
+    @CurrentUser() user: User,
+    @Args('id', {type: ()=> Int}) id: number) : Promise<Review> {
+      return this.reviewService.deleteReview(id,user);
+    }
+  
 }

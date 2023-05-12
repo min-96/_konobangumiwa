@@ -72,6 +72,7 @@ export class ReviewService {
 
   //트랜잭션 적용하기
   async updateReview(input: UpdateInputReview, user: User): Promise<Review> {
+    
     const selectAnimation = await this.prisma.animation.findUnique({ where: { id: input.animationId } });
 
     if (!selectAnimation) {
@@ -119,6 +120,57 @@ export class ReviewService {
       };
     }
   }
+
+  async deleteReview(reviewId: number, user: User): Promise<Review> {
+    const selectAnimation = await this.prisma.review.findUnique({
+      where: { id: reviewId }
+    });
+  
+    if (!selectAnimation) {
+      throw new NotFoundException(`해당하는 ${reviewId} 리뷰가 없습니다.`);
+    }
+  
+    const {count, animation} = await this.countAndAnimation(selectAnimation.animationId);
+  
+    if (count === 1) {
+      await this.prisma.animation.update({
+        where: { id: selectAnimation.animationId },
+        data: { grade: null }
+      });
+    } else {
+      const newGrade = (animation.grade * count - selectAnimation.evaluation) / (count - 1);
+  
+      const MAX_RETRIES = 5;
+      let retries = 0;
+  
+      while (retries < MAX_RETRIES) {
+        try {
+          const [deleteReview, updateAnimation] = await this.prisma.$transaction(
+            [
+              this.prisma.review.delete({
+                where: { id: reviewId }
+              }),
+              this.prisma.animation.update({
+                where: { id: selectAnimation.animationId },
+                data: { grade: newGrade }
+              })
+            ],
+            {
+              isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+            }
+          );
+          return deleteReview;
+        } catch (error) {
+          if (error.code === 'P2034') {
+            retries++;
+            continue;
+          }
+          throw error;
+        }
+      }
+    }
+  }
+  
 
 
 }
