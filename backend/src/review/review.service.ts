@@ -21,6 +21,16 @@ export class ReviewService {
 
   //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
+    const existingReview = await this.prisma.review.findMany({
+      where: { 
+          userId: user.id,
+          animationId: data.animationId,
+      },
+    });
+  
+    if (existingReview) {
+      throw new Error('You have already reviewed this animation.');
+    }
 
     const { count, animation } = await this.countAndAnimation(data.animationId);
 
