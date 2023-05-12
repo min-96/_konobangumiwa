@@ -22,8 +22,6 @@ export class UserResolver {
   async userRead(
     @CurrentUser() user:User
   ): Promise<User | null> {
-    //const user = ctx.req.user;
-    console.log(user.pictureUrl);
    return this.userService.findUserById(user.id);
      
   }
