@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
 import SearchInput from './Molecule/Home/SearchInput';
 import './NavigationBar.css';
@@ -17,23 +17,27 @@ const NavigationBar: React.FC = () => {
   const handleModalClose = () => {
     setModalType('none');
   };
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const domain = searchParams.get('domain');
   
   return (
     <nav className="navbar">
       <div className="navbar-item">
         <div className="pr-4">
           <Link to="/">
-            <img src="/logo.png" alt="Logo" className="h-12 w-24" /> {/* 로고 이미지 경로 */}
+            <img src="/logo.png" alt="Logo" className="h-12 w-24" />
           </Link>
         </div>
         <div className="navbar-item">
-          <div className="p-1">
+          <div className={`p-1 ${domain === 'animation' ? 'font-bold' : ''}`}>
             <Link to="/?domain=animation" className="hover:underline">
               애니메이션
             </Link>
           </div>
 
-          <div className="p-1">
+          <div className={`p-1 ${domain === 'webtoon' ? 'font-bold' : ''}`}>
             <Link to="/?domain=webtoon" className="hover:underline">
               웹툰
             </Link>
