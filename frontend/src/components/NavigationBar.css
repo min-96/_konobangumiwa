@@ -1,0 +1,13 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.navbar {
+  @apply flex justify-between items-center p-5 text-white;
+  background: #021221;
+  font-size: 14px;
+}
+
+.navbar-item {
+  @apply flex space-x-4 items-center;
+}

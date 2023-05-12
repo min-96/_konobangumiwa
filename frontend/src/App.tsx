@@ -3,6 +3,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './components/Template/Home';
 import User from './components/Template/User';
+import './index.css';
+
+
 
 function App() {
   return (
