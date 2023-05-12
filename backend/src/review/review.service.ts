@@ -10,25 +10,25 @@ export class ReviewService {
 
   constructor(private prisma: PrismaService) { }
 
-  //평점 구하기
-  async countAndAnimation(animationId: number) {
-    const count = await this.prisma.review.count({
-      where: { animationId: animationId }
-    });
 
-    const animation = await this.prisma.animation.findUnique({
-      where: { id: animationId }
-    });
-
-    return {count,animation};
+  private async countAndAnimation(animationId: number) {
+    const [count, animation] = await Promise.all([
+      this.prisma.review.count({ where: { animationId } }),
+      this.prisma.animation.findUnique({ where: { id: animationId } })
+    ]);
+    return { count, animation };
   }
 
+  private async calculateGrade(count: number, animationGrade: number, evaluation: number): Promise<number> {
+    return (count * animationGrade + evaluation) / (count + 1);
+  }
+
+  //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
 
     const {count,animation} = await this.countAndAnimation(data.animationId);
 
-    const grade = (count * animation.grade + data.evaluation) / (count + 1);
-
+    const grade = await this.calculateGrade(count, animation.grade, data.evaluation);
     const MAX_RETRIES = 5
     let retries = 0
 
@@ -72,19 +72,13 @@ export class ReviewService {
 
   //트랜잭션 적용하기
   async updateReview(input: UpdateInputReview, user: User): Promise<Review> {
-    
-    const selectAnimation = await this.prisma.animation.findUnique({ where: { id: input.animationId } });
-
-    if (!selectAnimation) {
-      throw new NotFoundException(`해당하는 ${input.animationId} 가 없습니다.`);
-    }
-
-    const {count,animation} = await this.countAndAnimation(input.animationId);
 
     const oldReview = await this.prisma.review.findUnique({ where: { id: input.id } });
+    if (oldReview.userId !== user.id) throw new Error('Unauthorized');
 
-    const diff = input.evaluation - oldReview.evaluation; 
-    const newGrade = (animation.grade * count + diff) / count;
+    const { count, animation } = await this.countAndAnimation(input.animationId);
+    const gradeDifference = input.evaluation - oldReview.evaluation;
+    const grade = await this.calculateGrade(count, animation.grade, gradeDifference);
 
     const MAX_RETRIES = 5
     let retries = 0
@@ -103,7 +97,7 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: input.animationId },
-              data: { grade: newGrade }
+              data: { grade: grade }
             }),
           ],
           {
@@ -122,23 +116,19 @@ export class ReviewService {
   }
 
   async deleteReview(reviewId: number, user: User): Promise<Review> {
-    const selectAnimation = await this.prisma.review.findUnique({
-      where: { id: reviewId }
-    });
+    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) throw new NotFoundException(`Review with id ${reviewId} not found`);
+    if (review.userId !== user.id) throw new Error('Unauthorized');
   
-    if (!selectAnimation) {
-      throw new NotFoundException(`해당하는 ${reviewId} 리뷰가 없습니다.`);
-    }
+    const {count, animation} = await this.countAndAnimation(review.animationId);
   
-    const {count, animation} = await this.countAndAnimation(selectAnimation.animationId);
-  
+    let grade;
     if (count === 1) {
-      await this.prisma.animation.update({
-        where: { id: selectAnimation.animationId },
-        data: { grade: null }
-      });
+      grade = null;
     } else {
-      const newGrade = (animation.grade * count - selectAnimation.evaluation) / (count - 1);
+      grade = (animation.grade * count - review.evaluation) / (count - 1);
+    }
+
   
       const MAX_RETRIES = 5;
       let retries = 0;
@@ -151,8 +141,8 @@ export class ReviewService {
                 where: { id: reviewId }
               }),
               this.prisma.animation.update({
-                where: { id: selectAnimation.animationId },
-                data: { grade: newGrade }
+                where: { id: review.animationId },
+                data: { grade: grade }
               })
             ],
             {
@@ -173,4 +163,3 @@ export class ReviewService {
   
 
 
-}
