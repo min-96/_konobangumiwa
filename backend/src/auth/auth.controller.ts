@@ -36,11 +36,20 @@ export class AuthController {
     return 'Login Success';
   }
 
-  @Get('/logout')
-  logout(@Req() req) {
-    req.logout();
+  @Get('/logout/success')
+  logoutSuccess(@Req() req : Request) {
     return 'Logout Success';
   }
 
+  @Get('/logout')
+  logout(@Req() req: Request, @Res() res: Response) {
+    req.session.destroy((err) => {
+      if (err) {
+        res.status(500).send('Error logging out');
+        return;
+      }
+      res.redirect('/auth/logout/success');
+  });
+}
   
 }
