@@ -19,16 +19,12 @@ export class ReviewService {
     return { count, animation };
   }
 
-  private async calculateGrade(count: number, animationGrade: number, evaluation: number): Promise<number> {
-    return (count * animationGrade + evaluation) / (count + 1);
-  }
-
   //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
 
-    const {count,animation} = await this.countAndAnimation(data.animationId);
+    const { count, animation } = await this.countAndAnimation(data.animationId);
 
-    const grade = await this.calculateGrade(count, animation.grade, data.evaluation);
+    const grade = (count * animation.grade + data.evaluation) / (count + 1);
     const MAX_RETRIES = 5
     let retries = 0
 
@@ -77,8 +73,9 @@ export class ReviewService {
     if (oldReview.userId !== user.id) throw new Error('Unauthorized');
 
     const { count, animation } = await this.countAndAnimation(input.animationId);
-    const gradeDifference = input.evaluation - oldReview.evaluation;
-    const grade = await this.calculateGrade(count, animation.grade, gradeDifference);
+
+    const diff = input.evaluation - oldReview.evaluation;
+    const grade = (animation.grade * count + diff) / count;
 
     const MAX_RETRIES = 5
     let retries = 0
@@ -104,7 +101,7 @@ export class ReviewService {
             isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
           }
         )
-          return updateReview;
+        return updateReview;
       } catch (error) {
         if (error.code === 'P2034') {
           retries++
@@ -119,47 +116,47 @@ export class ReviewService {
     const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
     if (!review) throw new NotFoundException(`Review with id ${reviewId} not found`);
     if (review.userId !== user.id) throw new Error('Unauthorized');
-  
-    const {count, animation} = await this.countAndAnimation(review.animationId);
-  
+
+    const { count, animation } = await this.countAndAnimation(review.animationId);
+
     let grade;
     if (count === 1) {
-      grade = null;
+      grade = 0;
     } else {
       grade = (animation.grade * count - review.evaluation) / (count - 1);
     }
 
-  
-      const MAX_RETRIES = 5;
-      let retries = 0;
-  
-      while (retries < MAX_RETRIES) {
-        try {
-          const [deleteReview, updateAnimation] = await this.prisma.$transaction(
-            [
-              this.prisma.review.delete({
-                where: { id: reviewId }
-              }),
-              this.prisma.animation.update({
-                where: { id: review.animationId },
-                data: { grade: grade }
-              })
-            ],
-            {
-              isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-            }
-          );
-          return deleteReview;
-        } catch (error) {
-          if (error.code === 'P2034') {
-            retries++;
-            continue;
+
+    const MAX_RETRIES = 5;
+    let retries = 0;
+
+    while (retries < MAX_RETRIES) {
+      try {
+        const [deleteReview, updateAnimation] = await this.prisma.$transaction(
+          [
+            this.prisma.review.delete({
+              where: { id: reviewId }
+            }),
+            this.prisma.animation.update({
+              where: { id: review.animationId },
+              data: { grade: grade }
+            })
+          ],
+          {
+            isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
           }
-          throw error;
+        );
+        return deleteReview;
+      } catch (error) {
+        if (error.code === 'P2034') {
+          retries++;
+          continue;
         }
+        throw error;
       }
     }
   }
-  
+}
+
 
 

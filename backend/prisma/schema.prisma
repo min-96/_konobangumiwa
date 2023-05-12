@@ -28,7 +28,7 @@ model Animation {
   release       String
   introduction  String
   thumbnail     String
-  grade         Float     @default(0)
+  grade         Float?     @default(0)
   author        String
   genreList     Genre[]
   reviewList    Review[]
