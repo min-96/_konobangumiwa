@@ -1,0 +1,25 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.movie-card {
+  @apply bg-white rounded-lg shadow-md flex flex-col items-center;
+  width: 200px;
+  margin: 1rem;
+}
+
+.movie-card img {
+  @apply w-full h-auto rounded-md;
+}
+
+.movie-card h4 {
+  @apply font-semibold mb-1;
+}
+
+.movie-card p {
+  @apply text-sm text-gray-600;
+}
+
+.movie-preview {
+  margin: 0.7rem;
+}

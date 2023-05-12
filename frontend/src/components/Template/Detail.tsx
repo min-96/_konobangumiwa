@@ -3,12 +3,12 @@ import { FC } from "react";
 interface PageProps {
 };
 
-const Home: FC<PageProps> = ({}) => {
+const Detail: FC<PageProps> = ({}) => {
   return (
     <div>
-      Hello HomePage!!!
+      UserPage!!!
     </div>
   );
 };
 
-export default Home;
+export default Detail;
