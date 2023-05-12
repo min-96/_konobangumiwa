@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 import { MovieDetail } from "../../types/movie";
+import MovieDetailImage from "../Atom/MovieDetailImage";
 
 interface PageProps {
 };
@@ -21,8 +22,7 @@ const Detail: FC<PageProps> = ({}) => {
 
   return (
     <div>
-      <img src={movie.detailImage}/>
-      <h2>Content ID: {contentId}</h2>
+      <MovieDetailImage imageUrl={movie.detailImage} altText={movie.title} />
     </div>
   );
 };
