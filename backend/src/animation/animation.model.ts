@@ -24,6 +24,9 @@ export class Animation {
     @Field()
     author : string;
 
+    @Field()
+    reviewCount : number | null;
+
     // @Field(()=> [String])
     // genreList: Genre[];
 

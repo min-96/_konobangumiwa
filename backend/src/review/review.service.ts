@@ -21,7 +21,7 @@ export class ReviewService {
 
   //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
-    const existingReview = await this.prisma.review.findMany({
+    const existingReview = await this.prisma.review.findFirst({
       where: { 
           userId: user.id,
           animationId: data.animationId,
@@ -34,7 +34,6 @@ export class ReviewService {
 
     const { count, animation } = await this.countAndAnimation(data.animationId);
 
-    const grade = (count * animation.grade + data.evaluation) / (count + 1);
     const MAX_RETRIES = 5
     let retries = 0
 
@@ -50,7 +49,8 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: data.animationId },
-              data: { grade: grade }
+              data: { grade: animation.grade + data.evaluation ,
+              reviewCount : animation.reviewCount + 1}
             })
           ],
           {
@@ -85,7 +85,6 @@ export class ReviewService {
     const { count, animation } = await this.countAndAnimation(input.animationId);
 
     const diff = input.evaluation - oldReview.evaluation;
-    const grade = (animation.grade * count + diff) / count;
 
     const MAX_RETRIES = 5
     let retries = 0
@@ -104,7 +103,7 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: input.animationId },
-              data: { grade: grade }
+              data: { grade: animation.grade + diff}
             }),
           ],
           {
@@ -132,10 +131,7 @@ export class ReviewService {
     let grade;
     if (count === 1) {
       grade = 0;
-    } else {
-      grade = (animation.grade * count - review.evaluation) / (count - 1);
-    }
-
+    } 
 
     const MAX_RETRIES = 5;
     let retries = 0;
@@ -149,7 +145,8 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: review.animationId },
-              data: { grade: grade }
+              data: { grade: animation.grade - review.evaluation,
+              reviewCount : animation.reviewCount - 1 }
             })
           ],
           {

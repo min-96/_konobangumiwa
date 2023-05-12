@@ -18,6 +18,7 @@ type Animation {
   thumbnail: String!
   grade: Float!
   author: String!
+  reviewCount: Float!
 }
 
 type Review {
