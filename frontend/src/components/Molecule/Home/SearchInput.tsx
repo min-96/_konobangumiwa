@@ -26,7 +26,7 @@ const SearchInput: React.FC<SearchInputProps> = () => {
           placeholder="컨텐츠를 검색해보세요"
           value={searchTerm}
           onChange={handleChange}
-          className="pl-8 pr-2 py-1 border border-gray-300 rounded text-gray-700"
+          className="pl-8 pr-2 py-1 border border-gray-300 rounded text-gray-700 w-72"
         />
         <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
           <FiSearch className="text-gray-400" />

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import MovieList from "../Organism/Home/MovieList";
+import MovieList from "../Organism/MovieList";
 import "./Home.css"; 
 
 interface PageProps {
