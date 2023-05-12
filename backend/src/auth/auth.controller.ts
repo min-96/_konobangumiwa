@@ -18,27 +18,21 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(AuthGuard('google'))
   googleLoginCallback(@Req() req: Request, @Res() res: Response) {
-    console.log("authController");
+    try{
     req.session["passport"] = {
       user: req.user,
     };
-    res.redirect('/auth/login/success');
+    res.status(200).send('login Success');
+  }catch(error){
+    res.status(401).send({ error: 'login fail' });
+  }
+   // TODO : 추후 main 으로 redirect
   }
 
   @Get()
   test(@Req() req : Request ) {
     console.log(req.session);
     return 'OK';
-  }
-
-  @Get('/login/success')
-  loginSuccess(@Req() req : Request) {
-    return 'Login Success';
-  }
-
-  @Get('/logout/success')
-  logoutSuccess(@Req() req : Request) {
-    return 'Logout Success';
   }
 
   @Get('/logout')
@@ -48,7 +42,8 @@ export class AuthController {
         res.status(500).send('Error logging out');
         return;
       }
-      res.redirect('/auth/logout/success');
+      res.status(200).send('login Success');
+   // TODO : 추후 main 으로 redirect
   });
 }
   

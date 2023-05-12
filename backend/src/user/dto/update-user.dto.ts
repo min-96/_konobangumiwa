@@ -10,4 +10,5 @@ export class UpdateUserInput {
 
   @Field({ nullable: true })
   pictureUrl?: string | null;
+  
 }
