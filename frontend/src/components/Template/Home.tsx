@@ -68,7 +68,6 @@ const Home: FC<PageProps> = ({}) => {
 
   return (
     <div className="home-page">
-      <h1>홈 페이지</h1>
       <MovieList listName="박스오피스 순위" movies={shuffleAndSlice(movies,0, 9)} />
       <MovieList listName="이번주 Top10" movies={shuffleAndSlice(movies, 2, 5)} />
       <MovieList listName="이번달 Top10" movies={shuffleAndSlice(movies, 0, 6)} />
