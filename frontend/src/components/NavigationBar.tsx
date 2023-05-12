@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
 import SearchInput from './Molecule/Home/SearchInput';
-import './NavigationBar.css';
 import LoginModal from './Organism/LoginModal';
 
 type ModalType = 'sign in' | 'sign up' | 'none';
 
-const NavigationBar: React.FC = () => {
+interface NavigationBarProps {
+  isWithoutPaddingContent: boolean;
+}
+
+const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) => {
+  const [isTransparent, setIsTransparent] = useState<boolean>(false);
   const [modalType, setModalType] = useState<ModalType>('none');
+
+  useEffect(() => {
+    setIsTransparent(isWithoutPaddingContent);
+  }, [isWithoutPaddingContent]);
 
   const handleModalOpen = (type: ModalType) => {
     setModalType(type);
@@ -23,14 +31,14 @@ const NavigationBar: React.FC = () => {
   const domain = searchParams.get('domain');
   
   return (
-    <nav className="navbar">
-      <div className="navbar-item">
+    <nav className={`navbar ${isTransparent ? 'transparent' : ''}`}>
+      <div className={`navbar-item ml-4`}>
         <div className="pr-4">
           <Link to="/">
-            <img src="/logo.png" alt="Logo" className="h-12 w-24" />
+            <img src={`${isTransparent ? '/logo-white.svg' : '/logo-white.svg'}`} alt="Logo" className="w-48" />
           </Link>
         </div>
-        <div className="navbar-item">
+        <div className={`navbar-item`}>
           <div className={`p-1 ${domain === 'animation' ? 'font-bold' : ''}`}>
             <Link to="/?domain=animation" className="hover:underline">
               애니메이션
@@ -44,10 +52,10 @@ const NavigationBar: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="navbar-item">
+      <div className={`navbar-item`}>
         <SearchInput />
       </div>
-      <div className="navbar-item">
+      <div className={`navbar-item`}>
         <div className="p-2 border rounded-md">
           <button className="hover:underline" onClick={()=>{handleModalOpen('sign in')}}>
             로그인

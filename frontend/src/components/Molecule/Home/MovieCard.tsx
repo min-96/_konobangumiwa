@@ -13,7 +13,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
     <Link to={`/contents/${movie.id}`}>
       <div className="movie-card">
-        <MovieThumbnail imageUrl={movie.imageUrl} altText={movie.title} />
+        <MovieThumbnail imageUrl={movie.thumbnail} altText={movie.title} />
         <MoviePreview title={movie.title} rating={movie.rating} />
       </div>
     </Link>
