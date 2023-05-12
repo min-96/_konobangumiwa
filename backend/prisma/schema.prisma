@@ -30,6 +30,7 @@ model Animation {
   thumbnail     String
   grade         Float?     @default(0)
   author        String
+  reviewCount   Int?       @default(0)
   genreList     Genre[]
   reviewList    Review[]
   wishList      Wish[]
