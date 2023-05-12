@@ -6,6 +6,7 @@ import { CurrentUser } from 'src/auth/current-user';
 import { User } from '@prisma/client';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { UpdateInputReview } from './dto/update-review.dto';
 
 @Resolver(() => Review)
 export class ReviewResolver {
@@ -23,8 +24,16 @@ export class ReviewResolver {
   @UseGuards(AuthGuard)
   async readReivew(
     @CurrentUser() user: User): Promise<Review[]> {
-    console.log("asd");
     return this.reviewService.readReivew(user);
   }
+
+  @Mutation(()=> Review)
+  @UseGuards(AuthGuard)
+  async updateReview(
+    @CurrentUser() user: User,
+    @Args('input') input: UpdateInputReview): Promise<Review>{
+      return this.reviewService.updateReview(input,user);
+    }
+  
 
 }

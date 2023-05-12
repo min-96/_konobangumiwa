@@ -51,7 +51,7 @@ model GenreType {
 
 model Review {
   id            Int     @id @default(autoincrement())
-  evaluation    Float
+  evaluation    Int
   comment       String?
   animation     Animation  @relation(fields: [animationId], references: [id])
   animationId   Int  

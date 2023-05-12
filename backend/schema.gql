@@ -35,12 +35,14 @@ type Query {
   test: String!
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
+  readReivew: [Review!]!
 }
 
 type Mutation {
   updateUser(input: UpdateUserInput!): User!
   deleteUser(id: Int!): User!
   createReview(input: CreateInputReview!): Review!
+  updateReview(input: UpdateInputReview!): Review!
 }
 
 input UpdateUserInput {
@@ -50,6 +52,14 @@ input UpdateUserInput {
 }
 
 input CreateInputReview {
+  evaluation: Float!
+  comment: String
+  animationId: Float!
+  userId: Float
+}
+
+input UpdateInputReview {
+  id: Float!
   evaluation: Float!
   comment: String
   animationId: Float!
