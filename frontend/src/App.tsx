@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Home from './components/Template/Home';
 import User from './components/Template/User';
 import './index.css';
+import Detail from './components/Template/Detail';
 
 
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/user" element={<User />} />
+          <Route path="/content/:contentId" element={<Detail />} />
         </Route>
       </Routes>
     </BrowserRouter>

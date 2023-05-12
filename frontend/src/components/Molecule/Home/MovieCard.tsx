@@ -3,6 +3,7 @@ import MovieThumbnail from '../../Atom/MovieThumbnail';
 import MoviePreview from '../../Atom/MoviePreview';
 import './MovieCard.css';
 import { Movie } from '../../../types/movie';
+import { Link } from 'react-router-dom';
 
 interface MovieCardProps {
   movie: Movie,
@@ -10,10 +11,12 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
-    <div className="movie-card">
-      <MovieThumbnail imageUrl={movie.imageUrl} altText={movie.title} />
-      <MoviePreview title={movie.title} rating={movie.rating} />
-    </div>
+    <Link to={`/content/${movie.id}`}>
+      <div className="movie-card">
+        <MovieThumbnail imageUrl={movie.imageUrl} altText={movie.title} />
+        <MoviePreview title={movie.title} rating={movie.rating} />
+      </div>
+    </Link>
   );
 };
 
