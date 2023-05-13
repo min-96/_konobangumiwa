@@ -8,13 +8,14 @@ export class AnimationResolver {
     constructor(private animationService : AnimationService) {}
 
     @Query(()=> [Animation])
-    async allAnimation() : Promise<Animation[]> {
+    async allAnimations() : Promise<Animation[]> {
         return this.animationService.findAllAnimation();
     }
 
-    // @Query(()=> [Animation])
-    // async searchTitle() : Promise<Animation[]> {
-    //     return 
-    // }
+    @Query(()=> [Animation])
+    async popularityAnimations() : Promise<Animation[] | null> {
+        return this.animationService.popularityAnimation();
+    }
+
 
 }

@@ -11,12 +11,18 @@ export class AnimationService{
         return this.prisma.animation.findMany();
       }
 
+      async popularityAnimation(): Promise<Animation[]> {
+        const result = await this.prisma.animation.findMany({
+          where: {
+            reviewCount: {
+              gte: 1000,
+            },
+          },
+          take: 10,
+        });
+        return result;
+      }
 
-    // async popularityAnimation() : Promise<Animation[]> {
-    //    const result = this.prisma.animation.findMany(
-    //     {where : {
-    //         grade : 
-    //     }}
-    //    )
-    // }
+     
+      
 }

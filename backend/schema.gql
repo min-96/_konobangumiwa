@@ -38,7 +38,9 @@ type Query {
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
-  allAnimation: [Animation!]!
+  allAnimations: [Animation!]!
+  popularityAnimations: [Animation!]!
+  newAnimations: [Animation!]!
 }
 
 type Mutation {
