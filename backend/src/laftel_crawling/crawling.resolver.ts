@@ -11,7 +11,7 @@ export class CrawlingResolver {
 
   @Query(()=> String)
   @UseGuards(AdminGuard)
-  async ç(): Promise<string> {
+  async crawling_test(): Promise<string> {
     return this.crawlingService.fetchData();
   }
   

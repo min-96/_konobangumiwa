@@ -53,7 +53,7 @@ export class CrawlongAnimationService{
           id: response.data.id,
           title: response.data.name,
           thumbnail: response.data.img,
-          backgroundImg : response.data.imges[1].img_url,
+          backgroundImg : response.data.images[1].img_url,
           introduction: response.data.content,
           genreList: response.data.genres,
           author: response.data.author,

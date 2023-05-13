@@ -15,8 +15,8 @@ export class CrawlingService{
         const response = await axios.get('https://laftel.net/api/search/v1/discover/?sort=rank&viewable=true&offset=01&size=1', {headers: { 'laftel': 'TeJava' }});
         
 
-        console.log(response.data);
-      //  await this.genreTypeService.fetchData(response);
+
+        await this.genreTypeService.fetchData(response);
         await this.animationService.fetchData(response);
 
 
