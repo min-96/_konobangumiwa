@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MovieDetail } from "../../types/movie";
 import DetailHeader from "../Organism/DetailHeader";
@@ -8,6 +8,10 @@ interface PageProps {
 
 const Detail: FC<PageProps> = ({ }) => {
   const { contentId } = useParams();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [contentId]);
 
   // ============= testcode ================
   // 이부분은 나중에 detail에 들어왔을때 Id 에 맞는 데이터를 가져와서 movie를 저장
@@ -19,7 +23,6 @@ const Detail: FC<PageProps> = ({ }) => {
     detailImage: 'https://an2-img.amz.wtchn.net/image/v2/axdUycDL94O9VLxMQpsoCA.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1KbklsMHNJbkFpT2lJdmRqSXZjM1J2Y21VdmFXMWhaMlV2TVRZNE1URTJORGt4TXpnM09EUTNNamMxTWlJc0luRWlPamd3TENKM0lqb3hPVEl3ZlEuN3B6SXljRnItbDFqdGdWaWV4RDdIUjc4QjMwVmRta1pMMkRiX2JDYWlQWQ'
   };
   // =======================================
-
 
   return (
     <div className="w-full flex flex-col items-center">

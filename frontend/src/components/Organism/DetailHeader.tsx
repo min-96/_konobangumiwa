@@ -1,5 +1,6 @@
 import React from 'react';
 import { MovieDetail } from '../../types/movie';
+import ReviewField from '../Molecule/Detail/ReviewField';
 
 interface DetailHeaderProps {
   movie: MovieDetail;
@@ -8,15 +9,16 @@ interface DetailHeaderProps {
 const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
   return (
     <>
-      <div className="w-full h-80 bg-cover bg-center relative" style={{ backgroundImage: `url(${movie.detailImage})` }}>
-        <div className="absolute bottom-0 transform translate-y-3/4 left-1/2 -translate-x-1/2 flex">
+      <div className="w-full h-80 bg-cover bg-center relative" style={{ backgroundImage: `url(${movie.detailImage})`}}>
+        <div className="absolute bottom-0 transform translate-y-3/4 left-1/2 -translate-x-1/2 flex w-[700px] lg:w-[1000px] md:w-[700px]">
           <img src={movie.thumbnail} alt={movie.title} className="w-40 rounded-md border"/>
-          <div className="ml-10 text-left w-[700px]">
+          <div className="ml-10 text-left w-full">
             <h2 className="mt-16 text-2xl font-bold mb-2">
               {movie.title}
             </h2>
             <p className="mb-2">releaseDate</p>
-            <p className="mb-2">rating</p>
+            <p className="mb-2">평균점수</p>
+            <ReviewField />
           </div>
         </div>
       </div>
