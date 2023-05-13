@@ -16,6 +16,19 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
 
   useEffect(() => {
     setIsTransparent(isWithoutPaddingContent);
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 50) { // 스크롤이 50px 이상 내려가면 투명도를 변경
+        setIsTransparent(false);
+      } else {
+        setIsTransparent(true);
+      }
+    };
+    if (isWithoutPaddingContent) {
+      window.addEventListener('scroll', handleScroll);
+    }
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [isWithoutPaddingContent]);
 
   const handleModalOpen = (type: ModalType) => {

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 import { MovieDetail } from "../../types/movie";
-import MovieDetailImage from "../Atom/MovieDetailImage";
 import DetailHeader from "../Organism/DetailHeader";
 
 interface PageProps {
