@@ -17,5 +17,10 @@ export class AnimationResolver {
         return this.animationService.popularityAnimation();
     }
 
+    @Query(()=> [Animation])
+    async newAnimations() : Promise<Animation[] | null> {
+        return this.animationService.newAnimations();
+    } 
+
 
 }

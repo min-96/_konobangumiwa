@@ -23,6 +23,18 @@ export class AnimationService{
         return result;
       }
 
-     
+      async newAnimations(): Promise<Animation[]> {
+        const currentDate = new Date();  
+        const currentYear = currentDate.getFullYear();
+
+        return this.prisma.animation.findMany({
+            where : {
+                release: {
+                    contains : currentYear.toString(),
+                },
+            },
+            take: 10,
+        });
+      }
       
 }
