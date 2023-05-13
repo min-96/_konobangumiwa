@@ -33,7 +33,7 @@ type Query {
   hello: String!
   users: [User!]!
   userRead: User
-  test: String!
+  testCrawling: String!
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!

@@ -6,6 +6,7 @@ interface AnimationData {
   id: number;
   title: string;
   thumbnail: string;
+  backgroundImg: string;
   introduction: string;
   genreList: string[];
   author: string[];
@@ -47,10 +48,12 @@ export class CrawlongAnimationService{
         const response = await axios.get(url, {
           headers: { laftel: 'TeJava' },
         });
+
         return {
           id: response.data.id,
           title: response.data.name,
           thumbnail: response.data.img,
+          backgroundImg : response.data.imges[1].img_url,
           introduction: response.data.content,
           genreList: response.data.genres,
           author: response.data.author,
@@ -60,12 +63,13 @@ export class CrawlongAnimationService{
 
       async createAnimation(animationDataList: AnimationData[]) : Promise<void> {
         for (const animationData of animationDataList) {
-            const { title, thumbnail, introduction, genreList, author, release } = animationData;
+            const { title, thumbnail, backgroundImg, introduction, genreList, author, release } = animationData;
                 await this.prisma.$transaction(async (prisma) => {
             const animation = await prisma.animation.create({
                    data: {
                         title,
                         thumbnail,
+                        backgroundImg,
                         introduction,
                         author: author.join(', '),
                         release,

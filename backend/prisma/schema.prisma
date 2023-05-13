@@ -28,6 +28,7 @@ model Animation {
   release       String
   introduction  String
   thumbnail     String
+  backgroundImg String
   grade         Float?     @default(0)
   author        String
   reviewCount   Int?       @default(0)
