@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Animation ,Genre } from "@prisma/client";
+import { Animation } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
-import { SourceTextModule } from "vm";
+
 
 //export type AnimationWithGenres = Animation & { genreList: Genre[] };
 
@@ -11,5 +11,7 @@ export class AnimationService{
 
     constructor(private prisma: PrismaService) {}
 
-   
+    async findAllAnimation(): Promise<Animation[]> {
+        return this.prisma.animation.findMany();
+      }
 }

@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { CrawlingModule } from './laftel_crawling/crawling.module';
 import { SearchModule } from './search/search.module';
 import { ReviewModule } from './review/review.module';
+import { AnimationModule } from './animation/animation.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -23,7 +24,8 @@ import { ReviewModule } from './review/review.module';
     //GenreTypeModule
     CrawlingModule,
     SearchModule,
-    ReviewModule
+    ReviewModule,
+    AnimationModule
   ],
   providers: [AppResolver]
 })

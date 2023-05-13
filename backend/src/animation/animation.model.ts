@@ -19,6 +19,9 @@ export class Animation {
     thumbnail : string;
 
     @Field()
+    backgroundImg : string;
+
+    @Field()
     grade : number;
 
     @Field()
