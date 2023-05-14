@@ -1,11 +1,11 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { movies } from "../../dummy/dummy_data";
 import { MovieDetail } from "../../types/movie";
-import DetailHeader from "../Molecule/Detail/DetailHeader";
-import DetailInfo from "../Molecule/Detail/DetailInfo";
-import DetailRecommend from "../Molecule/Detail/DetailRecommend";
-import DetailReviewList from "../Molecule/Detail/DetailReviewList";
-import CardFrame from "./CardFrame";
+import DetailHeader from "../Organism/DetailHeader";
+import ReviewList from "../Organism/ReviewList";
+import MovieList from "../Organism/MovieList";
+import DetailInfo from "../Organism/DetailInfo";
 
 interface PageProps {
 };
@@ -32,8 +32,8 @@ const Detail: FC<PageProps> = ({ }) => {
     <div className="w-full flex flex-col items-center">
       <DetailHeader movie={movie} />
       <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg"/>
-      <DetailReviewList frameClassName="mt-6 border border-blue-500 rounded-lg"/>
-      <DetailRecommend frameClassName="mt-6 border border-blue-500 rounded-lg"/>
+      <ReviewList frameClassName="mt-6 border border-blue-500 rounded-lg"/>
+      <MovieList movies={movies} frameClassName="mt-6 border border-blue-500 rounded-lg" title="비슷한 애니메이션"/>
     </div>
   );
 };

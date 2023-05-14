@@ -1,4 +1,5 @@
 import { FC } from "react";
+import CardFrame from "./CardFrame";
 
 interface PageProps {
 };
@@ -6,7 +7,9 @@ interface PageProps {
 const User: FC<PageProps> = ({}) => {
   return (
     <div>
-      UserPage!!!
+      <CardFrame className="">
+        asdfkjnasdjk
+      </CardFrame>
     </div>
   );
 };

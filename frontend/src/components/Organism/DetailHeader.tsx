@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { MovieDetail } from '../../../types/movie';
-import ReviewField from './ReviewField';
-import CardFrame from '../../Template/CardFrame';
+import { MovieDetail } from '../../types/movie';
+import ReviewField from '../Molecule/Detail/ReviewField';
+import CardFrame from '../Template/CardFrame';
 
 interface DetailHeaderProps {
   movie: MovieDetail;

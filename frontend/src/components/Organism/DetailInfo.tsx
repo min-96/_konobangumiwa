@@ -1,5 +1,5 @@
 import React from 'react';
-import CardFrame from '../../Template/CardFrame';
+import CardFrame from '../Template/CardFrame';
 
 interface DetailInfoProps {
   frameClassName: string;
