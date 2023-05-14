@@ -40,8 +40,8 @@ const MovieList: React.FC<MovieListProps> = ({listName, movies}) => {
       )}
       <div className="list-name">{listName}</div>
       <div className="card-list">
-        {movies.slice(currentIndex, currentIndex + 4).map((movie, index) => (
-          <MovieCard key={index} movie={movie} />
+        {movies.slice(currentIndex, currentIndex + 4).map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
       {!isLastPage && (

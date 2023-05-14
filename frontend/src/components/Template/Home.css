@@ -5,10 +5,6 @@
   justify-content: center;
 }
 
-
-
-
-
 .item-enter {
   opacity: 0;
   transform: translateX(-100%);

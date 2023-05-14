@@ -1,0 +1,76 @@
+import React from 'react';
+import { Review } from '../../../types/movie';
+import DetailCardFrame from '../../Template/DetailCardFrame';
+import ReviewCard from './ReviewCard';
+
+interface DetailReviewListProps {
+  frameClassName: string;
+}
+
+const DetailReviewList: React.FC<DetailReviewListProps> = ({frameClassName}) => {
+  const reviews : Review[] = [
+    {
+      id: 1,
+      profileURL: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
+      nickname: '철수',
+      rating: 4.5,
+      content: '정말 좋아요!',
+    },
+    {
+      id: 2,
+      nickname: '영희',
+      rating: 5.0,
+      content: '철수랑 봤는데 재밌어요',
+    },
+    {
+      id: 3,
+      nickname: '바둑이',
+      rating: 4.0,
+      content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요',
+    },
+    {
+      id: 4,
+      nickname: '짱구',
+      rating: 4.0,
+      content: '정말재밋',
+    },
+    {
+      id: 5,
+      profileURL: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
+      nickname: '흰둥이',
+      rating: 4.0,
+      content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요',
+    },
+    {
+      id: 6,
+      nickname: '영수',
+      rating: 4.0,
+      content: '나도재밋다',
+    },
+    {
+      id: 7,
+      nickname: '흰둥이부계정',
+      rating: 5.0,
+      content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요',
+    },
+  ]
+
+  return (
+    <DetailCardFrame className={frameClassName}>
+      <div className="m-6">
+        <h2 className="text-xl font-bold mb-2">
+          리뷰
+        </h2>
+        <div className="flex overflow-auto">
+          {
+            reviews.map((item) => (
+              <ReviewCard key={item.id} review={item} />
+            ))
+          }
+        </div>
+      </div>
+    </DetailCardFrame>
+  );
+};
+
+export default DetailReviewList;

@@ -1,19 +1,14 @@
-import { FC } from "react";
-import MovieList from "../Organism/MovieList";
-import "./Home.css"; 
+import React from 'react';
+import { Movie } from '../../../types/movie';
+import DetailCardFrame from '../../Template/DetailCardFrame';
+import MovieCard from '../Home/MovieCard';
 
-interface PageProps {
-};
+interface DetailRecommendProps {
+  frameClassName: string;
+}
 
-const Home: FC<PageProps> = ({}) => {
-  
-  
-  // ============= testcode ================
-  function shuffleAndSlice(array: any[], start:number, end:number) {
-    return array.slice().sort(() => Math.random() - 0.5).slice(start, end + 1);
-  }
-
-  const movies = [
+const DetailRecommend: React.FC<DetailRecommendProps> = ({frameClassName}) => {
+  const recommends: Movie[] = [
     {
       id: '1',
       thumbnail: 'https://an2-img.amz.wtchn.net/image/v2/14PuoHZ3-X5F3BuR1NkGtg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk56YzFOamN5TmpZek56SXdNVFUwTURRaWZRLlBma1RwbHY3eUVSMGRhMUJPVnBEMktIVnVVa3ZxYjFhUllBNzJCTkQ5Unc',
@@ -26,21 +21,21 @@ const Home: FC<PageProps> = ({}) => {
       title: '영화 제목 2',
       rating: 3.8,
     },
-
+    
     {
       id: '3',
       thumbnail: 'https://an2-img.amz.wtchn.net/image/v2/YV2rxuLR8fqQ2B9LvtJDog.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk9ETXdPRGN4T0RVNU16ZzROREUzT1RraWZRLjNRWkFrTG9WdDk3YW1kTXpPRUdCd3lzS2Nxb2kxUk1GUEdDaDBQUkNhYU0',
       title: '영화 제목 3',
       rating: 3.8,
     },
-
+    
     {
       id: '4',
       thumbnail: 'https://an2-img.amz.wtchn.net/image/v2/o18xWgRx8osRs4d8E69KLg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk9ERXhOalE1TVRRMU5ETXlNRGM0TVRjaWZRLjc4RVI4UEtoWHZyMzljOUt6akVIZFplR1lpN3RKQUFlNy1fSWRlN3pCRG8',
       title: '영화 제목 4',
       rating: 3.8,
     },
-
+    
     {
       id: '5',
       thumbnail: 'https://an2-img.amz.wtchn.net/image/v2/KdZZFDjbAnzNfrYsEH6csQ.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk56RTNOalk0TlRjMU1EVTFNamMzTWpVaWZRLkFjc1FZVGZkSHdueEVBX2dpQ20xcnQ3WUhuTDdfLTllQzlYa0l3NWVvVUk',
@@ -73,16 +68,23 @@ const Home: FC<PageProps> = ({}) => {
     },
     // 추가적인 영화 객체들...
   ];
-  // ==============================
 
   return (
-    <div className="home-page">
-      <MovieList listName="박스오피스 순위" movies={shuffleAndSlice(movies,0, 9)} />
-      <MovieList listName="이번주 Top10" movies={shuffleAndSlice(movies, 2, 5)} />
-      <MovieList listName="이번달 Top10" movies={shuffleAndSlice(movies, 0, 6)} />
-      <MovieList listName="올해 Top10" movies={shuffleAndSlice(movies, 2, 3)} />
-    </div>
+    <DetailCardFrame className={frameClassName}>
+      <div className="m-6">
+        <h2 className="text-xl font-bold mb-2">
+          비슷한 애니메이션
+        </h2>
+        <div className="flex overflow-auto">
+          {
+            recommends.map((item) => (
+              <MovieCard key={item.id} movie={item} />
+            ))
+          }
+        </div>
+      </div>
+    </DetailCardFrame>
   );
 };
 
-export default Home;
+export default DetailRecommend;
