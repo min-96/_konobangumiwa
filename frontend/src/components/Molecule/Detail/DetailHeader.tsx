@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MovieDetail } from '../../../types/movie';
 import ReviewField from './ReviewField';
 import CardFrame from '../../Template/CardFrame';
@@ -10,7 +10,14 @@ interface DetailHeaderProps {
 const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
   return (
     <>
-      <div className="w-full h-80 bg-cover bg-center relative" style={{ backgroundImage: `url(${movie.detailImage})`}}>
+      <div
+        className="w-full h-80 bg-cover relative"
+        style={{
+          backgroundImage: `url(${movie.detailImage})`,
+          backgroundPositionX: `${0}px`,
+          backgroundPositionY: `${-326}px`
+        }}
+      >
         <CardFrame className="flex absolute bottom-0 transform translate-y-3/4 left-1/2 -translate-x-1/2">
           <img src={movie.thumbnail} alt={movie.title} className="w-40 rounded-md border border-gray-300"/>
           <div className="ml-10 text-left w-full">
