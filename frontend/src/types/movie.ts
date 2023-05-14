@@ -8,3 +8,11 @@ export interface Movie {
 export interface MovieDetail extends Movie {
   detailImage: string,
 };
+
+export interface Review {
+  id: number,
+  profileURL?: string,
+  nickname: string,
+  content: string,
+  rating: number,
+}

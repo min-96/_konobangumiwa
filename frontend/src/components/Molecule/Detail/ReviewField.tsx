@@ -7,8 +7,8 @@ interface ReviewFieldProps {
 
 const ReviewField: React.FC<ReviewFieldProps> = ({ }) => {
   return (
-    <div className="h-[80px] border flex">
-      <div className="w-[250px] border-r-2 border-gray-300 flex flex-col items-center justify-center pr-6">
+    <div className="h-[80px] flex">
+      <div className="w-[250px] border-r-2 flex flex-col items-center justify-center pr-6">
         <p>평가하기</p>
         <StarRating />
       </div>

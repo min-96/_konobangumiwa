@@ -1,7 +1,11 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MovieDetail } from "../../types/movie";
-import DetailHeader from "../Organism/DetailHeader";
+import DetailHeader from "../Molecule/Detail/DetailHeader";
+import DetailInfo from "../Molecule/Detail/DetailInfo";
+import DetailRecommend from "../Molecule/Detail/DetailRecommend";
+import DetailReviewList from "../Molecule/Detail/DetailReviewList";
+import DetailCardFrame from "./DetailCardFrame";
 
 interface PageProps {
 };
@@ -27,11 +31,9 @@ const Detail: FC<PageProps> = ({ }) => {
   return (
     <div className="w-full flex flex-col items-center">
       <DetailHeader movie={movie} />
-      <div className="w-full">
-        {
-          [1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4].map((i, index) => (<p key={index}>{i}</p>))
-        }
-      </div>
+      <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg"/>
+      <DetailReviewList frameClassName="mt-6 border border-blue-500 rounded-lg"/>
+      <DetailRecommend frameClassName="mt-6 border border-blue-500 rounded-lg"/>
     </div>
   );
 };
