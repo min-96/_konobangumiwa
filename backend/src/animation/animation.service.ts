@@ -36,5 +36,21 @@ export class AnimationService{
             take: 10,
         });
       }
+
+      async detailAnimation(id: number): Promise<Animation> {
+        const result = await this.prisma.animation.findUnique({
+            where: { id: id },
+            include: {
+                reviewList: {
+                    include: {
+                        user: true, 
+                    }
+                },
+                genreList: true,
+            },
+        });
+        return result;
+    }
+    
       
 }

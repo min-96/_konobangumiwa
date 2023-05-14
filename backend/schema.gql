@@ -10,6 +10,27 @@ type User {
   pictureUrl: String
 }
 
+type Genre {
+  id: Int!
+  animationId: Float!
+  genretypeId: String!
+}
+
+type Review {
+  id: Float!
+  evaluation: Float!
+  comment: String!
+  animationId: Float!
+  userId: Float!
+  user: User
+}
+
+type Wish {
+  id: Float!
+  animationId: Float!
+  userId: Float!
+}
+
 type Animation {
   id: Int!
   title: String!
@@ -20,20 +41,9 @@ type Animation {
   grade: Float!
   author: String!
   reviewCount: Float!
-}
-
-type Review {
-  id: Float!
-  evaluation: Float!
-  comment: String!
-  animationId: Float!
-  userId: Float!
-}
-
-type Wish {
-  id: Float!
-  animationId: Float!
-  userId: Float!
+  genreList: [Genre!]
+  reviewList: [Review!]
+  wishList: [Wish!]
 }
 
 type Query {
@@ -47,6 +57,7 @@ type Query {
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
+  animationDetail(id: Int!): Animation!
   readWishList: [Animation!]!
 }
 
