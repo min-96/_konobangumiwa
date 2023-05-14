@@ -30,6 +30,12 @@ type Review {
   userId: Float!
 }
 
+type Wish {
+  id: Float!
+  animationId: Float!
+  userId: Float!
+}
+
 type Query {
   hello: String!
   users: [User!]!
@@ -41,6 +47,7 @@ type Query {
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
+  readWishList: [Animation!]!
 }
 
 type Mutation {
@@ -49,6 +56,8 @@ type Mutation {
   createReview(input: CreateInputReview!): Review!
   updateReview(input: UpdateInputReview!): Review!
   deleteReview(id: Int!): Review!
+  createWish(animationId: Float!): Wish!
+  deleteWish(animationId: Float!): Wish!
 }
 
 input UpdateUserInput {

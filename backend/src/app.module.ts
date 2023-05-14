@@ -10,6 +10,7 @@ import { CrawlingModule } from './laftel_crawling/crawling.module';
 import { SearchModule } from './search/search.module';
 import { ReviewModule } from './review/review.module';
 import { AnimationModule } from './animation/animation.module';
+import { WishModule } from './wish/wish.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -25,7 +26,8 @@ import { AnimationModule } from './animation/animation.module';
     CrawlingModule,
     SearchModule,
     ReviewModule,
-    AnimationModule
+    AnimationModule,
+    WishModule
   ],
   providers: [AppResolver]
 })

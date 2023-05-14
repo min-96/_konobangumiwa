@@ -27,20 +27,20 @@ export class ReviewResolver {
     return this.reviewService.readReivew(user);
   }
 
-  @Mutation(()=> Review)
+  @Mutation(() => Review)
   @UseGuards(AuthGuard)
   async updateReview(
     @CurrentUser() user: User,
-    @Args('input') input: UpdateInputReview): Promise<Review>{
-      return this.reviewService.updateReview(input,user);
-    }
-  
-  @Mutation(()=> Review)
+    @Args('input') input: UpdateInputReview): Promise<Review> {
+    return this.reviewService.updateReview(input, user);
+  }
+
+  @Mutation(() => Review)
   @UseGuards(AuthGuard)
   async deleteReview(
     @CurrentUser() user: User,
-    @Args('id', {type: ()=> Int}) id: number) : Promise<Review> {
-      return this.reviewService.deleteReview(id,user);
-    }
-  
+    @Args('id', { type: () => Int }) id: number): Promise<Review> {
+    return this.reviewService.deleteReview(id, user);
+  }
+
 }
