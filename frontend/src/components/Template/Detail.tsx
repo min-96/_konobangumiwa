@@ -2,10 +2,10 @@ import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { movies } from "../../dummy/dummy_data";
 import { MovieDetail } from "../../types/movie";
-import DetailHeader from "../Organism/DetailHeader";
 import ReviewList from "../Organism/ReviewList";
 import MovieList from "../Organism/MovieList";
 import DetailInfo from "../Organism/DetailInfo";
+import DetailHeader from "../Organism/DetailHeader";
 
 interface PageProps {
 };
@@ -31,8 +31,8 @@ const Detail: FC<PageProps> = ({ }) => {
   return (
     <div className="w-full flex flex-col items-center">
       <DetailHeader movie={movie} />
-      <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg"/>
-      <ReviewList frameClassName="mt-6 border border-blue-500 rounded-lg"/>
+      <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg" title="기본정보"/>
+      <ReviewList frameClassName="mt-6 border border-blue-500 rounded-lg" title="리뷰"/>
       <MovieList movies={movies} frameClassName="mt-6 border border-blue-500 rounded-lg" title="비슷한 애니메이션"/>
     </div>
   );

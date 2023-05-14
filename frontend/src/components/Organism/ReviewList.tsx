@@ -6,11 +6,12 @@ import ReviewCard from '../Molecule/Detail/ReviewCard';
 
 interface ReviewListProps {
   frameClassName: string;
+  title: string;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({frameClassName}) => {
+const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
   return (
-    <CardFrame className={frameClassName} title="리뷰">
+    <CardFrame className={frameClassName} title={title}>
       <ScrollFrame>
         {
           reviews.map((item) => (

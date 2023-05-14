@@ -1,12 +1,12 @@
 import React from 'react';
 import CardFrame from '../Template/CardFrame';
 
-interface DetailInfoProps {
+interface UserInfoProps {
   frameClassName: string;
   title: string;
 }
 
-const DetailInfo: React.FC<DetailInfoProps> = ({frameClassName, title}) => {
+const UserInfo: React.FC<UserInfoProps> = ({frameClassName, title}) => {
   return (
     <CardFrame className={frameClassName} title={title}>
       <p>
@@ -25,4 +25,4 @@ const DetailInfo: React.FC<DetailInfoProps> = ({frameClassName, title}) => {
   );
 };
 
-export default DetailInfo;
+export default UserInfo;
