@@ -47,6 +47,7 @@ type Query {
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
+  readWishList: [Animation!]!
 }
 
 type Mutation {

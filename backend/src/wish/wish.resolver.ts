@@ -1,11 +1,12 @@
-import { Resolver, Mutation, Args } from "@nestjs/graphql";
+import { Resolver, Mutation, Args, Query } from "@nestjs/graphql";
 import { WishService } from "./wish.service";
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CurrentUser } from "src/auth/current-user";
 import { User } from "@prisma/client";
 import { Wish } from "./wish.model";
-//import { CreateInputWish } from "./dto/create-wish.dto";
+import { Animation } from 'src/animation/animation.model';
+
 
 @Resolver(() => Wish)
 export class WishResolver {
@@ -18,5 +19,11 @@ export class WishResolver {
         @Args('animationId') animationId: number): Promise<Wish> {
         return this.wishService.createWish(animationId,user);
     }
+
+    @Query(()=> [Animation])
+    @UseGuards(AuthGuard)
+    async readWishList(@CurrentUser() user: User) : Promise<Animation[]>{
+            return this.wishService.readWishList(user);
+        }
 
 }

@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-
+import { Animation } from 'src/animation/animation.model';
 @ObjectType()
 export class Wish {
 
@@ -11,5 +11,8 @@ export class Wish {
 
     @Field()
     userId: number;
+
+    // @Field(()=> Animation)
+    // animation: Animation;
 
 }
