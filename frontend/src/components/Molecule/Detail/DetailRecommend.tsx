@@ -1,6 +1,6 @@
 import React from 'react';
 import { Movie } from '../../../types/movie';
-import DetailCardFrame from '../../Template/DetailCardFrame';
+import CardFrame from '../../Template/CardFrame';
 import ScrollFrame from '../../Template/ScrollFrame';
 import MovieCard from '../Home/MovieCard';
 
@@ -71,7 +71,7 @@ const DetailRecommend: React.FC<DetailRecommendProps> = ({frameClassName}) => {
   ];
 
   return (
-    <DetailCardFrame className={frameClassName} title="비슷한 애니메이션">
+    <CardFrame className={frameClassName} title="비슷한 애니메이션">
       <ScrollFrame>
         {
           recommends.map((item) => (
@@ -79,7 +79,7 @@ const DetailRecommend: React.FC<DetailRecommendProps> = ({frameClassName}) => {
           ))
         }
       </ScrollFrame>
-    </DetailCardFrame>
+    </CardFrame>
   );
 };
 

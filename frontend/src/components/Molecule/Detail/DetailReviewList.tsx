@@ -1,6 +1,6 @@
 import React from 'react';
 import { Review } from '../../../types/movie';
-import DetailCardFrame from '../../Template/DetailCardFrame';
+import CardFrame from '../../Template/CardFrame';
 import ScrollFrame from '../../Template/ScrollFrame';
 import ReviewCard from './ReviewCard';
 
@@ -57,7 +57,7 @@ const DetailReviewList: React.FC<DetailReviewListProps> = ({frameClassName}) => 
   ]
 
   return (
-    <DetailCardFrame className={frameClassName} title="리뷰">
+    <CardFrame className={frameClassName} title="리뷰">
       <ScrollFrame>
         {
           reviews.map((item) => (
@@ -66,7 +66,7 @@ const DetailReviewList: React.FC<DetailReviewListProps> = ({frameClassName}) => 
         }
 
       </ScrollFrame>
-    </DetailCardFrame>
+    </CardFrame>
   );
 };
 

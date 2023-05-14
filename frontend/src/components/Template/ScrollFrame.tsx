@@ -41,16 +41,16 @@ const ScrollFrame: FC<PageProps> = ({children}) => {
   return (
     <div className="relative">
       {!isLeftEnd &&
-        <button style={{position: 'absolute', top:'50%', left: -15}} onClick={() => scroll(-500)}>
-          <FaArrowCircleLeft />
+        <button style={{position: 'absolute', top:'50%', transform: 'translateY(-50%)', left: -15}} onClick={() => scroll(-500)}>
+          <FaArrowCircleLeft className={`h-10 w-10 text-blue-700 duration-300 hover:scale-110`} />
         </button>
       }
       <div className="flex overflow-auto" ref={scrollContainerRef}>
         {children}
       </div>
       {!isRightEnd &&
-        <button style={{position: 'absolute', top:'50%', right: -15}} onClick={() => scroll(500)}>
-          <FaArrowCircleRight />
+        <button style={{position: 'absolute', top:'50%', transform: 'translateY(-50%)', right: -15}} onClick={() => scroll(500)}>
+          <FaArrowCircleRight className={`h-10 w-10 text-blue-700 duration-300 hover:scale-110`} />
         </button>
       }
     </div>
