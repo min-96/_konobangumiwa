@@ -5,7 +5,7 @@ import DetailHeader from "../Molecule/Detail/DetailHeader";
 import DetailInfo from "../Molecule/Detail/DetailInfo";
 import DetailRecommend from "../Molecule/Detail/DetailRecommend";
 import DetailReviewList from "../Molecule/Detail/DetailReviewList";
-import DetailCardFrame from "./DetailCardFrame";
+import CardFrame from "./CardFrame";
 
 interface PageProps {
 };
