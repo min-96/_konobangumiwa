@@ -64,7 +64,7 @@ model Review {
 model Wish {
   id            Int     @id @default(autoincrement())
   animation     Animation  @relation(fields: [animationId], references: [id])
-  animationId   Int
+  animationId   Int   
   user          User  @relation(fields: [userId], references: [id])  
   userId        Int  
 }

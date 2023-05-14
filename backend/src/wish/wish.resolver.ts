@@ -17,13 +17,21 @@ export class WishResolver {
     async createWish(
         @CurrentUser() user: User,
         @Args('animationId') animationId: number): Promise<Wish> {
-        return this.wishService.createWish(animationId,user);
+        return this.wishService.createWish(animationId, user);
     }
 
-    @Query(()=> [Animation])
+    @Query(() => [Animation])
     @UseGuards(AuthGuard)
-    async readWishList(@CurrentUser() user: User) : Promise<Animation[]>{
-            return this.wishService.readWishList(user);
-        }
+    async readWishList(@CurrentUser() user: User): Promise<Animation[]> {
+        return this.wishService.readWishList(user);
+    }
+
+    @Mutation(() => Wish)
+    @UseGuards(AuthGuard)
+    async deleteWish(
+        @CurrentUser() user: User,
+        @Args('animationId') animationId: number): Promise<Wish> {
+        return this.wishService.deleteWish(animationId, user);
+    }
 
 }

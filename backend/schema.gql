@@ -57,6 +57,7 @@ type Mutation {
   updateReview(input: UpdateInputReview!): Review!
   deleteReview(id: Int!): Review!
   createWish(animationId: Float!): Wish!
+  deleteWish(animationId: Float!): Wish!
 }
 
 input UpdateUserInput {
