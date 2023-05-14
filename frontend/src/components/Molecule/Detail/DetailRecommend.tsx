@@ -1,6 +1,7 @@
 import React from 'react';
 import { Movie } from '../../../types/movie';
 import DetailCardFrame from '../../Template/DetailCardFrame';
+import ScrollFrame from '../../Template/ScrollFrame';
 import MovieCard from '../Home/MovieCard';
 
 interface DetailRecommendProps {
@@ -70,19 +71,14 @@ const DetailRecommend: React.FC<DetailRecommendProps> = ({frameClassName}) => {
   ];
 
   return (
-    <DetailCardFrame className={frameClassName}>
-      <div className="m-6">
-        <h2 className="text-xl font-bold mb-2">
-          비슷한 애니메이션
-        </h2>
-        <div className="flex overflow-auto">
-          {
-            recommends.map((item) => (
-              <MovieCard key={item.id} movie={item} />
-            ))
-          }
-        </div>
-      </div>
+    <DetailCardFrame className={frameClassName} title="비슷한 애니메이션">
+      <ScrollFrame>
+        {
+          recommends.map((item) => (
+            <MovieCard key={item.id} movie={item} />
+          ))
+        }
+      </ScrollFrame>
     </DetailCardFrame>
   );
 };

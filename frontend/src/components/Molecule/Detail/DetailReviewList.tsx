@@ -1,6 +1,7 @@
 import React from 'react';
 import { Review } from '../../../types/movie';
 import DetailCardFrame from '../../Template/DetailCardFrame';
+import ScrollFrame from '../../Template/ScrollFrame';
 import ReviewCard from './ReviewCard';
 
 interface DetailReviewListProps {
@@ -56,19 +57,15 @@ const DetailReviewList: React.FC<DetailReviewListProps> = ({frameClassName}) => 
   ]
 
   return (
-    <DetailCardFrame className={frameClassName}>
-      <div className="m-6">
-        <h2 className="text-xl font-bold mb-2">
-          리뷰
-        </h2>
-        <div className="flex overflow-auto">
-          {
-            reviews.map((item) => (
-              <ReviewCard key={item.id} review={item} />
-            ))
-          }
-        </div>
-      </div>
+    <DetailCardFrame className={frameClassName} title="리뷰">
+      <ScrollFrame>
+        {
+          reviews.map((item) => (
+            <ReviewCard key={item.id} review={item} />
+          ))
+        }
+
+      </ScrollFrame>
     </DetailCardFrame>
   );
 };
