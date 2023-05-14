@@ -1,11 +1,11 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { movies } from "../../dummy/dummy_data";
 import { MovieDetail } from "../../types/movie";
-import DetailHeader from "../Molecule/Detail/DetailHeader";
-import DetailInfo from "../Molecule/Detail/DetailInfo";
-import DetailRecommend from "../Molecule/Detail/DetailRecommend";
-import DetailReviewList from "../Molecule/Detail/DetailReviewList";
-import CardFrame from "./CardFrame";
+import ReviewList from "../Organism/ReviewList";
+import MovieList from "../Organism/MovieList";
+import DetailInfo from "../Organism/DetailInfo";
+import DetailHeader from "../Organism/DetailHeader";
 
 interface PageProps {
 };
@@ -24,16 +24,16 @@ const Detail: FC<PageProps> = ({ }) => {
     thumbnail: 'https://an2-img.amz.wtchn.net/image/v2/14PuoHZ3-X5F3BuR1NkGtg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk56YzFOamN5TmpZek56SXdNVFUwTURRaWZRLlBma1RwbHY3eUVSMGRhMUJPVnBEMktIVnVVa3ZxYjFhUllBNzJCTkQ5Unc',
     title: '영화 제목 1',
     rating: 4.5,
-    detailImage: 'https://an2-img.amz.wtchn.net/image/v2/axdUycDL94O9VLxMQpsoCA.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1KbklsMHNJbkFpT2lJdmRqSXZjM1J2Y21VdmFXMWhaMlV2TVRZNE1URTJORGt4TXpnM09EUTNNamMxTWlJc0luRWlPamd3TENKM0lqb3hPVEl3ZlEuN3B6SXljRnItbDFqdGdWaWV4RDdIUjc4QjMwVmRta1pMMkRiX2JDYWlQWQ'
+    detailImage: "https://thumbnail.laftel.net/items/full/14eefb9d-ceb9-403a-848c-b781f1271956.jpg"
   };
   // =======================================
 
   return (
     <div className="w-full flex flex-col items-center">
       <DetailHeader movie={movie} />
-      <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg"/>
-      <DetailReviewList frameClassName="mt-6 border border-blue-500 rounded-lg"/>
-      <DetailRecommend frameClassName="mt-6 border border-blue-500 rounded-lg"/>
+      <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg" title="기본정보"/>
+      <ReviewList frameClassName="mt-6 border border-blue-500 rounded-lg" title="리뷰"/>
+      <MovieList movies={movies} frameClassName="mt-6 border border-blue-500 rounded-lg" title="비슷한 애니메이션"/>
     </div>
   );
 };

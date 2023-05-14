@@ -1,13 +1,14 @@
 import React from 'react';
-import CardFrame from '../../Template/CardFrame';
+import CardFrame from '../Template/CardFrame';
 
 interface DetailInfoProps {
   frameClassName: string;
+  title: string;
 }
 
-const DetailInfo: React.FC<DetailInfoProps> = ({frameClassName}) => {
+const DetailInfo: React.FC<DetailInfoProps> = ({frameClassName, title}) => {
   return (
-    <CardFrame className={frameClassName} title="기본정보">
+    <CardFrame className={frameClassName} title={title}>
       <p>
         Guardians of the Galaxy Vol. 3
       </p>

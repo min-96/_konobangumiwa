@@ -5,22 +5,22 @@ import ScrollFrame from '../Template/ScrollFrame';
 import CardFrame from '../Template/CardFrame';
 
 interface MovieListProps {
-  listName: string;
+  title: string;
+  fontSize?: string;
+  frameClassName?: string;
   movies: Movie[];
 };
 
-const MovieList: React.FC<MovieListProps> = ({listName, movies}) => {
+const MovieList: React.FC<MovieListProps> = ({frameClassName, title, movies, fontSize}) => {
 
   return (
-    <div className="relative">
-      <CardFrame title={listName} fontSize="2xl">
-        <ScrollFrame>
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </ScrollFrame>
-      </CardFrame>
-    </div>
+    <CardFrame className={frameClassName} title={title} fontSize={fontSize}>
+      <ScrollFrame>
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </ScrollFrame>
+    </CardFrame>
   );
 };
 
