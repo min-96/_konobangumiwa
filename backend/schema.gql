@@ -16,6 +16,7 @@ type Animation {
   release: String!
   introduction: String!
   thumbnail: String!
+  backgroundImg: String!
   grade: Float!
   author: String!
   reviewCount: Float!
@@ -37,6 +38,9 @@ type Query {
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
+  allAnimations: [Animation!]!
+  popularityAnimations: [Animation!]!
+  newAnimations: [Animation!]!
 }
 
 type Mutation {

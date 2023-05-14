@@ -11,12 +11,9 @@ export class ReviewService {
   constructor(private prisma: PrismaService) { }
 
 
-  private async countAndAnimation(animationId: number) {
-    const [count, animation] = await Promise.all([
-      this.prisma.review.count({ where: { animationId } }),
-      this.prisma.animation.findUnique({ where: { id: animationId } })
-    ]);
-    return { count, animation };
+  private async selectAnimation(animationId: number) {
+    const animation = await this.prisma.animation.findUnique({ where: { id: animationId } });
+    return animation ;
   }
 
   //중복 체크하기
@@ -32,7 +29,7 @@ export class ReviewService {
       throw new Error('You have already reviewed this animation.');
     }
 
-    const { count, animation } = await this.countAndAnimation(data.animationId);
+    const animation  = await this.selectAnimation(data.animationId);
 
     const MAX_RETRIES = 5
     let retries = 0
@@ -82,7 +79,7 @@ export class ReviewService {
     const oldReview = await this.prisma.review.findUnique({ where: { id: input.id } });
     if (oldReview.userId !== user.id) throw new Error('Unauthorized');
 
-    const { count, animation } = await this.countAndAnimation(input.animationId);
+    const animation = await this.selectAnimation(input.animationId);
 
     const diff = input.evaluation - oldReview.evaluation;
 
@@ -126,12 +123,14 @@ export class ReviewService {
     if (!review) throw new NotFoundException(`Review with id ${reviewId} not found`);
     if (review.userId !== user.id) throw new Error('Unauthorized');
 
-    const { count, animation } = await this.countAndAnimation(review.animationId);
+    const animation = await this.selectAnimation(review.animationId);
 
     let grade;
-    if (count === 1) {
+    if (animation.reviewCount === 1) {
       grade = 0;
-    } 
+    } else {
+     grade =  animation.grade - review.evaluation;
+    }
 
     const MAX_RETRIES = 5;
     let retries = 0;
@@ -145,7 +144,7 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: review.animationId },
-              data: { grade: animation.grade - review.evaluation,
+              data: { grade: grade,
               reviewCount : animation.reviewCount - 1 }
             })
           ],
@@ -154,6 +153,7 @@ export class ReviewService {
           }
         );
         return deleteReview;
+
       } catch (error) {
         if (error.code === 'P2034') {
           retries++;

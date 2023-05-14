@@ -1,15 +1,40 @@
 import { Injectable } from "@nestjs/common";
-import { Animation ,Genre } from "@prisma/client";
+import { Animation } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
-import { SourceTextModule } from "vm";
-
-//export type AnimationWithGenres = Animation & { genreList: Genre[] };
-
 
 @Injectable()
 export class AnimationService{
 
     constructor(private prisma: PrismaService) {}
 
-   
+    async findAllAnimation(): Promise<Animation[]> {
+        return this.prisma.animation.findMany();
+      }
+
+      async popularityAnimation(): Promise<Animation[]> {
+        const result = await this.prisma.animation.findMany({
+          where: {
+            reviewCount: {
+              gte: 1000,
+            },
+          },
+          take: 10,
+        });
+        return result;
+      }
+
+      async newAnimations(): Promise<Animation[]> {
+        const currentDate = new Date();  
+        const currentYear = currentDate.getFullYear();
+
+        return this.prisma.animation.findMany({
+            where : {
+                release: {
+                    contains : currentYear.toString(),
+                },
+            },
+            take: 10,
+        });
+      }
+      
 }
