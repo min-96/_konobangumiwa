@@ -36,12 +36,18 @@ export class ReviewService {
 
     while (retries < MAX_RETRIES) {
       try {
-        const [createReview, updateAnimation] = await this.prisma.$transaction(
+        const [createReview, deleteWish, updateAnimation] = await this.prisma.$transaction(
           [
             this.prisma.review.create({
               data: {
                 ...data,
                 userId: user.id,
+              }
+            }),
+            this.prisma.wish.deleteMany({
+              where: { 
+                userId: user.id, 
+                animationId: data.animationId 
               }
             }),
             this.prisma.animation.update({
