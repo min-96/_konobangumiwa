@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { User } from 'src/auth/user.model';
 
 @ObjectType()
 export class Review {
@@ -16,4 +17,7 @@ export class Review {
 
   @Field()
   userId: number;
+
+  @Field(()=> User, {nullable: true})
+  user? : User[];
 }

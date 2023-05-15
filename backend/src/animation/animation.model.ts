@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
-import { Review,Genre } from "@prisma/client";
+import { Genre } from "src/genre/dto/genre.model";
+import { Review } from "src/review/review.model";
 import { Wish } from "src/wish/wish.model";
 
 @ObjectType()
@@ -29,16 +30,15 @@ export class Animation {
     author : string;
 
     @Field()
-    reviewCount : number | null;
+    reviewCount?: number | null;
 
-    // @Field(()=> [String])
-    // genreList: Genre[];
+    @Field(()=> [Genre], { nullable: true })
+    genreList?: Genre[];
 
-    // @Field(()=>[String])
-    // reviewList: Review[];
+    @Field(()=> [Review], { nullable: true })
+    reviewList?: Review[];
 
-    // @Field(()=>[Wish])
-    // wishList: Wish[];
-
+    @Field(()=> [Wish], { nullable: true })
+    wishList?: Wish[];
     
 }
