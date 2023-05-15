@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Review } from '../../types/movie';
 import ModalFrame from '../Template/ModalFrame';
-import { FaHeart, FaStar } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 import { oneMovie } from '../../dummy/dummy_data';
 import ReviewRating from '../Atom/ReviewRating';
 import UserProfileLink from '../Atom/UserProfileLink';
@@ -12,8 +12,33 @@ interface ReviewModalProps {
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
-  if (!review)
-    return null;
+  const [isEditing, setIsEditing] = useState(false);
+  const [content, setContent] = useState(review?.content || "");
+  const editRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (isEditing && editRef.current) {
+      const textarea = editRef.current;
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    }
+  }, [isEditing]);
+
+
+  if (!review) return null;
+
+  function handleSave() {
+    setIsEditing(false);
+    // api 콜
+  }
+
+  function handleDelete() {
+    handleClose();
+  }
+
+  function handleEdit() {
+    setIsEditing(true);
+  }
 
   const movie = oneMovie;
   return (
@@ -35,7 +60,16 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
         </div>
         <hr className="mt-2 mb-2"/>
         <div className="overflow-auto h-40">
-          <p>{review.content}</p>
+          {isEditing ? (
+            <textarea
+              ref={editRef}
+              className="w-full h-[95%] p-1 text-gray-700 bg-gray-100"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          ) : (
+            <p className="p-1" dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>')}}/>
+          )}
         </div>
         <hr className="mt-2 mb-2"/>
         <div className="flex justify-between">
@@ -44,9 +78,29 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
             <p>{review.id}</p>
           </div>
           <div>
-            <button className="bg-yellow-500 text-white rounded px-2 py-1 mr-2">Modify</button>
-            <button className="bg-blue-500 text-white rounded px-2 py-1 mr-2">Save</button>
-            <button className="bg-red-500 text-white rounded px-2 py-1">Delete</button>
+            {isEditing ? (
+              <button 
+                className="bg-blue-500 text-white rounded px-2 py-1"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+            ) : (
+              <>
+                <button 
+                  className="bg-yellow-500 text-white rounded px-2 py-1 mr-2"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-red-500 text-white rounded px-2 py-1"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
