@@ -1,7 +1,5 @@
 import React from 'react';
 import { Review } from '../../../types/movie';
-import { FaStar, FaUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import UserProfileLink from '../../Atom/UserProfileLink';
 import ReviewRating from '../../Atom/ReviewRating';
 

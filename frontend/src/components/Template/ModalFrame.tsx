@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { IoCloseOutline } from 'react-icons/io5'
+import { createPortal } from "react-dom";
 
 interface PageProps {
   children: ReactNode;
@@ -7,7 +7,7 @@ interface PageProps {
 };
 
 const ModalFrame: FC<PageProps> = ({children, handleModalClose}) => {
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={handleModalClose}>
       {/* modal-overlay영역을 클릭할땐 모달이 닫히고, modal을 클릭했을땐 닫히지 않도록함 */}
       <div
@@ -18,7 +18,8 @@ const ModalFrame: FC<PageProps> = ({children, handleModalClose}) => {
           children
         }
       </div>
-    </div>
+    </div>,
+    document.body // Portal 을 이용해서 전체 영역에 modal-overlay가 적용되도록함
   );
 };
 

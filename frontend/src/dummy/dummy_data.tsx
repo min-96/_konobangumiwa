@@ -67,6 +67,7 @@ export const movies = [
   }
 ]
 
+
 export const reviews : Review[] = [
   {
     id: 1,
@@ -129,3 +130,5 @@ export const reviews : Review[] = [
     movieId: 1,
   },
 ];
+
+export const oneReview : Review = reviews[0];

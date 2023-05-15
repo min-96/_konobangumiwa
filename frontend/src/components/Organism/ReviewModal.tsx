@@ -1,6 +1,5 @@
 import React from 'react';
 import { Review } from '../../types/movie';
-import CardFrame from '../Template/CardFrame';
 import ModalFrame from '../Template/ModalFrame';
 import { FaHeart, FaStar } from 'react-icons/fa';
 import { oneMovie } from '../../dummy/dummy_data';
@@ -24,7 +23,9 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
           <div className="flex flex-col">
             <div className="flex items-center">
               <UserProfileLink userId={review.id} nickname={review.nickname} profileURL={review.profileURL} handleClick={handleClose}/>
-              <ReviewRating rating={review.rating} />
+              <div className="ml-2">
+                <ReviewRating rating={review.rating} />
+              </div>
             </div>
             <p>{"영화제목"}</p>
             <p>{"상영날짜"}</p>
