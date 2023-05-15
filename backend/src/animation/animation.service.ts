@@ -43,49 +43,82 @@ export class AnimationService {
     let otherReviews;
 
     if (user) {
-        userReview = await this.prisma.review.findFirst({
-          where: { animationId: id, userId: user.id ,comment: { not: null }},
-          include: {
-            user: true,
-          },
-        });
+      userReview = await this.prisma.review.findFirst({
+        where: { animationId: id, userId: user.id, comment: { not: null } },
+        include: {
+          user: true,
+        },
+      });
 
-        otherReviews = await this.prisma.review.findMany({
-          where: { animationId: id ,comment: { not: null }},
-          skip: userReview ? page * (pageSize - 1) : page * pageSize,
-          take: pageSize,
-          orderBy: {
-            id: 'desc',
-          },
-          include: {
-            user: true,
-          },
-        });
+      otherReviews = await this.prisma.review.findMany({
+        where: { animationId: id, comment: { not: null } },
+        skip: userReview ? page * (pageSize - 1) : page * pageSize,
+        take: pageSize,
+        orderBy: {
+          id: 'desc',
+        },
+        include: {
+          user: true,
+        },
+      });
     } else {
-        otherReviews = await this.prisma.review.findMany({
-          where: { animationId: id ,comment: { not: null } },
-          skip: page * pageSize,
-          take: pageSize,
-          orderBy: {
-            id: 'desc',
-          },
-          include: {
-            user: true,
-          },
-        });
+      otherReviews = await this.prisma.review.findMany({
+        where: { animationId: id, comment: { not: null } },
+        skip: page * pageSize,
+        take: pageSize,
+        orderBy: {
+          id: 'desc',
+        },
+        include: {
+          user: true,
+        },
+      });
     }
 
     const result = await this.prisma.animation.findUnique({
       where: { id: id },
       include: {
         genreList: true,
-        reviewList : true
+        reviewList: true
       },
     });
 
     result.reviewList = userReview ? [userReview, ...otherReviews] : otherReviews;
-    
+
     return result;
-}
+  }
+
+
+  async recommendSimilarAnimation(id: number): Promise<Animation[]> {
+    const animation = await this.prisma.animation.findUnique({
+      where: { id: id },
+      include: {
+        genreList: true,
+      },
+    });
+
+    const author = animation.author;
+    const genreTypeIds = animation.genreList.map((genre) => genre.genretypeId);
+
+    const authorMatchedAnimations = await this.prisma.animation.findMany({
+      where: {
+        author: { equals: author, not: "" },
+        NOT: { id: id },
+      },
+    });
+  
+    const genreMatchedAnimations = await this.prisma.animation.findMany({
+      where: {
+        genreList: { every: { genretypeId: { in: genreTypeIds } } },
+        NOT: { id: id, author: author },
+      },
+      take: 10,
+    });
+  
+    const similarAnimations = [...authorMatchedAnimations, ...genreMatchedAnimations];
+
+    return similarAnimations;
+  }
+
 
 }
