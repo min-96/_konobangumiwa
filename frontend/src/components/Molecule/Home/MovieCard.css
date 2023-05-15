@@ -4,7 +4,6 @@
 
 .movie-card {
   @apply bg-white rounded-lg shadow-md flex flex-col items-center;
-  width: 200px;
   margin: 1rem;
 }
 

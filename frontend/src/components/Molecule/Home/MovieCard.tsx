@@ -7,12 +7,13 @@ import { Link } from 'react-router-dom';
 
 interface MovieCardProps {
   movie: Movie,
+  width?: string,
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, width }) => {
   return (
     <Link to={`/contents/${movie.id}`}>
-      <div className="movie-card">
+      <div className="movie-card" style={{ width: width ? width : '200px' }}>
         <MovieThumbnail imageUrl={movie.thumbnail} altText={movie.title} />
         <MoviePreview title={movie.title} rating={movie.rating} />
       </div>
