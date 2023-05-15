@@ -1,28 +1,25 @@
 import React from 'react';
 import { Review } from '../../../types/movie';
 import { FaStar, FaUser } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import UserProfileLink from '../../Atom/UserProfileLink';
+import ReviewRating from '../../Atom/ReviewRating';
 
 interface ReviewCardProps {
   review: Review;
+  handleClick: ()=>void;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({review}) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({review, handleClick}) => {
   return (
-    <div className="flex-shrink-0 rounded-sm w-60 border-green-400 border-2 m-2 p-2">
+    <div className="flex-shrink-0 rounded-sm w-60 border-green-400 border-2 m-2 p-2"
+      onClick={handleClick}>
       <div className="flex justify-between items-center mb-2">
-        <div className="flex items-center">
-          {review.profileURL 
-            ? <img className="rounded-full h-8 w-8 mr-2" src={review.profileURL} alt="Profile" />
-            : <FaUser className="h-8 w-8 rounded-full bg-blue-200 text-gray-600 mr-2 p-1" />}
-          <p>{review.nickname}</p>
-        </div>
-        <div className="flex items-center border-2 rounded-full px-2">
-          <FaStar className="text-yellow-500 mr-1" />
-          <p>{review.rating}</p>
-        </div>
+        <UserProfileLink userId={review.id} profileURL={review.profileURL} nickname={review.nickname} />
+        <ReviewRating rating={review.rating} />
       </div>
       <hr />
-      <p className="mt-2">
+      <p className="mt-2 mb-2 h-36 overflow-hidden line-clamp-6" title={review.content}>
         {review.content}
       </p>
     </div>

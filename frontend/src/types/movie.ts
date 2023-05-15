@@ -11,8 +11,10 @@ export interface MovieDetail extends Movie {
 
 export interface Review {
   id: number,
-  profileURL?: string,
+  userId: number,
   nickname: string,
+  profileURL?: string,
   content: string,
   rating: number,
+  movieId: number,
 }

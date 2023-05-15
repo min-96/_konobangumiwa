@@ -1,9 +1,9 @@
 import React from 'react';
 import MovieThumbnail from '../../Atom/MovieThumbnail';
-import MoviePreview from '../../Atom/MoviePreview';
 import './MovieCard.css';
 import { Movie } from '../../../types/movie';
 import { Link } from 'react-router-dom';
+import MoviePreview from '../../Atom/MoviePreview';
 
 interface MovieCardProps {
   movie: Movie,
