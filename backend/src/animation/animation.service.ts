@@ -44,14 +44,14 @@ export class AnimationService {
 
     if (user) {
         userReview = await this.prisma.review.findFirst({
-          where: { animationId: id, userId: user.id },
+          where: { animationId: id, userId: user.id ,comment: { not: null }},
           include: {
             user: true,
           },
         });
 
         otherReviews = await this.prisma.review.findMany({
-          where: { animationId: id },
+          where: { animationId: id ,comment: { not: null }},
           skip: userReview ? page * (pageSize - 1) : page * pageSize,
           take: pageSize,
           orderBy: {
@@ -63,7 +63,7 @@ export class AnimationService {
         });
     } else {
         otherReviews = await this.prisma.review.findMany({
-          where: { animationId: id },
+          where: { animationId: id ,comment: { not: null } },
           skip: page * pageSize,
           take: pageSize,
           orderBy: {

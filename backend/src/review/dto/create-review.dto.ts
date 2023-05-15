@@ -7,7 +7,7 @@ export class CreateInputReview {
   evaluation: number;
 
   @Field({ nullable: true })
-  comment: string | null;
+  comment?: string | null;
 
   @Field()
   animationId: number;

@@ -14,7 +14,7 @@ export class AnimationResolver {
     async allAnimations() : Promise<Animation[]> {
         return this.animationService.findAllAnimation();
     }
-ㄴ
+
     @Query(()=> [Animation])
     async popularityAnimations() : Promise<Animation[] | null> {
         return this.animationService.popularityAnimation();
