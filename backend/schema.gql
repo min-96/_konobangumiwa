@@ -57,7 +57,7 @@ type Query {
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
-  animationDetail(id: Int!): Animation!
+  animationDetail(id: Int!, page: Int!, pageSize: Int!): Animation!
   readWishList: [Animation!]!
 }
 
