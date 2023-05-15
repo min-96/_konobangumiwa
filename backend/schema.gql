@@ -37,7 +37,8 @@ type Animation {
   release: String!
   introduction: String!
   thumbnail: String!
-  backgroundImg: String!
+  backgroundImg: String
+  crops_ratio: String
   grade: Float!
   author: String!
   reviewCount: Float!

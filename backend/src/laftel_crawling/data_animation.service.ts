@@ -6,7 +6,8 @@ interface AnimationData {
   id: number;
   title: string;
   thumbnail: string;
-  backgroundImg: string;
+  backgroundImg?: string | null;
+  crops_ratio?: string | null;
   introduction: string;
   genreList: string[];
   author: string[];
@@ -54,6 +55,7 @@ export class CrawlongAnimationService{
           title: response.data.name,
           thumbnail: response.data.img,
           backgroundImg : response.data.images[1].img_url,
+          crops_ratio : response.data.images[1].crop_ratio,
           introduction: response.data.content,
           genreList: response.data.genres,
           author: response.data.author,
@@ -63,13 +65,14 @@ export class CrawlongAnimationService{
 
       async createAnimation(animationDataList: AnimationData[]) : Promise<void> {
         for (const animationData of animationDataList) {
-            const { title, thumbnail, backgroundImg, introduction, genreList, author, release } = animationData;
+            const { title, thumbnail, backgroundImg, crops_ratio, introduction, genreList, author, release } = animationData;
                 await this.prisma.$transaction(async (prisma) => {
             const animation = await prisma.animation.create({
                    data: {
                         title,
                         thumbnail,
                         backgroundImg,
+                        crops_ratio,
                         introduction,
                         author: author.join(', '),
                         release,
