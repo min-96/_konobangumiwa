@@ -38,52 +38,14 @@ export class AnimationService {
   }
 
 
-  async detailAnimation(id: number, page: number, pageSize: number, user?: User): Promise<Animation> {
-    let userReview;
-    let otherReviews;
-
-    if (user) {
-      userReview = await this.prisma.review.findFirst({
-        where: { animationId: id, userId: user.id, comment: { not: null } },
-        include: {
-          user: true,
-        },
-      });
-
-      otherReviews = await this.prisma.review.findMany({
-        where: { animationId: id, comment: { not: null } },
-        skip: userReview ? page * (pageSize - 1) : page * pageSize,
-        take: pageSize,
-        orderBy: {
-          id: 'desc',
-        },
-        include: {
-          user: true,
-        },
-      });
-    } else {
-      otherReviews = await this.prisma.review.findMany({
-        where: { animationId: id, comment: { not: null } },
-        skip: page * pageSize,
-        take: pageSize,
-        orderBy: {
-          id: 'desc',
-        },
-        include: {
-          user: true,
-        },
-      });
-    }
+  async detailAnimation(id: number): Promise<Animation> {
 
     const result = await this.prisma.animation.findUnique({
       where: { id: id },
       include: {
-        genreList: true,
-        reviewList: true
+        genreList: true
       },
     });
-
-    result.reviewList = userReview ? [userReview, ...otherReviews] : otherReviews;
 
     return result;
   }
