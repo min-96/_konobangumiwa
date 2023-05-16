@@ -9,7 +9,7 @@ export class Review {
   @Field()
   evaluation: number;
 
-  @Field()
+  @Field({nullable: true})
   comment: string;
 
   @Field()
@@ -19,5 +19,5 @@ export class Review {
   userId: number;
 
   @Field(()=> User, {nullable: true})
-  user? : User[];
+  user? : User;
 }

@@ -3,6 +3,8 @@ import { PrismaService } from 'prisma/prisma.service';
 import { CreateInputReview } from './dto/create-review.dto';
 import { Prisma, Review, User } from '@prisma/client';
 import { UpdateInputReview } from './dto/update-review.dto';
+import { UserReviewResponse } from './dto/response-userReview.dto';
+import { OtherReviewResponse } from './dto/response-otherReview.dto';
 
 @Injectable()
 export class ReviewService {
@@ -167,6 +169,38 @@ export class ReviewService {
         throw error;
       }
     }
+  }
+
+
+  
+  async detailReview(id: number, page:number, pageSize: number,user?:User) : Promise<Review[]> {
+    
+    let userReview : Review ;
+
+     if(user) {  
+       userReview = await this.prisma.review.findFirst({
+        where : {animationId : id , userId : user.id},
+        include: {
+          user: true,
+        }
+      });
+    }
+
+        const otherReviews = await this.prisma.review.findMany({
+        where: { animationId: id, comment: { not: null } },
+        skip: page * pageSize,
+        take: pageSize,
+        orderBy: {
+          id: 'desc',
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      const result = userReview ? [userReview, ...otherReviews] : otherReviews;
+      
+      return result;
   }
 }
 

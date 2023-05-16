@@ -34,4 +34,9 @@ export class WishResolver {
         return this.wishService.deleteWish(animationId, user);
     }
 
+    @Query(()=> Boolean)
+    async wishYN(@CurrentUser() user:User | null, @Args('animationId') animationId: number) : Promise<boolean> {
+        return this.wishService.wishYN(animationId,user);
+    }
+
 }

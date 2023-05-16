@@ -27,11 +27,9 @@ export class AnimationResolver {
 
 
     @Query(()=> Animation)
-    async animationDetail(@Args('id', { type: () => Int }) id: number,
-    @Args('page', { type: () => Int}) page: number,
-    @Args('pageSize', { type: () => Int }) pageSize: number,
-    @CurrentUser() user: User) : Promise<Animation> {
-        return this.animationService.detailAnimation(id,page,pageSize,user);
+    async detailAnimation(@Args('id', { type: () => Int }) id: number
+    ) : Promise<Animation> {
+        return this.animationService.detailAnimation(id);
     }
 
 

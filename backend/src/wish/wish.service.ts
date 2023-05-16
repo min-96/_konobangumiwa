@@ -43,4 +43,18 @@ export class WishService {
 
     }
 
+    async wishYN(animatioId: number , user?: User) : Promise<boolean> {
+        if (!user) {
+            return false;
+        }
+        const result = await this.prisma.wish.findFirst({
+            where: {
+                animationId : animatioId,
+                userId: user.id
+            }
+        });
+        
+        return result ? true : false;
+    }
+
 }

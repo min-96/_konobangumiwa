@@ -19,7 +19,7 @@ type Genre {
 type Review {
   id: Float!
   evaluation: Float!
-  comment: String!
+  comment: String
   animationId: Float!
   userId: Float!
   user: User
@@ -55,12 +55,14 @@ type Query {
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
+  detailReview(animationId: Int!, page: Int!, pageSize: Int!): [Review!]!
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
-  animationDetail(id: Int!, page: Int!, pageSize: Int!): Animation!
+  detailAnimation(id: Int!): Animation!
   similarAnimation(id: Int!): [Animation!]!
   readWishList: [Animation!]!
+  wishYN(animationId: Float!): Boolean!
 }
 
 type Mutation {
