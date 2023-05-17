@@ -66,3 +66,7 @@
   cursor: pointer;
   color: #333;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

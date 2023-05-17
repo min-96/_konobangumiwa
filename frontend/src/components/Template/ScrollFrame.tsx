@@ -14,7 +14,7 @@ const ScrollFrame: FC<PageProps> = ({children}) => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setIsLeftEnd(scrollLeft === 0);
-      setIsRightEnd(scrollLeft === scrollWidth - clientWidth);
+      setIsRightEnd(scrollLeft >= scrollWidth - clientWidth);
     }
   };
 
@@ -45,7 +45,7 @@ const ScrollFrame: FC<PageProps> = ({children}) => {
           <FaArrowCircleLeft className={`h-10 w-10 text-blue-700 duration-300 hover:scale-110`} />
         </button>
       }
-      <div className="flex overflow-auto" ref={scrollContainerRef}>
+      <div className="flex overflow-auto hide-scrollbar" ref={scrollContainerRef}>
         {children}
       </div>
       {!isRightEnd &&
