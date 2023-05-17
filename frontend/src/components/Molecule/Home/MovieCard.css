@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .movie-card {
-  @apply bg-white rounded-lg shadow-md flex flex-col items-center;
+  @apply bg-white rounded-lg shadow-md flex flex-col items-center border-gray-200 border;
   margin: 1rem;
 }
 

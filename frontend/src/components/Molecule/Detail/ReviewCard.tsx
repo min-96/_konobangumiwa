@@ -10,7 +10,7 @@ interface ReviewCardProps {
 
 const ReviewCard: React.FC<ReviewCardProps> = ({review, handleClick}) => {
   return (
-    <div className="flex-shrink-0 rounded-sm w-60 border-green-400 border-2 m-2 p-2"
+    <div className="flex-shrink-0 rounded-sm w-60 shadow-md border-gray-200 border m-2 p-2"
       onClick={handleClick}>
       <div className="flex justify-between items-center mb-2">
         <UserProfileLink userId={review.id} profileURL={review.profileURL} nickname={review.nickname} />
