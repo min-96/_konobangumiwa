@@ -10,13 +10,13 @@ export class CrawlingTagTypeService{
     constructor(private prisma: PrismaService) {} 
 
     async createTagType(tagList): Promise<void> {
-        console.log("tagList: ", tagList);
+        
         const selectTagType = await this.prisma.tagType.findMany({
             select: {
                 type: true,
               },
         });
-        console.log("selectTagType: ", selectTagType);
+
 
         let befTagArray : Array<string> = selectTagType.map((ele) => (ele.type));  // 장르를 셀렉트 해와서 어레이로 담기 
         let addTagArray : Array<string> = []; 
@@ -36,4 +36,19 @@ export class CrawlingTagTypeService{
             });
           }
         }
+
+        async createTag(animationId: number, tagList: string[],prisma): Promise<void> {
+          const tagPromises = tagList.map((tag) =>
+            prisma.tag.create({
+              data: {
+                animationId: animationId,
+                tagtypeId: tag,
+              },
+            })
+          );
+        
+          await Promise.all(tagPromises);
+        }
+        
+        
       }
