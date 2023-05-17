@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import axios from 'axios';
+import { CrawlingTagTypeService } from "./data_tagType.servie";
 
 interface AnimationData {
   id: number;
@@ -10,6 +11,7 @@ interface AnimationData {
   crops_ratio?: string | null;
   introduction: string;
   genreList: string[];
+  tagList : string[];
   author: string[];
   release: string;
 }
@@ -17,7 +19,7 @@ interface AnimationData {
 
 @Injectable()
 export class CrawlongAnimationService{
-    constructor(private prisma: PrismaService) {} 
+    constructor(private prisma: PrismaService, private typeSerive :CrawlingTagTypeService) {} 
 
     async fetchData(response) : Promise<any> {
 
@@ -58,6 +60,7 @@ export class CrawlongAnimationService{
           crops_ratio : response.data.images[1].crop_ratio,
           introduction: response.data.content,
           genreList: response.data.genres,
+          tagList : response.data.tags,
           author: response.data.author,
           release: response.data.air_year_quarter,
         };
@@ -65,7 +68,7 @@ export class CrawlongAnimationService{
 
       async createAnimation(animationDataList: AnimationData[]) : Promise<void> {
         for (const animationData of animationDataList) {
-            const { title, thumbnail, backgroundImg, crops_ratio, introduction, genreList, author, release } = animationData;
+            const { title, thumbnail, backgroundImg, crops_ratio, introduction, genreList,tagList, author, release } = animationData;
                 await this.prisma.$transaction(async (prisma) => {
             const animation = await prisma.animation.create({
                    data: {
@@ -79,8 +82,9 @@ export class CrawlongAnimationService{
             },
            });
 
-        const genrePromises = genreList.map(async (genre) => {
+        await this.typeSerive.createTagType(tagList);
 
+        const genrePromises = genreList.map(async (genre) => {
           // Genre 테이블에 데이터를 저장합니다.
           await prisma.genre.create({
             data: {
