@@ -47,6 +47,11 @@ type Animation {
   wishList: [Wish!]
 }
 
+type UserReviewResponse {
+  userReview: Review
+  otherReviews: [Review]
+}
+
 type Query {
   hello: String!
   users: [User!]!
@@ -55,7 +60,7 @@ type Query {
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
-  detailReview(animationId: Int!, page: Int!, pageSize: Int!): [Review!]!
+  detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!

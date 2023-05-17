@@ -50,11 +50,11 @@ export class ReviewResolver {
 
 
   // TODO : 반환 type 수정하기
-  @Query(()=> [Review])
+  @Query(()=> UserReviewResponse)
   async detailReview(@Args('animationId', { type: () => Int }) animationId: number,
   @Args('page', { type: () => Int}) page: number,
   @Args('pageSize', { type: () => Int }) pageSize: number,
-  @CurrentUser() user: User | null) : Promise<Review[]> {
+  @CurrentUser() user: User | null) : Promise<UserReviewResponse> {
     return this.reviewService.detailReview(animationId,page,pageSize,user);
   }
 }

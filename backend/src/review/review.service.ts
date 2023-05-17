@@ -171,14 +171,17 @@ export class ReviewService {
     }
   }
 
-
   
-  async detailReview(id: number, page:number, pageSize: number,user?:User) : Promise<Review[]> {
+  async detailReview(id: number, page:number, pageSize: number,user?:User) : Promise<UserReviewResponse> {
     
-    let userReview : Review ;
+    let userReview : UserReviewResponse = {
+      userReview: null,
+      otherReviews: null,
+  };
+    
 
      if(user) {  
-       userReview = await this.prisma.review.findFirst({
+       userReview.userReview = await this.prisma.review.findFirst({
         where : {animationId : id , userId : user.id},
         include: {
           user: true,
@@ -186,7 +189,7 @@ export class ReviewService {
       });
     }
 
-        const otherReviews = await this.prisma.review.findMany({
+        userReview.otherReviews = await this.prisma.review.findMany({
         where: { animationId: id, comment: { not: null } },
         skip: page * pageSize,
         take: pageSize,
@@ -198,9 +201,9 @@ export class ReviewService {
         },
       });
 
-      const result = userReview ? [userReview, ...otherReviews] : otherReviews;
+      // const result = userReview ? {userReview , ...otherReviews} : otherReviews;
       
-      return result;
+      return userReview;
   }
 }
 

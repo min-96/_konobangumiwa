@@ -36,8 +36,8 @@ model Animation {
   genreList     Genre[]
   reviewList    Review[]
   wishList      Wish[]
+  tagList       Tag[]
 }
-
 
 model Genre {
   id            Int     @id @default(autoincrement())
@@ -51,6 +51,20 @@ model GenreType {
   type          String  @id @unique
   genreList     Genre[]
 }
+
+model Tag {
+  id            Int     @id @default(autoincrement())
+  animation     Animation  @relation(fields: [animationId], references: [id])
+  animationId   Int
+  tagtype       TagType  @relation(fields: [tagtypeId],  references: [type])
+  tagtypeId     String
+}
+
+model TagType {
+  type          String  @id @unique
+  tagList       Tag[]   
+}
+
 
 model Review {
   id            Int     @id @default(autoincrement())
