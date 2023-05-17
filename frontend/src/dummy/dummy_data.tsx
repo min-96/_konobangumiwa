@@ -72,7 +72,7 @@ export const reviews : Review[] = [
   {
     id: 1,
     userId: 5,
-    profileURL: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
+    profileUrl: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
     nickname: '철수',
     rating: 4.5,
     content: '정말 좋아요!',
@@ -105,7 +105,7 @@ export const reviews : Review[] = [
   {
     id: 5,
     userId: 5,
-    profileURL: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
+    profileUrl: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
     nickname: '흰둥이',
     rating: 4.0,
     content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요'+

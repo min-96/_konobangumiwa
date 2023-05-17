@@ -13,7 +13,7 @@ export interface Review {
   id: number,
   userId: number,
   nickname: string,
-  profileURL?: string,
+  profileUrl?: string,
   content: string,
   rating: number,
   movieId: number,
