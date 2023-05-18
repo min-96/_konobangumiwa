@@ -19,7 +19,7 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
         }}
       >
         <CardFrame className="flex absolute bottom-0 translate-y-3/4 left-1/2 -translate-x-1/2">
-          <img src={movie.thumbnail} alt={movie.title} className="w-40 rounded-md border border-gray-300"/>
+          <img src={movie.thumbnail} alt={movie.title} className="w-40 shadow-border"/>
           <div className="ml-10 text-left w-full">
             <h2 className="mt-16 text-2xl font-bold mb-2">
               {movie.title}

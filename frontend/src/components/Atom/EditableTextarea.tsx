@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
 
 interface EditableTextareaProps {
-  initContent: string;
+  initContent?: string;
   deleteProcess: () => void;
   saveProcess: (content: string) => void;
   align: 'center' | 'left' | 'right';
   maxChars: number;
+  inputHeight: string;
 }
 
 const EditableTextarea: React.FC<EditableTextareaProps> = ({
@@ -15,10 +16,11 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
   deleteProcess,
   align,
   maxChars,
+  inputHeight
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(initContent || "");
-  const [charCount, setCharCount] = useState(initContent.length);
+  const [charCount, setCharCount] = useState(initContent ? initContent.length : 0);
   const editRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -53,12 +55,12 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
 
   return (
     <div>
-      <div className="relative overflow-auto h-40">
+      <div className="relative overflow-auto">
         {isEditing ? (
           <>
             <textarea
               ref={editRef}
-              className={`w-full h-[95%] p-1 text-gray-700 bg-gray-100 text-${align}`}
+              className={`w-full p-1 text-gray-700 bg-gray-100 text-${align} rounded-md h-${inputHeight}`}
               value={content}
               onChange={handleChange}
               maxLength={maxChars}
@@ -68,7 +70,8 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
             </div>
           </>
         ) : (
-          <p className={`p-1 text-${align}`} dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>') }} />
+          content === "" ? <div className={`m-4 text-${align}`}>작성한 글이 없습니다</div> :
+          <p className={`p-1 text-${align} max-h-${inputHeight}`} dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>') }} />
         )}
       </div>
       <hr className="mt-2 mb-2" />

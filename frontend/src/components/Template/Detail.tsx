@@ -31,9 +31,9 @@ const Detail: FC<PageProps> = ({ }) => {
   return (
     <div className="w-full flex flex-col items-center">
       <DetailHeader movie={movie} />
-      <DetailInfo frameClassName="mt-6 border border-blue-500 rounded-lg" title="기본정보"/>
-      <ReviewList frameClassName="mt-6 border border-blue-500 rounded-lg" title="리뷰"/>
-      <MovieList movies={movies} frameClassName="mt-6 border border-blue-500 rounded-lg" title="비슷한 애니메이션"/>
+      <DetailInfo frameClassName="mt-6 shadow-border rounded-lg" title="기본정보"/>
+      <ReviewList frameClassName="mt-6 shadow-border rounded-lg" title="리뷰"/>
+      <MovieList movies={movies} frameClassName="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션"/>
     </div>
   );
 };

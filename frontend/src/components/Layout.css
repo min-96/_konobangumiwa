@@ -70,3 +70,7 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.shadow-border {
+  @apply rounded-sm shadow-md border-gray-200 border;
+}

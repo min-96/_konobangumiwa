@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Review } from '../../types/movie';
 import ModalFrame from '../Template/ModalFrame';
-import { FaHeart } from 'react-icons/fa';
 import { oneMovie } from '../../dummy/dummy_data';
 import ReviewRating from '../Atom/ReviewRating';
 import UserProfileLink from '../Atom/UserProfileLink';
@@ -15,7 +14,6 @@ interface ReviewModalProps {
 const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
   if (!review) return null;
 
-  const movie = oneMovie;
   return (
     <ModalFrame handleModalClose={handleClose}>
       <div className="w-[500px]">
@@ -34,7 +32,14 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
           <img className="w-16" src={oneMovie.thumbnail} alt={oneMovie.title} />
         </div>
         <hr className="mt-2 mb-2"/>
-        <EditableTextarea initContent={review.content} saveProcess={(content: string)=>{handleClose()}} deleteProcess={()=>{handleClose()}} align="left" maxChars={1000}/>
+        <EditableTextarea
+          inputHeight="40"
+          initContent={review.content}
+          saveProcess={(content: string)=>{handleClose()}}
+          deleteProcess={()=>{handleClose()}}
+          align="left"
+          maxChars={1000}
+        />
       </div>
     </ModalFrame>
   );
