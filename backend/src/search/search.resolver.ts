@@ -1,6 +1,7 @@
 import { Resolver,Query, Args } from "@nestjs/graphql";
 import { Animation } from "src/animation/animation.model";
 import { SearchService } from "./search.service";
+import { time } from "console";
 
 @Resolver(()=> Animation)
 export class SearchResolver {
@@ -13,8 +14,13 @@ export class SearchResolver {
     }
 
     @Query(()=> [Animation])
-    async searchTitle(@Args('title') title: string) : Promise<Animation[]> {
+    async searchTitle(@Args('title') title: string) : Promise<any> {
         return this.searchService.searchTitle(title);
+    }
+
+    @Query(()=> String)
+    async Searchtest(@Args('title') title: string) : Promise<any> {
+        return this.searchService.testSearchTitle(title);
     }
 
 }

@@ -59,6 +59,7 @@ type Query {
   crawling_test: String!
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
+  Searchtest(title: String!): String!
   readReivew: [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
   allAnimations: [Animation!]!

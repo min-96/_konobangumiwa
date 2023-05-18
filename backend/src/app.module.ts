@@ -11,6 +11,7 @@ import { SearchModule } from './search/search.module';
 import { ReviewModule } from './review/review.module';
 import { AnimationModule } from './animation/animation.module';
 import { WishModule } from './wish/wish.module';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -29,6 +30,6 @@ import { WishModule } from './wish/wish.module';
     AnimationModule,
     WishModule
   ],
-  providers: [AppResolver]
+  providers: [AppResolver],
 })
-export class AppModule {}
+export class AppModule { }
