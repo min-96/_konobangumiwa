@@ -8,12 +8,19 @@ import { CrawlongAnimationService } from './data_animation.service';
 import { CrawlingTagTypeService } from './data_tagType.servie';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { MyElasticSearchService } from 'src/elasticSearch/elasticSearch.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 
 @Module({
   imports: [ 
-    ElasticsearchModule.register({
-      node: 'http://localhost:9200',
+    ElasticsearchModule.registerAsync({
+      imports: [ConfigModule], 
+      useFactory: async (configService: ConfigService) => ({
+        node: configService.get('ELASTICSEARCH_NODE'), 
+      }),
+      inject: [ConfigService], 
     }),
+
  ],
   providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,CrawlongAnimationService,CrawlingTagTypeService, MyElasticSearchService],
 })

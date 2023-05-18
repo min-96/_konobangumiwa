@@ -23,7 +23,9 @@ export class AuthModule implements NestModule {
   constructor(private configService: ConfigService) {}
 
   configure(consumer: MiddlewareConsumer) {
-    const client = createClient(this.configService.get('REDIS_URL'));
+    const client = createClient({
+      url: this.configService.get('REDIS_URL')
+    });
     client.connect().catch(console.error);
     const store = new RedisStore({
       client: client,
