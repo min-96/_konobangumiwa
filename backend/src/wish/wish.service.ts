@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { User, Wish } from "@prisma/client";
+import { error } from "console";
 import { PrismaService } from "prisma/prisma.service";
 import { Animation } from "src/animation/animation.model";
 
@@ -9,6 +10,10 @@ export class WishService {
     constructor(private prisma: PrismaService) { }
 
     async createWish(animationId: number, user: User): Promise<Wish> {
+        if(!user) {
+            throw new Error('you must have login');
+        }
+
         return this.prisma.wish.create({
             data: {
                 animationId: animationId,
@@ -34,6 +39,10 @@ export class WishService {
                 animationId: animationId
             }
         });
+
+        if(selectWish.userId !== user.id){
+            throw new Error('Unauthorized');
+        }
 
         return this.prisma.wish.delete({
             where: {

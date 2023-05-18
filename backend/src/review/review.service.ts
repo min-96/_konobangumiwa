@@ -19,6 +19,10 @@ export class ReviewService {
 
   //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
+    if(!user){
+      throw new Error('You must have login');
+    }
+    
     const existingReview = await this.prisma.review.findFirst({
       where: { 
           userId: user.id,
@@ -29,7 +33,6 @@ export class ReviewService {
     if (existingReview) {
       throw new Error('You have already reviewed this animation.');
     }
-
     const animation  = await this.selectAnimation(data.animationId);
 
     const MAX_RETRIES = 5
