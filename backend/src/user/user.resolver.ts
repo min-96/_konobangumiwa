@@ -22,8 +22,7 @@ export class UserResolver {
   async userRead(
     @CurrentUser() user:User
   ): Promise<User | null> {
-   return this.userService.findUserById(user.id);
-     
+   return this.userService.findUserById(user.id);   
   }
 
   @Mutation(() => User)

@@ -11,15 +11,20 @@ export class Animation {
     @Field()
     title : string;
 
+    @Field({nullable:true})
     release? : string;
 
+    @Field({nullable:true})
     introduction? : string;
 
+    @Field({nullable:true})
     thumbnail? : string;
 
-    backgroundImg? : string | null;
+    @Field({nullable:true})
+    backgroundImg? : string;
 
-    crops_ratio? : string | null;
+    @Field({nullable:true})
+    crops_ratio? : string;
 
     @Field({nullable:true})
     grade? : number;
