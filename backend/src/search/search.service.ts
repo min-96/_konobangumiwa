@@ -55,17 +55,17 @@ export class SearchService {
   }
 
 
-  async indexAnimation() {
-    const animations = await this.prisma.animation.findMany();
-    animations.forEach(async (animation) => {
-      await this.elasticsearchService.index({
-        index: 'animations',
-        id: String(animation.id), 
-        body: animation.title,
-      });
+  // async indexAnimation() {
+  //   const animations = await this.prisma.animation.findMany();
+  //   animations.forEach(async (animation) => {
+  //     await this.elasticsearchService.index({
+  //       index: 'animations',
+  //       id: String(animation.id), 
+  //       body: animation.title,
+  //     });
       
-    });
-  }
+  //   });
+  // }
 
 
   async searchTitle(name: string): Promise<Animation[]> {
@@ -82,30 +82,20 @@ export class SearchService {
     return searchTitleAnimation;
   }
 
-
-
   async testSearchTitle(title: string){
   const a = Object.assign([], title);
   return this.divideHangul(a);
   }
 
-
-
-  async isHangul(charCode) {
-
-    return this.HANGUL_START_CHARCODE <= charCode && charCode <= this.HANGUL_END_CHARCODE;
-  }
-  
-  async divideHangul(letter) {
+  async divideHangul(title) {
+    const letter = Object.assign([], title);
     let result  = '';
     letter.map((ele)=> {
-      if (ele === ' ') {
-        result += ele;
-        return ele;
-      }
+
       const letterCode = ele.charCodeAt(0);
-      
-      if (!this.isHangul(letterCode)) {
+  
+      if (!(this.HANGUL_START_CHARCODE <= letterCode && letterCode <= this.HANGUL_END_CHARCODE)) {
+        result += ele;
         return ele;
       }
     
@@ -122,6 +112,27 @@ export class SearchService {
     })
 
     return result;
+  }
+
+
+  async indexAnimation() {
+    try{
+    const animations = await this.prisma.animation.findMany();
+    animations.forEach(async (animation) => {
+      const decomposedTitle = await this.divideHangul(animation.title);
+      await this.elasticsearchService.index({
+        index: 'animations',
+        id: String(animation.id),
+        body: {
+          title: animation.title,
+          decomposedTitle: decomposedTitle,
+        },
+      });
+    });
+  }catch(error){
+    throw new Error(error);
+  }
+  return "OK";
   }
 
 }

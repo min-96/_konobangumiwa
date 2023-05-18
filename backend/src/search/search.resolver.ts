@@ -23,4 +23,14 @@ export class SearchResolver {
         return this.searchService.testSearchTitle(title);
     }
 
+
+
+    @Query(()=> String)
+    async elasticTest() : Promise<any> {
+        return this.searchService.indexAnimation();
+    }
+
+
+    
+
 }

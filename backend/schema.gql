@@ -60,6 +60,7 @@ type Query {
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   Searchtest(title: String!): String!
+  elasticTest: String!
   readReivew: [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
   allAnimations: [Animation!]!
