@@ -31,6 +31,7 @@ export class UserService {
   async updateUser(data: {
     id: number;
     displayName?: string;
+    introduction?: string;
     pictureUrl?: string;
   }): Promise<User> {
     const selectUser = await this.prisma.user.findUnique({

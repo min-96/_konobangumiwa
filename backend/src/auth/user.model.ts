@@ -15,5 +15,8 @@ export class User {
   displayName: string;
 
   @Field({ nullable: true })
+  introduction?: string
+
+  @Field({ nullable: true })
   pictureUrl?: string;
 }

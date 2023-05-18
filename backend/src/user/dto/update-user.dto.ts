@@ -9,6 +9,10 @@ export class UpdateUserInput {
   displayName?: string | null;
 
   @Field({ nullable: true })
+  introduction?: string | null;
+
+
+  @Field({ nullable: true })
   pictureUrl?: string | null;
   
 }
