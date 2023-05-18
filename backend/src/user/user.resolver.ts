@@ -27,13 +27,15 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async updateUser(@Args('input') input: UpdateUserInput): Promise<User> {
-    return this.userService.updateUser(input);
+  @UseGuards(AuthGuard)
+  async updateUser(@CurrentUser() user:User, @Args('input') input: UpdateUserInput): Promise<User> {
+    return this.userService.updateUser(user.id,input);
   }
 
   @Mutation(() => User)
-  async deleteUser(@Args('id', { type: () => Int }) id: number): Promise<User> {
-    return this.userService.deleteUser(id);
+  @UseGuards(AuthGuard)
+  async deleteUser(@CurrentUser() user:User): Promise<User> {
+    return this.userService.deleteUser(user.id);
   }
 
   // @Query(()=> String)

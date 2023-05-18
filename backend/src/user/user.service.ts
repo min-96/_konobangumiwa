@@ -28,24 +28,23 @@ export class UserService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  async updateUser(data: {
-    id: number;
+  async updateUser(userId : number ,data: {
     displayName?: string;
     introduction?: string;
     pictureUrl?: string;
   }): Promise<User> {
     const selectUser = await this.prisma.user.findUnique({
-      where: { id: data.id },
+      where: { id: userId },
     });
     if (!selectUser) {
-      throw new NotFoundException(`해당하는 ${data.id} 가 없습니다.`);
+      throw new NotFoundException(`해당하는 ${userId} 가 없습니다.`);
     }
 
     try {
-      return this.prisma.user.update({ where: { id: data.id }, data });
+      return this.prisma.user.update({ where: { id: userId }, data });
     } catch (error) {
       throw new Error(
-        `Error deleting user with id ${data.id}: ${error.message}`,
+        `Error deleting user with id ${userId}: ${error.message}`,
       );
     }
   }

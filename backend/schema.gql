@@ -7,6 +7,7 @@ type User {
   googleId: String!
   email: String!
   displayName: String!
+  introduction: String
   pictureUrl: String
 }
 
@@ -35,7 +36,8 @@ type Animation {
   id: Int!
   title: String!
   grade: Float
-  reviewCount: Float!
+  author: String
+  reviewCount: Float
   genreList: [Genre!]
   reviewList: [Review!]
   wishList: [Wish!]
@@ -68,7 +70,7 @@ type Query {
 
 type Mutation {
   updateUser(input: UpdateUserInput!): User!
-  deleteUser(id: Int!): User!
+  deleteUser: User!
   createReview(input: CreateInputReview!): Review!
   updateReview(input: UpdateInputReview!): Review!
   deleteReview(id: Int!): Review!
@@ -77,8 +79,8 @@ type Mutation {
 }
 
 input UpdateUserInput {
-  id: Float!
   displayName: String
+  introduction: String
   pictureUrl: String
 }
 
