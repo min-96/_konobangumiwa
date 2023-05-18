@@ -12,7 +12,7 @@ export class CrawlingService{
     async fetchData() : Promise<string> {
 
 
-        const response = await axios.get('https://laftel.net/api/search/v1/discover/?sort=rank&viewable=true&offset=0&size=5', {headers: { 'laftel': 'TeJava' }});
+        const response = await axios.get('https://laftel.net/api/search/v1/discover/?sort=rank&viewable=true&offset=36&size=40', {headers: { 'laftel': 'TeJava' }});
         
 
 
