@@ -6,8 +6,15 @@ import { CrawlingService } from './crawling.service';
 import { CrawlingGenreTypeService } from './data_genreType.service';
 import { CrawlongAnimationService } from './data_animation.service';
 import { CrawlingTagTypeService } from './data_tagType.servie';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { MyElasticSearchService } from 'src/elasticSearch/elasticSearch.service';
 
 @Module({
-  providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,CrawlongAnimationService,CrawlingTagTypeService],
+  imports: [ 
+    ElasticsearchModule.register({
+      node: 'http://localhost:9200',
+    }),
+ ],
+  providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,CrawlongAnimationService,CrawlingTagTypeService, MyElasticSearchService],
 })
 export class CrawlingModule {}

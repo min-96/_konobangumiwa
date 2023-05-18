@@ -13,8 +13,8 @@ export class SearchResolver {
     }
 
     @Query(()=> [Animation])
-    async searchTitle(@Args('title') title: string) : Promise<Animation[]> {
-        return this.searchService.searchTitle(title);
+    async searchTitle(@Args('title') title: string) : Promise<any> {
+        return this.searchService.searchTitleInElastic(title);
     }
-
+    
 }

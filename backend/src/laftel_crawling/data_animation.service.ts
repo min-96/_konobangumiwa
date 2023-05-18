@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import axios from 'axios';
 import { CrawlingTagTypeService } from "./data_tagType.servie";
+import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service";
 
 interface AnimationData {
   id: number;
@@ -19,7 +20,7 @@ interface AnimationData {
 
 @Injectable()
 export class CrawlongAnimationService {
-  constructor(private prisma: PrismaService, private typeSerive: CrawlingTagTypeService) { }
+  constructor(private prisma: PrismaService, private typeSerive: CrawlingTagTypeService, private myElasticSearchService : MyElasticSearchService) { }
 
   async fetchData(response): Promise<any> {
 
@@ -97,7 +98,9 @@ export class CrawlongAnimationService {
 
         
           await this.typeSerive.createTagType(tagList);
-          await this.typeSerive.createTag(animation.id, tagList,prisma);
+          await this.typeSerive.createTag(animation.id, tagList,prisma); 
+          
+          await this.myElasticSearchService.indexAnimation(animation);
     
       });
     }

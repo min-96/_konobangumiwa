@@ -1,37 +1,52 @@
 import { Injectable } from "@nestjs/common";
-import { Animation ,Genre } from "@prisma/client";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Animation, Genre } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
-import { SourceTextModule } from "vm";
-
+import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service";
 
 @Injectable()
-export class SearchService{
+export class SearchService {
+  constructor(private prisma: PrismaService
+    , private readonly elasticsearchService: ElasticsearchService,
+    private myelasticSearchService : MyElasticSearchService
+  ) { }
 
-    constructor(private prisma: PrismaService) {}
 
-    async filteringGenre(type: string):  Promise<Animation[]>{
-        const animationsWithGenres = await this.prisma.animation.findMany({
-          where: {
-            genreList: {
-              some: {
-                genretypeId: type,
-              },
-            },
+
+  async filteringGenre(type: string): Promise<Animation[]> {
+    const animationsWithGenres = await this.prisma.animation.findMany({
+      where: {
+        genreList: {
+          some: {
+            genretypeId: type,
           },
-        });
-        return animationsWithGenres;
-    }
+        },
+      },
+    });
+    return animationsWithGenres;
+  }
 
-    async searchTitle(name: string) : Promise<Animation[]>{
-        const searchTitleAnimation = await this.prisma.animation.findMany({
-          where: {
-            title: {
-              contains : name,
-            },
-          },
-        });
+ 
+  async searchTitleInElastic(title: string): Promise<Animation[]> {
 
+    const decomposedTitle = await this.myelasticSearchService.divideHangul(title);
 
-      return  searchTitleAnimation;
-    }
+    const { body } = await this.elasticsearchService.search({
+      index: 'animations',
+      body: {
+        query: {
+          match: {
+            decomposedTitle: decomposedTitle
+          }
+        },
+        size: 10 
+        
+      },
+    });
+
+    const results: Animation[] = body.hits.hits.map(hit => ({ title: hit._source.title, id: hit._id }));
+
+    return results;
+  }
+ 
 }

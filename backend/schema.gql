@@ -34,13 +34,13 @@ type Wish {
 type Animation {
   id: Int!
   title: String!
-  release: String!
-  introduction: String!
-  thumbnail: String!
+  release: String
+  introduction: String
+  thumbnail: String
   backgroundImg: String
   crops_ratio: String
-  grade: Float!
-  author: String!
+  grade: Float
+  author: String
   reviewCount: Float!
   genreList: [Genre!]
   reviewList: [Review!]
@@ -68,6 +68,8 @@ type Query {
   similarAnimation(id: Int!): [Animation!]!
   readWishList: [Animation!]!
   wishYN(animationId: Float!): Boolean!
+  settingAnalyzer: String!
+  indexAnimation: String!
 }
 
 type Mutation {

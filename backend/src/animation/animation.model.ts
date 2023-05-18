@@ -11,14 +11,14 @@ export class Animation {
     @Field()
     title : string;
 
-    @Field()
-    release : string;
+    @Field({nullable:true})
+    release? : string;
 
-    @Field()
-    introduction : string;
+    @Field({nullable:true})
+    introduction? : string;
 
-    @Field()
-    thumbnail : string;
+    @Field({nullable:true})
+    thumbnail? : string;
 
     @Field({nullable:true})
     backgroundImg? : string | null;
@@ -26,11 +26,11 @@ export class Animation {
     @Field({nullable:true})
     crops_ratio? : string | null;
 
-    @Field()
-    grade : number;
+    @Field({nullable:true})
+    grade? : number;
 
-    @Field()
-    author : string;
+    @Field({nullable:true})
+    author? : string;
 
     @Field()
     reviewCount?: number | null;
