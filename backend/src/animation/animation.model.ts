@@ -11,19 +11,14 @@ export class Animation {
     @Field()
     title : string;
 
-    @Field({nullable:true})
     release? : string;
 
-    @Field({nullable:true})
     introduction? : string;
 
-    @Field({nullable:true})
     thumbnail? : string;
 
-    @Field({nullable:true})
     backgroundImg? : string | null;
 
-    @Field({nullable:true})
     crops_ratio? : string | null;
 
     @Field({nullable:true})
@@ -32,7 +27,7 @@ export class Animation {
     @Field({nullable:true})
     author? : string;
 
-    @Field()
+    @Field({nullable:true})
     reviewCount?: number | null;
 
     @Field(()=> [Genre], { nullable: true })
