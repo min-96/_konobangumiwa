@@ -15,15 +15,8 @@ export class SearchResolver {
 
     @Query(()=> [Animation])
     async searchTitle(@Args('title') title: string) : Promise<any> {
-        return this.searchService.searchTitle(title);
+        return this.searchService.searchTitleInElastic(title);
     }
-
-    @Query(()=> String)
-    async Searchtest(@Args('title') title: string) : Promise<any> {
-        return this.searchService.testSearchTitle(title);
-    }
-
-
 
     @Query(()=> String)
     async elasticTest() : Promise<any> {

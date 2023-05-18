@@ -34,13 +34,13 @@ type Wish {
 type Animation {
   id: Int!
   title: String!
-  release: String!
-  introduction: String!
-  thumbnail: String!
+  release: String
+  introduction: String
+  thumbnail: String
   backgroundImg: String
   crops_ratio: String
-  grade: Float!
-  author: String!
+  grade: Float
+  author: String
   reviewCount: Float!
   genreList: [Genre!]
   reviewList: [Review!]
@@ -59,7 +59,6 @@ type Query {
   crawling_test: String!
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
-  Searchtest(title: String!): String!
   elasticTest: String!
   readReivew: [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
