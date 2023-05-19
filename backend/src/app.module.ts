@@ -11,8 +11,9 @@ import { SearchModule } from './search/search.module';
 import { ReviewModule } from './review/review.module';
 import { AnimationModule } from './animation/animation.module';
 import { WishModule } from './wish/wish.module';
-import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { MyElasticSearchModule } from './elasticSearch/elasticSearch.module';
+import { UserBasedSystemModule } from './user_bsd_system/user_bsd_sys.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -30,7 +31,8 @@ import { MyElasticSearchModule } from './elasticSearch/elasticSearch.module';
     ReviewModule,
     AnimationModule,
     WishModule,
-    MyElasticSearchModule
+    MyElasticSearchModule,
+    UserBasedSystemModule
   ],
   providers: [AppResolver],
 })
