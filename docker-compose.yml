@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - react-app
+      - nestjs-app
+
+  react-app:
+    build: ./frontend
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm start
+    environment:
+      - NODE_ENV=development
+
+  nestjs-app:
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    entrypoint: /usr/src/app/entrypoint.sh
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    ports:
+      - '3000:3000'
+    env_file:
+      - backend/.env
+      
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - backend/.env
+
+  redis:
+    image: redis:latest
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+volumes:
+  postgres-data:
+  elasticsearch-data:
