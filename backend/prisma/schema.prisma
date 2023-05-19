@@ -1,0 +1,86 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  googleId    String  @unique
+  email       String  @unique
+  displayName String
+  pictureUrl  String?
+  introduction String?
+  role        UserRole @default(USER)
+  reviewList  Review[]
+  wishList    Wish[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Animation {
+  id            Int     @id @default(autoincrement())
+  title         String
+  release       String
+  introduction  String
+  thumbnail     String
+  backgroundImg String?
+  crops_ratio   String?
+  grade         Float?     @default(0)
+  author        String
+  reviewCount   Int?       @default(0)
+  genreList     Genre[]
+  reviewList    Review[]
+  wishList      Wish[]
+  tagList       Tag[]
+}
+
+model Genre {
+  id            Int     @id @default(autoincrement())
+  animation     Animation  @relation(fields: [animationId], references: [id])
+  animationId   Int
+  genretype     GenreType  @relation(fields: [genretypeId],  references: [type])
+  genretypeId   String
+}
+
+model GenreType {
+  type          String  @id @unique
+  genreList     Genre[]
+}
+
+model Tag {
+  id            Int     @id @default(autoincrement())
+  animation     Animation  @relation(fields: [animationId], references: [id])
+  animationId   Int
+  tagtype       TagType  @relation(fields: [tagtypeId],  references: [type])
+  tagtypeId     String
+}
+
+model TagType {
+  type          String  @id @unique
+  tagList       Tag[]   
+}
+
+
+model Review {
+  id            Int     @id @default(autoincrement())
+  evaluation    Int
+  comment       String?
+  animation     Animation  @relation(fields: [animationId], references: [id])
+  animationId   Int  
+  user          User  @relation(fields: [userId], references: [id])  
+  userId        Int
+}
+
+model Wish {
+  id            Int     @id @default(autoincrement())
+  animation     Animation  @relation(fields: [animationId], references: [id])
+  animationId   Int   
+  user          User  @relation(fields: [userId], references: [id])  
+  userId        Int  
+}
