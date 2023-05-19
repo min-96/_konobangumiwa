@@ -14,6 +14,7 @@ COPY . .
 # Install any needed packages specified in package.json
 RUN npm install --force
 RUN npx prisma generate
+RUN npm install -g nodemon
 
 # Make entrypoint script executable
 RUN chmod +x /usr/src/app/entrypoint.sh

@@ -10,4 +10,5 @@ npx prisma migrate dev
 npx prisma db push --preview-feature
 
 # Start the NestJS app
-npm run start:dev
+#npm run start:dev
+npx nodemon --legacy-watch --watch /usr/src/app/src/ --verbose --ext ts --exec "npm run start:dev"
