@@ -12,8 +12,12 @@ export class UserBasedSystemResolver {
 
   @Query(()=> [Animation])
   async userBasedGenre(@CurrentUser() user :User): Promise<Animation[]> {
-    console.log("asd");
     return this.userbasedrecoService.userBasedGenreRecommend(user);
+  }
+
+  @Query(()=> [Animation])
+  async userBasedTag(@CurrentUser() user:User) : Promise<Animation[]> {
+    return this.userbasedrecoService.userBasedTagRecommend(user);
   }
   
 }
