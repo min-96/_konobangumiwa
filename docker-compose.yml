@@ -53,6 +53,10 @@ services:
       - discovery.type=single-node
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+    deploy:
+      resources:
+        limits:
+          memory: 4g
 
 volumes:
   postgres-data:
