@@ -18,3 +18,12 @@ export interface Review {
   rating: number,
   movieId: number,
 }
+
+export interface User {
+  id: number;
+  googleId: string;
+  email: string;
+  displayName: string;
+  introduction: string | null;
+  pictureUrl: string | null;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { API_URL } from '../../global';
+import * as API from '../../API/User';
 
 const GoogleLoginButton: React.FC = () => {
   // const handleSuccess = (response : any) => {
@@ -12,8 +12,7 @@ const GoogleLoginButton: React.FC = () => {
   // }
 
   const handleLogin = () => {
-    // 로그인 처리를 수행하는 함수
-    window.location.href = `${API_URL}/auth/google`;
+    API.loginGoogle();   
   };
 
   return (
