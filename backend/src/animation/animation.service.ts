@@ -51,7 +51,7 @@ export class AnimationService {
   }
 
 
-  async recommendSimilarAnimation(id: number): Promise<Animation[]> {
+  async similarAnimation(id: number): Promise<Animation[]> {
     const animation = await this.prisma.animation.findUnique({
       where: { id: id },
       include: {

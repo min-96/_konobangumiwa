@@ -35,7 +35,7 @@ export class AnimationResolver {
 
     @Query(()=> [Animation])
     async similarAnimation(@Args('id', { type: () => Int}) id : number) : Promise<Animation[]> {
-        return this.animationService.recommendSimilarAnimation(id);
+        return this.animationService.similarAnimation(id);
     }
 
 }

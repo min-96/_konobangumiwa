@@ -71,6 +71,8 @@ type Query {
   wishYN(animationId: Float!): Boolean!
   settingAnalyzer: String!
   indexAnimation: String!
+  userBasedGenre: [Animation!]!
+  userBasedTag: [Animation!]!
 }
 
 type Mutation {
