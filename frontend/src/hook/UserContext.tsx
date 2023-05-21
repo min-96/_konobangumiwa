@@ -21,7 +21,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const fetchedUser = await API.getUserData(); // API 함수 호출
+        const fetchedUser = await API.getMyData(); // API 함수 호출
         setUser(fetchedUser);
       } catch (error: any) {
         showError('User Fetch Error', error.message); // 에러 처리

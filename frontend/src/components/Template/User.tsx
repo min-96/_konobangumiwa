@@ -1,25 +1,33 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { movies } from "../../dummy/dummy_data";
-import ReviewList from "../Organism/ReviewList";
-import MovieList from "../Organism/MovieList";
 import Profile from "../Organism/Profile";
 import UserMovieList from "../Organism/UserMovieList";
+import { User as UserType } from "../../types/movie"
+import * as API from "../../API/User";
 
 interface PageProps {
 };
 
 const User: FC<PageProps> = ({ }) => {
   const { userId } = useParams();
+  const [ targetUser, setTargetUser] = useState<UserType | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    async function fetchUser() {
+      const fetchedUser = await API.getMyData();
+      setTargetUser(fetchedUser);
+    }
+    fetchUser();
   }, [userId]);
+
+  if (!targetUser || !userId)
+    return null;
 
   return (
     <div className="w-full flex flex-col items-center">
-      <Profile frameClassName="mt-6 shadow-border rounded-lg" nickname={"철수"}/>
-      <UserMovieList frameClassName="mt-6 shadow-border rounded-lg"/>
+      <Profile frameClassName="mt-6 shadow-border rounded-lg" targetUser={targetUser}/>
+      <UserMovieList frameClassName="mt-6 shadow-border rounded-lg" userId={Number.parseInt(userId, 10)}/>
     </div>
   );
 };

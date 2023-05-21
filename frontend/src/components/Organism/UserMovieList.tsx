@@ -5,9 +5,10 @@ import MovieCard from '../Molecule/Home/MovieCard';
 
 interface UserMovieListProps {
   frameClassName: string;
+  userId: number;
 }
 
-const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName}) => {
+const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) => {
   const [selectedMenu, setSelectedMenu] = useState('평가함');
 
   // 가상의 데이터 예시

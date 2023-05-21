@@ -8,6 +8,7 @@ interface EditableTextareaProps {
   align: 'center' | 'left' | 'right';
   maxChars: number;
   inputHeight: string;
+  isEditable: boolean;
 }
 
 const EditableTextarea: React.FC<EditableTextareaProps> = ({
@@ -16,7 +17,8 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
   deleteProcess,
   align,
   maxChars,
-  inputHeight
+  inputHeight,
+  isEditable
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(initContent || "");
@@ -39,6 +41,7 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
 
   function handleDelete() {
     deleteProcess();
+    setContent('');
   }
 
   function handleEdit() {
@@ -71,7 +74,7 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
           </>
         ) : (
           content === "" ? <div className={`m-4 text-${align}`}>작성한 글이 없습니다</div> :
-          <p className={`p-1 text-${align} max-h-${inputHeight}`} dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>') }} />
+          <p className={`m-4 text-${align} max-h-${inputHeight}`} dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>') }} />
         )}
       </div>
       <hr className="mt-2 mb-2" />
@@ -80,31 +83,34 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
           <FaHeart className="text-red-500 mr-1" />
           <p>0</p>
         </div>
-        <div>
-          {isEditing ? (
-            <button
-              className="bg-blue-500 text-white rounded px-2 py-1"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-          ) : (
-            <>
+        {
+          isEditable &&
+          <div>
+            {isEditing ? (
               <button
-                className="bg-yellow-500 text-white rounded px-2 py-1 mr-2"
-                onClick={handleEdit}
+                className="bg-blue-500 text-white rounded px-2 py-1"
+                onClick={handleSave}
               >
-                Edit
+                Save
               </button>
-              <button
-                className="bg-red-500 text-white rounded px-2 py-1"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-            </>
-          )}
-        </div>
+            ) : (
+              <>
+                <button
+                  className="bg-yellow-500 text-white rounded px-2 py-1 mr-2"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-red-500 text-white rounded px-2 py-1"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </>
+            )}
+          </div>
+        }
       </div>
     </div>
   );
