@@ -4,6 +4,7 @@ import ReviewField from '../Molecule/Detail/ReviewField';
 import CardFrame from '../Template/CardFrame';
 import MovieThumbnail from '../Atom/MovieThumbnail';
 import { FaStar } from 'react-icons/fa'
+import { useUser } from '../../hook/UserContext';
 
 interface DetailHeaderProps {
   movie: MovieDetail;
@@ -11,6 +12,7 @@ interface DetailHeaderProps {
 
 const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
   const crops = movie.crops_ratio.split(',');
+  const { user } = useUser();
 
   return (
     <>
@@ -52,7 +54,10 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
                 </p>
               </div>
             </div>
-            <ReviewField/>
+            {
+              user ? <ReviewField/>
+              : <p className="h-[80px] text-center p-4 text-lg text-blue-700">평가는 로그인이 필요합니다.</p>
+            }
           </div>
         </CardFrame>
       </div>

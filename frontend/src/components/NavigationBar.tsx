@@ -80,7 +80,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
         </div>
       </div>
       <div className={`navbar-item`}>
-        <SearchInput />
+        <SearchInput isTransparent={isTransparent} />
       </div>
       <div className={`navbar-item`}>
         {user ? (
