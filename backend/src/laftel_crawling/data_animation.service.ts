@@ -3,6 +3,8 @@ import { PrismaService } from "prisma/prisma.service";
 import axios from 'axios';
 import { CrawlingTagTypeService } from "./data_tagType.servie";
 import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service";
+import { CrawlingReviewService } from "./data_review.service";
+import { Animation } from "@prisma/client";
 
 interface AnimationData {
   id: number;
@@ -20,7 +22,8 @@ interface AnimationData {
 
 @Injectable()
 export class CrawlongAnimationService {
-  constructor(private prisma: PrismaService, private typeSerive: CrawlingTagTypeService, private myElasticSearchService : MyElasticSearchService) { }
+  constructor(private prisma: PrismaService, private typeSerive: CrawlingTagTypeService, private myElasticSearchService: MyElasticSearchService
+    , private crawlingReviewService: CrawlingReviewService) { }
 
   async fetchData(response): Promise<any> {
 
@@ -38,10 +41,14 @@ export class CrawlongAnimationService {
     try {
       const promises = data.map((id) => this.processItem(id));
       const data_res = await Promise.all(promises);
-      await this.createAnimation(data_res);
+      const resultAni = await this.createAnimation(data_res);
+      console.log(data);
+      for (let i = 0; i < data.length ;i++)
+        await this.crawlingReviewService.createReview(resultAni[i], data[i]);
+
     } catch (error) {
       throw new Error(
-        "애니메이션 저장시 오류"
+        error
       )
     }
 
@@ -53,12 +60,13 @@ export class CrawlongAnimationService {
       headers: { laftel: 'TeJava' },
     });
 
+    const imgIdx = response.data.images.length > 1 ? 1 : 0;
     return {
       id: response.data.id,
       title: response.data.name,
       thumbnail: response.data.img,
-      backgroundImg: response.data.images[1].img_url,
-      crops_ratio: response.data.images[1].crop_ratio,
+      backgroundImg: response.data.images[imgIdx].img_url,
+      crops_ratio: response.data.images[imgIdx].crop_ratio,
       introduction: response.data.content,
       genreList: response.data.genres,
       tagList: response.data.tags,
@@ -67,13 +75,14 @@ export class CrawlongAnimationService {
     };
   }
 
-  async createAnimation(animationDataList: AnimationData[]): Promise<void> {
+  async createAnimation(animationDataList: AnimationData[]): Promise<Animation[]> {
+    const animations: Animation[] = [];
+
     for (const animationData of animationDataList) {
-      const { title, thumbnail, backgroundImg, crops_ratio, introduction, genreList, tagList, author, release } = animationData;
+      const { id, title, thumbnail, backgroundImg, crops_ratio, introduction, genreList, tagList, author, release } = animationData;
 
-
-      await this.prisma.$transaction(async (prisma) => {
-        const animation = await prisma.animation.create({
+      const animation = await this.prisma.$transaction(async (prisma) => {
+        const animation: Animation = await prisma.animation.create({
           data: {
             title,
             thumbnail,
@@ -96,14 +105,16 @@ export class CrawlongAnimationService {
         });
         await Promise.all(genrePromises);
 
-        
-          await this.typeSerive.createTagType(tagList);
-          await this.typeSerive.createTag(animation.id, tagList,prisma); 
-          
-          await this.myElasticSearchService.indexAnimation(animation);
-    
+
+        await this.typeSerive.createTagType(tagList);
+        await this.typeSerive.createTag(animation.id, tagList, prisma);
+        await this.myElasticSearchService.indexAnimation(animation);
+        return animation;
+
       });
+      animations.push(animation);
     }
+    return animations;
   }
 }
 

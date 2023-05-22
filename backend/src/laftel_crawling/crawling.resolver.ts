@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { PrismaService } from 'prisma/prisma.service';
 import { CrawlingService } from './crawling.service';
 import { UseGuards } from '@nestjs/common';
@@ -10,9 +10,10 @@ export class CrawlingResolver {
   constructor(private prisma: PrismaService, private crawlingService: CrawlingService) {}
 
   @Query(()=> String)
-  @UseGuards(AdminGuard)
-  async crawling_test(): Promise<string> {
-    return this.crawlingService.fetchData();
+  async crawling_test(@Args('offset',{type: ()=> Int})offset: number,
+  @Args('size',{type : ()=> Int}) size: number,
+  ): Promise<string> {
+    return this.crawlingService.fetchData(offset,size);
   }
   
 }

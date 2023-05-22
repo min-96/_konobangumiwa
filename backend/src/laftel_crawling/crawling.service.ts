@@ -9,10 +9,10 @@ import { CrawlongAnimationService } from "./data_animation.service";
 export class CrawlingService{
     constructor(private prisma: PrismaService, private genreTypeService: CrawlingGenreTypeService,private animationService: CrawlongAnimationService) {} 
 
-    async fetchData() : Promise<string> {
+    async fetchData(offset: number, size: number) : Promise<string> {
 
 
-        const response = await axios.get('https://laftel.net/api/search/v1/discover/?sort=rank&viewable=true&offset=36&size=40', {headers: { 'laftel': 'TeJava' }});
+        const response = await axios.get(`https://laftel.net/api/search/v1/discover/?sort=rank&viewable=true&offset=${offset}&size=${size}`, {headers: { 'laftel': 'TeJava' }});
         
 
 
@@ -24,4 +24,6 @@ export class CrawlingService{
         
         //https://laftel.net/api/items/v2/16075/ <- id
     }
+
+
 }
