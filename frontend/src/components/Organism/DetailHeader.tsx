@@ -2,31 +2,57 @@ import React, { useEffect, useState } from 'react';
 import { MovieDetail } from '../../types/movie';
 import ReviewField from '../Molecule/Detail/ReviewField';
 import CardFrame from '../Template/CardFrame';
+import MovieThumbnail from '../Atom/MovieThumbnail';
+import { FaStar } from 'react-icons/fa'
 
 interface DetailHeaderProps {
   movie: MovieDetail;
 }
 
 const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
+  const crops = movie.crops_ratio.split(',');
+
   return (
     <>
       <div
         className="w-full h-80 bg-cover relative"
         style={{
           backgroundImage: `url(${movie.backgroundImg})`,
-          // backgroundPositionX: `${0}px`,
-          // backgroundPositionY: `${-326}px`
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPositionY: `-${crops[1]}px`
         }}
       >
         <CardFrame className="flex absolute bottom-0 translate-y-3/4 left-1/2 -translate-x-1/2">
-          <img src={movie.thumbnail} alt={movie.title} className="w-40 shadow-border"/>
-          <div className="ml-10 text-left w-full">
-            <h2 className="mt-16 text-2xl font-bold mb-2">
+          <div style={{width: '160px'}}>
+            <MovieThumbnail src={movie.thumbnail} alt={movie.title} />
+          </div>
+          <div className="ml-10 text-left">
+            <h2 className="mt-16 pt-2 text-2xl font-bold mb-2">
               {movie.title}
             </h2>
-            <p className="mb-2">releaseDate</p>
-            <p className="mb-2">평균점수</p>
-            <ReviewField />
+            <div className="flex">
+              <div className="w-[200px]">
+                <p className="mb-1"><strong className="mr-2">출시</strong>{movie.release.split('|')[0]}</p>
+                <p className="flex items-center">
+                {
+                  movie.reviewCount ?
+                  <>
+                    <strong className="mr-2">평균</strong>
+                    <FaStar className="text-yellow-500 w-4 h-4 mr-1" />
+                    {movie.grade / movie.reviewCount} ({movie.reviewCount > 999 ? '999+' : movie.reviewCount})
+                  </>
+                  : <p>평가없음</p>
+                }
+                </p>
+              </div>
+              <div>
+                <p className="mb-1"><strong className="mr-2">장르</strong>
+                  {movie.genreList.map((ele: any)=>ele.genretypeId).join(", ")}
+                </p>
+              </div>
+            </div>
+            <ReviewField/>
           </div>
         </CardFrame>
       </div>

@@ -14,7 +14,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, width }) => {
   return (
     <div className="movie-card" style={{ width: width ? width : '200px' }}>
       <Link to={`/contents/${movie.id}`}>
-        <MovieThumbnail src={movie.thumbnail} alt={movie.title} />
+        <MovieThumbnail src={movie.thumbnail} alt={movie.title}/>
         <div className="movie-preview">
           <h4>{movie.title}</h4>
           {

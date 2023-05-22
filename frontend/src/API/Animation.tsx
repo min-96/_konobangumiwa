@@ -47,3 +47,43 @@ export const getMovies = async ({queryName} : {queryName : string}) => {
 //     }
 //   }
 // }
+
+export const getMovieDetail = async ({movieId} : {movieId: number}) => {
+  try {
+    const response = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            detailAnimation(id: ${movieId}) {
+              id   
+              title
+              release
+              introduction
+              thumbnail
+              backgroundImg
+              crops_ratio
+              grade
+              author
+              reviewCount
+              genreList {
+                genretypeId
+              }
+            }
+          }
+        `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result.data.detailAnimation;
+
+  } catch (error: any) {
+    throw error;
+  }
+}
