@@ -45,12 +45,12 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
         <div className="flex flex-wrap">
           {selectedMenu === '평가함' &&
             ratedMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} width="100px"/>
+              <MovieCard key={movie.id} movie={{...movie, grade: 10, reviewCount: 20, release: 'test', id:Number.parseInt(movie.id) }} width="100px"/>
             ))}
 
           {selectedMenu === '보고싶어요' &&
             wishlistMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard key={movie.id} movie={{...movie, grade: 10, reviewCount: 20, release: 'test', id:Number.parseInt(movie.id) }} />
             ))}
         </div>
       </div>

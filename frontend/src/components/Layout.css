@@ -81,3 +81,19 @@
 .profile-menubtn {
   @apply flex w-full h-full items-center block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-primary hover:text-white;
 }
+
+.thumbnail-container {
+  position: relative;
+  padding-top: 150%; /* 2:3 비율 */
+  overflow: hidden;
+}
+
+.thumbnail-container img {
+  @apply rounded-sm border;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

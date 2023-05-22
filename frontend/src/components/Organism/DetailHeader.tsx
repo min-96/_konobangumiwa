@@ -13,9 +13,9 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
       <div
         className="w-full h-80 bg-cover relative"
         style={{
-          backgroundImage: `url(${movie.detailImage})`,
-          backgroundPositionX: `${0}px`,
-          backgroundPositionY: `${-326}px`
+          backgroundImage: `url(${movie.backgroundImg})`,
+          // backgroundPositionX: `${0}px`,
+          // backgroundPositionY: `${-326}px`
         }}
       >
         <CardFrame className="flex absolute bottom-0 translate-y-3/4 left-1/2 -translate-x-1/2">

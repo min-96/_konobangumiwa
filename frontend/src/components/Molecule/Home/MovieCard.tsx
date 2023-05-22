@@ -1,9 +1,9 @@
 import React from 'react';
-import MovieThumbnail from '../../Atom/MovieThumbnail';
 import './MovieCard.css';
 import { Movie } from '../../../types/movie';
 import { Link } from 'react-router-dom';
-import MoviePreview from '../../Atom/MoviePreview';
+import MovieThumbnail from '../../Atom/MovieThumbnail';
+import { FaStar } from 'react-icons/fa';
 
 interface MovieCardProps {
   movie: Movie,
@@ -12,12 +12,22 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, width }) => {
   return (
-    <Link to={`/contents/${movie.id}`}>
-      <div className="movie-card shadow-border" style={{ width: width ? width : '200px' }}>
-        <MovieThumbnail imageUrl={movie.thumbnail} altText={movie.title} />
-        <MoviePreview title={movie.title} rating={movie.rating} />
-      </div>
-    </Link>
+    <div className="movie-card" style={{ width: width ? width : '200px' }}>
+      <Link to={`/contents/${movie.id}`}>
+        <MovieThumbnail src={movie.thumbnail} alt={movie.title} />
+        <div className="movie-preview">
+          <h4>{movie.title}</h4>
+          {
+            movie.reviewCount ?
+            <p className="flex items-center">
+              <FaStar className="text-yellow-500 w-4 h-4 mr-1" />
+              {movie.grade / movie.reviewCount} ({movie.reviewCount > 999 ? '999+' : movie.reviewCount})
+            </p>
+            : <p>평가없음</p>
+          }
+        </div>
+      </Link>
+    </div>
   );
 };
 
