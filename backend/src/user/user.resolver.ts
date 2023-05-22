@@ -37,8 +37,10 @@ export class UserResolver {
     return this.userService.deleteUser(user.id);
   }
 
-  // @Query(()=> String)
-  // async test(): Promise<String> {
-  //     return this.crawling.fetchData();
-  // }
+  @Mutation(()=> String)
+  async createUserTest() : Promise<string> {
+    return this.userService.createUserTest();
+  }
+
+
 }
