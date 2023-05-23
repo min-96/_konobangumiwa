@@ -48,7 +48,7 @@ const RatingButton: React.FC<RatingButtonProps> = () => {
         </button>
       </div>
       <div className="flex items-center">
-        <button onClick={handleCommentClick} className="flex items-center text-black mr-2 transition-all duration-300 hover:scale-110">
+        <button onClick={handleCommentClick} className="flex items-center text-black transition-all duration-300 hover:scale-110">
           <FaPen className="h-4 w-4 mr-2"/>
           {
             comment ? 

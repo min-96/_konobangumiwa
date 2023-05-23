@@ -9,9 +9,10 @@ import { Review } from '../../types/movie';
 interface ReviewListProps {
   frameClassName: string;
   title: string;
+  movieId: number;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
+const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title, movieId}) => {
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 

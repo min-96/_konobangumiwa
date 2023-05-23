@@ -4,14 +4,15 @@ import { createPortal } from "react-dom";
 interface PageProps {
   children: ReactNode;
   handleModalClose: ()=>void;
+  frameClassName?: string;
 };
 
-const ModalFrame: FC<PageProps> = ({children, handleModalClose}) => {
+const ModalFrame: FC<PageProps> = ({children, handleModalClose, frameClassName}) => {
   return createPortal(
     <div className="modal-overlay" onClick={handleModalClose}>
       {/* modal-overlay영역을 클릭할땐 모달이 닫히고, modal을 클릭했을땐 닫히지 않도록함 */}
       <div
-        className="modal"
+        className={`modal ${frameClassName}`}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => { e.stopPropagation(); }}
       >
         {

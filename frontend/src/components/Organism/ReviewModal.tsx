@@ -39,6 +39,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
           deleteProcess={()=>{handleClose()}}
           align="left"
           maxChars={1000}
+          isEditable={true}
         />
       </div>
     </ModalFrame>

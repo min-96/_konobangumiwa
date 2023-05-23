@@ -4,11 +4,14 @@ import { FaUser } from 'react-icons/fa';
 import ModalFrame from '../../Template/ModalFrame';
 
 interface ProfileImageProps {
+  initImage: string
+  saveProcess: (content: string) => void;
+  isEditable: boolean;
 }
 
-const ProfileImage: React.FC<ProfileImageProps> = ({ }) => {
+const ProfileImage: React.FC<ProfileImageProps> = ({ initImage, saveProcess, isEditable }) => {
   const [showModal, setShowModal] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>(initImage);
   const [tempImageUrl, setTempImageUrl] = useState(imageUrl);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +30,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ }) => {
       imageExists(tempImageUrl, exists => {
         if (exists) {
           setImageUrl(tempImageUrl);
+          saveProcess(tempImageUrl);
           setShowModal(false);
         } else {
           alert('이미지 URL이 유효하지 않습니다. 다른 URL을 입력해주세요.');
@@ -48,12 +52,15 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ }) => {
             :
             <FaUser className="h-full w-full rounded-full bg-blue-200 text-gray-600 mr-2 p-1" />
         }
-        <button
-          className="absolute bottom-3 right-3 bg-white rounded-full"
-          onClick={() => setShowModal(true)}
-        >
-          <MdCameraAlt className="bg-gray-300 rounded-full p-1 h-8 w-8" />
-        </button>
+        {
+          isEditable &&
+          <button
+            className="absolute bottom-3 right-3 bg-white rounded-full"
+            onClick={() => setShowModal(true)}
+          >
+            <MdCameraAlt className="bg-gray-300 rounded-full p-1 h-8 w-8" />
+          </button>
+        }
       </div>
       {showModal && (
         <ModalFrame handleModalClose={() => setShowModal(false)}>
