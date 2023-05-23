@@ -42,7 +42,7 @@ export class UserResolver {
     return this.userService.otherUser(id);
   }
 
-  @Mutation(()=> String)
+  @Query(()=> String)
   async createUserTest(@Args('offset') offset: number, @Args('size') size : number) : Promise<string> {
     return this.userService.createUserTest(offset, size);
   }
