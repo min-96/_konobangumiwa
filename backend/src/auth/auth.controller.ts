@@ -22,11 +22,12 @@ export class AuthController {
     req.session["passport"] = {
       user: req.user,
     };
-    res.status(200).send('login Success');
+    res.redirect('/');
+    //res.status(200).send('login Success');
   }catch(error){
-    res.status(401).send({ error: 'login fail' });
+    res.redirect('/');
+   // res.status(401).send({ error: 'login fail' });
   }
-   // TODO : 추후 main 으로 redirect
   }
 
   @Get()
