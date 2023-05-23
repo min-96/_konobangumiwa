@@ -9,6 +9,7 @@ import { CrawlingTagTypeService } from './data_tagType.servie';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { MyElasticSearchService } from 'src/elasticSearch/elasticSearch.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CrawlingReviewService } from './data_review.service';
 
 
 @Module({
@@ -22,6 +23,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
 
  ],
-  providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,CrawlongAnimationService,CrawlingTagTypeService, MyElasticSearchService],
+  providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,CrawlongAnimationService
+    ,CrawlingTagTypeService, MyElasticSearchService,CrawlingReviewService],
 })
 export class CrawlingModule {}

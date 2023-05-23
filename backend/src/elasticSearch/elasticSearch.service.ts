@@ -65,7 +65,7 @@ export class MyElasticSearchService {
   async settingAnalyzer(): Promise<string> {
     try {
 
-      await this.deleteIndex('animations');
+     // await this.deleteIndex('animations');
       await this.createIndex('animations');
       await this.elasticsearchService.indices.close({ index: 'animations' });
 
@@ -82,8 +82,8 @@ export class MyElasticSearchService {
             tokenizer: {
               ngram_tokenizer: {
                 type: 'ngram',
-                min_gram: 2,
-                max_gram: 3,
+                min_gram: 1,
+                max_gram: 2,
               },
             },
           },

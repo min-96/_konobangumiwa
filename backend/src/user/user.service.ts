@@ -61,4 +61,38 @@ export class UserService {
     }
   }
 
+  async otherUser(id: number) : Promise<User | null> {
+
+    const otherUser = await this.prisma.user.findUnique({where : { id }});
+
+    if(!otherUser){
+      throw new NotFoundException(`해당하는 ${id} 가 없습니다.`);
+    }
+
+    return otherUser;
+  }
+
+async  createUserTest() : Promise<string> {
+  try {
+    for (let i = 61; i <= 200; i++) {
+      const user = {
+        googleId: `googleId${i}`,
+        email: `email${i}@example.com`,
+        displayName: `User ${i}`,
+      };
+
+      await this.prisma.user.create({ data: user });
+    }
+
+    console.log('Users created and committed successfully.');
+    return null;
+  } catch (error) {
+    console.error('Error creating users:', error);
+  } finally {
+    await this.prisma.$disconnect();
+  }
+}
+
+
+
 }

@@ -35,7 +35,7 @@ export class SearchService {
       index: 'animations',
       body: {
         query: {
-          match: {
+          match_phrase: {
             decomposedTitle: decomposedTitle
           }
         },
