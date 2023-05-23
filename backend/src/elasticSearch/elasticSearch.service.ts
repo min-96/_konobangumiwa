@@ -82,8 +82,8 @@ export class MyElasticSearchService {
             tokenizer: {
               ngram_tokenizer: {
                 type: 'ngram',
-                min_gram: 2,
-                max_gram: 3,
+                min_gram: 1,
+                max_gram: 2,
               },
             },
           },
