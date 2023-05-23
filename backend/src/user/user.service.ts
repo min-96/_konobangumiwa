@@ -61,6 +61,16 @@ export class UserService {
     }
   }
 
+  async otherUser(id: number) : Promise<User | null> {
+
+    const otherUser = await this.prisma.user.findUnique({where : { id }});
+
+    if(!otherUser){
+      throw new NotFoundException(`해당하는 ${id} 가 없습니다.`);
+    }
+
+    return otherUser;
+  }
 
 async  createUserTest() : Promise<string> {
   try {

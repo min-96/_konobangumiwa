@@ -57,6 +57,7 @@ type Query {
   hello: String!
   users: [User!]!
   userRead: User
+  otherUser(id: Float!): User!
   crawling_test(offset: Int!, size: Int!): String!
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
