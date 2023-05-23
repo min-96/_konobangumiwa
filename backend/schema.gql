@@ -58,7 +58,7 @@ type Query {
   users: [User!]!
   userRead: User
   otherUser(id: Float!): User!
-  crawling_test(offset: Int!, size: Int!): String!
+  crawling_test(offset: Int!, size: Int!, userSize: Int!): String!
   aniType(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
@@ -79,7 +79,7 @@ type Query {
 type Mutation {
   updateUser(input: UpdateUserInput!): User!
   deleteUser: User!
-  createUserTest: String!
+  createUserTest(offset: Float!, size: Float!): String!
   createReview(input: CreateInputReview!): Review!
   updateReview(input: UpdateInputReview!): Review!
   deleteReview(id: Int!): Review!

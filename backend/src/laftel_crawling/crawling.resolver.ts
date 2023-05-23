@@ -11,9 +11,10 @@ export class CrawlingResolver {
 
   @Query(()=> String)
   async crawling_test(@Args('offset',{type: ()=> Int})offset: number,
-  @Args('size',{type : ()=> Int}) size: number,
+  @Args('size',{type : ()=> Int})size: number,
+  @Args('userSize', {type: ()=> Int}) userSize: number,
   ): Promise<string> {
-    return this.crawlingService.fetchData(offset,size);
+    return this.crawlingService.fetchData(offset,size,userSize);
   }
   
 }
