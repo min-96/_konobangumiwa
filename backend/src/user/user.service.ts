@@ -81,18 +81,11 @@ async  createUserTest(offset:number, size: number) : Promise<string> {
         displayName: `User ${i}`,
       };
 
-      await this.prisma.user.create({ data: user });
+       await this.prisma.user.create({ data: user });
     }
-
-    console.log('Users created and committed successfully.');
-    return null;
+    return 'OK';
   } catch (error) {
     console.error('Error creating users:', error);
-  } finally {
-    await this.prisma.$disconnect();
   }
 }
-
-
-
 }
