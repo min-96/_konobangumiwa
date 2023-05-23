@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client";
 export class CrawlingReviewService {
     constructor(private prisma: PrismaService) { }
 
-    async createReview(animation, animationDataId: { id: number }): Promise<void> {
+    async createReview(animation, animationDataId: { id: number }, userSize: number): Promise<void> {
       
         const url = `https://laftel.net/api/reviews/v2/list/?item_id=${animationDataId.id}&sorting=created&limit=20`;
 
@@ -16,12 +16,11 @@ export class CrawlingReviewService {
         const reviews = response.data.results;
         const UserNum = [];
 
-        for (let i = 1; i < 201; i++) {
+        for (let i = 1; i < userSize; i++) {
             UserNum.push(i);
         };
         const RandUserNum = UserNum.slice().sort(() => Math.random() - 0.5);
         for (const reviewaaa of reviews) {
-            console.log(reviewaaa)
             const numid = RandUserNum.pop();
             await this.transactionReviewCreate(reviewaaa, animation, numid);
         }

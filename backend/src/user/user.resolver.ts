@@ -43,8 +43,8 @@ export class UserResolver {
   }
 
   @Mutation(()=> String)
-  async createUserTest() : Promise<string> {
-    return this.userService.createUserTest();
+  async createUserTest(@Args('offset') offset: number, @Args('size') size : number) : Promise<string> {
+    return this.userService.createUserTest(offset, size);
   }
 
 
