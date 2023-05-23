@@ -72,9 +72,9 @@ export class UserService {
     return otherUser;
   }
 
-async  createUserTest() : Promise<string> {
+async  createUserTest(offset:number, size: number) : Promise<string> {
   try {
-    for (let i = 61; i <= 200; i++) {
+    for (let i = offset; i <= size; i++) {
       const user = {
         googleId: `googleId${i}`,
         email: `email${i}@example.com`,

@@ -25,7 +25,7 @@ export class CrawlongAnimationService {
   constructor(private prisma: PrismaService, private typeSerive: CrawlingTagTypeService, private myElasticSearchService: MyElasticSearchService
     , private crawlingReviewService: CrawlingReviewService) { }
 
-  async fetchData(response): Promise<any> {
+  async fetchData(response, userSize: number): Promise<any> {
 
     const data = response.data.results.map((item) => {
       return {
@@ -33,18 +33,17 @@ export class CrawlongAnimationService {
       };
     });
 
-    await this.processAllItems(data);
+    await this.processAllItems(data,userSize);
     return "OK";
   }
 
-  async processAllItems(data): Promise<void> {
+  async processAllItems(data,userSize): Promise<void> {
     try {
       const promises = data.map((id) => this.processItem(id));
       const data_res = await Promise.all(promises);
       const resultAni = await this.createAnimation(data_res);
-      console.log(data);
       for (let i = 0; i < data.length ;i++)
-        await this.crawlingReviewService.createReview(resultAni[i], data[i]);
+        await this.crawlingReviewService.createReview(resultAni[i], data[i], userSize);
 
     } catch (error) {
       throw new Error(
