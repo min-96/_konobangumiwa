@@ -17,10 +17,9 @@ const Home: FC<PageProps> = ({}) => {
 
   return (
     <div className="home-page">
-      <MovieList title="박스오피스 순위" movies={shuffleAndSlice(movies,0, 9)} fontSize="2xl" />
-      <MovieList title="이번주 Top10" movies={shuffleAndSlice(movies, 2, 5)} fontSize="2xl" />
-      <MovieList title="이번달 Top10" movies={shuffleAndSlice(movies, 0, 6)} fontSize="2xl" />
-      <MovieList title="올해 Top10" movies={shuffleAndSlice(movies, 2, 3)} fontSize="2xl" />
+      <MovieList title="인기순" fontSize="2xl" queryName="popularityAnimations"/>
+      <MovieList title="최신순" fontSize="2xl" queryName="newAnimations" />
+      <MovieList title="전체" fontSize="2xl" queryName="allAnimations" />
     </div>
   );
 };

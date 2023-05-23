@@ -1,38 +1,54 @@
 import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
+import SearchedList from './SearchedList';
+import { Movie } from '../../../types/movie';
+import * as API from '../../../API/Animation';
+import { useError } from '../../../hook/ErrorContext';
 
 interface SearchInputProps {
-  // SearchInput 컴포넌트에 필요한 프롭스를 정의해주세요.
-  // 예: onSearch: (query: string) => void;
+  isTransparent: boolean
 }
 
-const SearchInput: React.FC<SearchInputProps> = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // 검색어를 얻고 처리하는 로직을 구현해주세요.
-  };
+const SearchInput: React.FC<SearchInputProps> = ({isTransparent}) => {
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { showError } = useError();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const text = e.target.value;
+    setSearchText(text);
+    setIsOpen(text.length > 0);
+    async function searchAnimations() {
+      try {
+        const res = await API.searchTitle({title: text});
+        setSearchResults(res);
+      } catch (error : any) {
+        showError('Search Error', error.message);
+      }
+    }
+    searchAnimations();
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex">
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="컨텐츠를 검색해보세요"
-          value={searchTerm}
-          onChange={handleChange}
-          className="pl-8 pr-2 py-1 border border-gray-300 rounded text-gray-700 w-72"
-        />
-        <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-          <FiSearch className="text-gray-400" />
-        </div>
+    <div className="flex-col relative w-72">
+      <input
+        type="text"
+        placeholder="컨텐츠를 검색해보세요"
+        value={searchText}
+        onChange={handleChange}
+        onKeyDown={(event)=>{ if (event.key === 'enter') console.log();}}
+        className={`pl-8 pr-2 py-1 border border-gray-700 rounded text-white w-full focus:outline-none
+                    ${isTransparent ? 'bg-transparent text-border' : 'bg-primary'}`}
+        onFocus={()=>{setIsOpen(searchText.length > 0)}}
+      />
+      <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+        <FiSearch className={`text-white ${isTransparent && 'text-border'}`} />
       </div>
-    </form>
+      { isOpen &&
+        <SearchedList searchResults={searchResults} handleClose={()=>{setIsOpen(false)}}/>
+      }
+    </div>
   );
 };
 

@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface EditableInputProps {
   initContent: string;
+  saveProcess: (content: string) => void;
+  isEditable: boolean;
 }
 
-const EditableInput: React.FC<EditableInputProps> = ({ initContent }) => {
+const EditableInput: React.FC<EditableInputProps> = ({ initContent, saveProcess, isEditable }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(initContent);
   const [isInputValid, setIsInputValid] = useState(true);
@@ -21,6 +23,7 @@ const EditableInput: React.FC<EditableInputProps> = ({ initContent }) => {
 
   const handleSave = () => {
     if (value.length > 0) {
+      saveProcess(value);
       setIsEditing(false);
     } else {
       setIsInputValid(false);
@@ -53,9 +56,12 @@ const EditableInput: React.FC<EditableInputProps> = ({ initContent }) => {
           )}
         </div>
       ) : (
-        <div onClick={handleToggleEditing} className="text-center">
+        <div onClick={isEditable ? handleToggleEditing : ()=>{}} className="text-center">
           <p className="text-xl font-bold">{value}</p>
-          <small className="text-gray-500"> (클릭하면 수정이 가능합니다)</small>
+          {
+            isEditable &&
+            <small className="text-gray-500"> (클릭하면 수정이 가능합니다)</small>
+          }
         </div>
       )}
     </div>

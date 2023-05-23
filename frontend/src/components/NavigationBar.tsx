@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
 import SearchInput from './Molecule/Home/SearchInput';
 import LoginModal from './Organism/LoginModal';
+import { useUser } from '../hook/UserContext';
+import NavbarProfile from './Molecule/Home/NavbarProfile';
+import { useError } from '../hook/ErrorContext';
 
 type ModalType = 'sign in' | 'sign up' | 'none';
 
@@ -13,6 +16,13 @@ interface NavigationBarProps {
 const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) => {
   const [isTransparent, setIsTransparent] = useState<boolean>(false);
   const [modalType, setModalType] = useState<ModalType>('none');
+  const { user } = useUser();
+
+  const { showError } = useError();
+
+  function testError() {
+    showError('test', 'testmessage', 5000);
+  }
 
   useEffect(() => {
     setIsTransparent(isWithoutPaddingContent);
@@ -52,29 +62,34 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
           </Link>
         </div>
         <div className={`navbar-item`}>
-          <div className={`p-1 ${domain === 'animation' ? 'font-bold' : ''}`}>
+          <div className={`p-1 text-border ${domain === 'animation' ? 'font-bold' : ''}`}>
             <Link to="/?domain=animation" className="hover:underline">
               애니메이션
             </Link>
           </div>
 
-          <div className={`p-1 ${domain === 'webtoon' ? 'font-bold' : ''}`}>
+          <div className={`p-1 text-border ${domain === 'webtoon' ? 'font-bold' : ''}`}>
             <Link to="/?domain=webtoon" className="hover:underline">
               웹툰
             </Link>
           </div>
+
+          <div className={`p-1 text-border`} onClick={testError}>
+            에러확인
+          </div>
         </div>
       </div>
       <div className={`navbar-item`}>
-        <SearchInput />
+        <SearchInput isTransparent={isTransparent} />
       </div>
       <div className={`navbar-item`}>
-        <div className="p-2 border rounded-md">
-          <button className="hover:underline" onClick={()=>{handleModalOpen('sign in')}}>
+        {user ? (
+          <NavbarProfile user={user} />
+        ) : (
+          <button className="p-2 border rounded-md hover:underline" onClick={()=>{handleModalOpen('sign in')}}>
             로그인
           </button>
-        </div>
-
+        )}
         {/* 회원가입 기능 제거
         <div className="p-2 border rounded-md">
           <button className="hover:underline" onClick={()=>{handleModalOpen('sign up')}}>
