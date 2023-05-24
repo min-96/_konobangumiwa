@@ -15,8 +15,8 @@ interface AnimationData {
   introduction: string;
   genreList: string[];
   tagList: string[];
-  author: string[];
-  release: string;
+  author?: string[] | null;
+  release?: string |null;
 }
 
 
@@ -42,8 +42,8 @@ export class CrawlongAnimationService {
       const promises = data.map((id) => this.processItem(id));
       const data_res = await Promise.all(promises);
       const resultAni = await this.createAnimation(data_res);
-      for (let i = 0; i < data.length ;i++)
-        await this.crawlingReviewService.createReview(resultAni[i], data[i], userSize);
+      // for (let i = 0; i < data.length ;i++)
+      //   await this.crawlingReviewService.createReview(resultAni[i], data[i], userSize);
 
     } catch (error) {
       throw new Error(
@@ -70,7 +70,7 @@ export class CrawlongAnimationService {
       genreList: response.data.genres,
       tagList: response.data.tags,
       author: response.data.author,
-      release: response.data.air_year_quarter,
+      release: response.data.air_year_quarter ? response.data.air_year_quarter : null,
     };
   }
 

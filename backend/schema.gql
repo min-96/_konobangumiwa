@@ -70,13 +70,15 @@ type Query {
   otherUser(id: Float!): User!
   createUserTest(offset: Float!, size: Float!): String!
   crawling_test(offset: Int!, size: Int!, userSize: Int!): String!
-  aniType(type: String!): [Animation!]!
+  GenreTypeAnimations(type: String!): [Animation!]!
+  tagTypeAnimations(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
+  tagAnimations(type: String!): [Animation!]!
   detailAnimation(id: Int!): Animation!
   similarAnimation(id: Int!): [Animation!]!
   readWishList: [Animation!]!
