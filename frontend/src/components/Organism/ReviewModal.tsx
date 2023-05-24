@@ -1,18 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Review } from '../../types/movie';
+import { Movie, MovieDetail, Review, ReviewUser, User } from '../../types/movie';
 import ModalFrame from '../Template/ModalFrame';
-import { oneMovie } from '../../dummy/dummy_data';
 import ReviewRating from '../Atom/ReviewRating';
 import UserProfileLink from '../Atom/UserProfileLink';
 import EditableTextarea from '../Atom/EditableTextarea';
+import { useEffect, useState } from 'react';
+import { useError } from '../../hook/ErrorContext';
+import * as API_Animation from '../../API/Animation';
+import MovieProfile from '../Atom/MovieProfile';
+import MovieThumbnail from '../Atom/MovieThumbnail';
+import { useUser } from '../../hook/UserContext';
+import * as API_Review from '../../API/Review';
 
 interface ReviewModalProps {
-  review: Review | null;
+  review: Review;
+  setReview: (review: Review) => void;
+  targetUser: User;
+  movie?: MovieDetail;
   handleClose: ()=>void;
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
-  if (!review) return null;
+const ReviewModal: React.FC<ReviewModalProps> = ({review, setReview, targetUser, movie, handleClose}) => {
+  const [movieData, setMovieData] = useState<MovieDetail | undefined>(movie);
+  const { showError } = useError();
+  const { user } = useUser();
+
+  useEffect(()=>{
+    async function fetchMovie() {
+      const ret = await API_Animation.getMovieDetail({movieId: review.animationId});
+      setMovieData(ret);
+    }
+    if (!movie) {
+      try {
+        fetchMovie();
+      }
+      catch (e: any) {
+        showError("fetch Movie Error", e.message);
+      }
+    }
+  }, []);
+
+  if (!review || !movieData || !user) return null;
 
   return (
     <ModalFrame handleModalClose={handleClose}>
@@ -20,26 +47,58 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, handleClose}) => {
         <div className="flex justify-between">
           <div className="flex flex-col">
             <div className="flex items-center">
-              <UserProfileLink userId={review.id} nickname={review.nickname} profileUrl={review.profileUrl} handleClick={handleClose}/>
+              <UserProfileLink userId={review.id} nickname={user.displayName} profileUrl={user.pictureUrl} handleClick={handleClose}/>
               <div className="ml-2">
-                <ReviewRating rating={review.rating} />
+                <ReviewRating rating={review.evaluation} />
               </div>
             </div>
-            <p>{"영화제목"}</p>
-            <p>{"상영날짜"}</p>
-            <p>{"무비정보"}</p>
+            <MovieProfile movie={movieData} width="400px"/>
           </div>
-          <img className="w-16" src={oneMovie.thumbnail} alt={oneMovie.title} />
+          <div style={{width: '80px'}}>
+            <MovieThumbnail src={movieData.thumbnail} alt={movieData.title} />
+          </div>
         </div>
         <hr className="mt-2 mb-2"/>
         <EditableTextarea
           inputHeight="40"
-          initContent={review.content}
-          saveProcess={(content: string)=>{handleClose()}}
-          deleteProcess={()=>{handleClose()}}
+          initContent={review.comment}
+          saveProcess={(content: string)=>{
+            async function updateReview() {
+              const ret = await API_Review.updateAnimationReview({
+                id: review.id,
+                animationId: review.animationId,
+                evaluation: review.evaluation, 
+                comment: content
+              });
+              setReview(ret);
+            }
+            try {
+              updateReview();
+            }
+            catch (error: any) {
+              showError('Save Review Error', error.message);
+            }
+          }}
+          deleteProcess={()=>{
+            async function deleteReview() {
+              const ret = await API_Review.updateAnimationReview({
+                id: review.id,
+                animationId: review.animationId,
+                evaluation: review.evaluation, 
+                comment: ''
+              });
+              setReview(ret);
+            }
+            try {
+              deleteReview();
+            }
+            catch (error: any) {
+              showError('Delete Review Error', error.message);
+            }
+          }}
           align="left"
           maxChars={1000}
-          isEditable={true}
+          isEditable={targetUser.id === user.id}
         />
       </div>
     </ModalFrame>

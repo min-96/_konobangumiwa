@@ -1,14 +1,18 @@
 import React from 'react';
 import CardFrame from '../Template/CardFrame';
 import { MovieDetail } from '../../types/movie';
+import { useMovie } from '../Template/Detail';
 
 interface DetailInfoProps {
   frameClassName: string;
   title: string;
-  movie: MovieDetail;
 }
 
-const DetailInfo: React.FC<DetailInfoProps> = ({frameClassName, title, movie}) => {
+const DetailInfo: React.FC<DetailInfoProps> = ({frameClassName, title}) => {
+  const { movie } = useMovie();
+
+  if (!movie) return null;
+
   return (
     <CardFrame className={frameClassName} title={title}>
       { movie.author && 

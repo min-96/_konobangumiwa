@@ -33,6 +33,39 @@ export const getMyData = async () => {
   }
 }
 
+export const getUserData = async ({id} : {id:number}) => {
+  try {
+    const response = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            otherUser(id: ${id}) {
+              id
+              googleId
+              email
+              displayName
+              introduction
+              pictureUrl
+            }
+          }
+        `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result.data.otherUser;
+
+  } catch (error: any) {
+    throw error;
+  }
+}
+
 export const updateUserData = async ({
   displayName,
   pictureUrl,

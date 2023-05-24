@@ -1,4 +1,4 @@
-import { Review } from "../types/movie";
+import { Review, ReviewUser } from "../types/movie";
 
 export const oneMovie =
     {
@@ -68,67 +68,103 @@ export const movies = [
 ]
 
 
-export const reviews : Review[] = [
+export const reviews : ReviewUser[] = [
   {
     id: 1,
     userId: 5,
-    profileUrl: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
-    nickname: '철수',
-    rating: 4.5,
-    content: '정말 좋아요!',
-    movieId: 1,
+    evaluation: 4.5,
+    comment: '정말 좋아요!',
+    animationId: 1,
+    user: {
+      id: 5,
+      googleId: 'test',
+      email: 'test',
+      displayName: '철수',
+      pictureUrl: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
+      introduction: ''
+    }
   },
+
   {
-    id: 2,
+    id: 1,
     userId: 6,
-    nickname: '영희',
-    rating: 5.0,
-    content: '철수랑 봤는데 재밌어요',
-    movieId: 1,
-  },
+    evaluation: 4,
+    comment: '철수랑 봤는데 재밌어요',
+    animationId: 1,
+    user: {
+      id: 6,
+      googleId: 'test',
+      email: 'test',
+      displayName: '영희',
+      pictureUrl: null,
+      introduction: ''
+    }
+  }, 
+
   {
-    id: 3,
+    id: 1,
     userId: 7,
-    nickname: '바둑이',
-    rating: 4.0,
-    content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요',
-    movieId: 1,
-  },
+    evaluation: 1,
+    comment: '멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍멍',
+    animationId: 1,
+    user: {
+      id: 7,
+      googleId: 'test',
+      email: 'test',
+      displayName: '흰둥이',
+      pictureUrl: null,
+      introduction: ''
+    }
+  }, 
+
   {
-    id: 4,
+    id: 1,
     userId: 8,
-    nickname: '짱구',
-    rating: 4.0,
-    content: '정말재밋',
-    movieId: 1,
-  },
+    evaluation: 5,
+    comment: '철수와 영희가 손잡고봤... 더보기',
+    animationId: 1,
+    user: {
+      id: 8,
+      googleId: 'test',
+      email: 'test',
+      displayName: '훈이',
+      pictureUrl: null,
+      introduction: ''
+    }
+  }, 
+
   {
-    id: 5,
-    userId: 5,
-    profileUrl: 'https://thumbs.dreamstime.com/b/brown-dog-corso-corso-stands-field-green-grass-brown-dog-corso-cors-120197441.jpg',
-    nickname: '흰둥이',
-    rating: 4.0,
-    content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요'+
-    '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요'+
-    '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요',
-    movieId: 1,
-  },
+    id: 1,
+    userId: 9,
+    evaluation: 4,
+    comment: '',
+    animationId: 1,
+    user: {
+      id: 9,
+      googleId: 'test',
+      email: 'test',
+      displayName: '영철',
+      pictureUrl: null,
+      introduction: null
+    }
+  }, 
+
   {
-    id: 6,
-    userId: 5,
-    nickname: '영수',
-    rating: 4.0,
-    content: '나도재밋다',
-    movieId: 1,
-  },
-  {
-    id: 7,
-    userId: 5,
-    nickname: '흰둥이부계정',
-    rating: 5.0,
-    content: '정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요정말재밋고정말재밋고정말재밋어요',
-    movieId: 1,
-  },
+    id: 1,
+    userId: 10,
+    evaluation: 4,
+    comment: '흠',
+    animationId: 1,
+    user: {
+      id: 10,
+      googleId: 'test',
+      email: 'test',
+      displayName: '빡구',
+      pictureUrl: null,
+      introduction: ''
+    }
+  }, 
+
 ];
 
 export const oneReview : Review = reviews[0];
