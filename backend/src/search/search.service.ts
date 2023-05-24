@@ -22,6 +22,7 @@ export class SearchService {
           },
         },
       },
+      take:10
     });
     return animationsWithGenres;
   }
@@ -52,5 +53,23 @@ export class SearchService {
 
     return results;
   }
+
+  async filteringTag(type: string): Promise<Animation[]> {
+    const animationsWithTag = await this.prisma.animation.findMany({
+      where: {
+        tagList: {
+          some: {
+            tagtypeId: type,
+          },
+        },
+      },
+      orderBy: {
+        reviewCount: 'desc', 
+      },
+      take:10
+    });
+    return animationsWithTag;
+  }
+  
  
 }
