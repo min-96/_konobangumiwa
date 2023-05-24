@@ -64,8 +64,12 @@ export class MyElasticSearchService {
 
   async settingAnalyzer(): Promise<string> {
     try {
+      const existIndex =  await this.elasticsearchService.indices.exists({ index: 'animations'});
 
-     // await this.deleteIndex('animations');
+      if(existIndex){
+        await this.deleteIndex('animations');
+      }
+    
       await this.createIndex('animations');
       await this.elasticsearchService.indices.close({ index: 'animations' });
 
