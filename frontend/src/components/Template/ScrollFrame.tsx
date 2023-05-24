@@ -38,6 +38,7 @@ const ScrollFrame: FC<PageProps> = ({children, handleScrollEnd}) => {
   }, [isRightEnd])
 
   useEffect(() => {
+    checkScrollEnd();
     // Add event listener for scroll event to update the button states
     if (scrollContainerRef.current) {
       scrollContainerRef.current.addEventListener('scroll', checkScrollEnd);
