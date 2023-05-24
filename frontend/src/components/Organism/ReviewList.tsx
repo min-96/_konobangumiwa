@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { reviews } from '../../dummy/dummy_data';
+import React, { useEffect, useRef, useState } from 'react';
 import CardFrame from '../Template/CardFrame';
 import ScrollFrame from '../Template/ScrollFrame';
 import ReviewCard from '../Molecule/Detail/ReviewCard';
 import ReviewModal from './ReviewModal';
 import { Review, ReviewUser, User } from '../../types/movie';
 import { useMovie } from '../Template/Detail';
+import * as API from '../../API/Review';
+import { useError } from '../../hook/ErrorContext';
 
 interface ReviewListProps {
   frameClassName: string;
@@ -14,11 +15,58 @@ interface ReviewListProps {
 
 const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
   const { movie } = useMovie();
+  const [ reviews, setReviews ] = useState<ReviewUser[]>([]);
+  const [ page, setPage ] = useState(0);
+  const { showError } = useError();
+  const pageSize = 5;
 
-  if (!movie) return null;
+  const reviewsRef = useRef<ReviewUser[]>([]);
+  const pageRef = useRef<number>(0);
+
+  // State들의 최신 상태 유지
+  useEffect(() => {
+    reviewsRef.current = reviews;
+  }, [reviews]);
+  useEffect(() => {
+    pageRef.current = page;
+  }, [page]);
+
+  async function getReviews(p:number) {
+    if (movie) {
+      const ret = await API.getAnimationReviews({animationId: movie.id, page: p, pageSize: pageSize});
+      console.log("=============");
+      console.log('befReviewsRef')
+      console.log(reviewsRef.current);
+      setReviews([...reviewsRef.current, ...ret]);
+      if (ret.length === pageSize)
+        setPage(pageRef.current + 1);
+      console.log('aftReviewsRef')
+      console.log(reviewsRef.current);
+      console.log('ret')
+      console.log(ret);
+      console.log("=============");
+      return (ret.length === pageSize);
+    }
+    return (false);
+  }
+
+  useEffect(() => {
+    try {
+      getReviews(page);
+    }
+    catch(e: any) {
+      showError("fetch Review Error", e.message);
+    }
+
+  },[]);
 
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const handleScrollEnd = async () => {
+    const ret = await getReviews(pageRef.current);
+    return ret;
+  }
 
   const handleCardClick = (review : Review, user : User) => {
     setSelectedReview(review);
@@ -30,10 +78,12 @@ const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
     setSelectedUser(null);
   }
 
+  if (!movie || !reviews.length) return null;
+
   return (
     <>
       <CardFrame className={frameClassName} title={title}>
-        <ScrollFrame>
+        <ScrollFrame handleScrollEnd={handleScrollEnd}>
           {
             reviews.map((item) => (
               <ReviewCard 
@@ -51,6 +101,7 @@ const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
           review={selectedReview}
           setReview={setSelectedReview}
           targetUser={selectedUser}
+          movie={movie}
           handleClose={handleModalClose}
         />
       )}
