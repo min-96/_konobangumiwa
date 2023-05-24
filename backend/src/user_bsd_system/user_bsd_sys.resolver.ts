@@ -3,7 +3,8 @@ import { Animation } from 'src/animation/animation.model';
 import { UserBasedSystemService } from './user_bsd_sys.service';
 import { CurrentUser } from 'src/auth/current-user';
 import { User } from '@prisma/client';
-import { TypeCount } from './dto/response-type.dto';
+import { TagCount } from './dto/response-tagCount.dto';
+import { GenreCount } from './dto/response-genre.dto';
 
 
 
@@ -23,10 +24,14 @@ export class UserBasedSystemResolver {
   }
 
 
-  @Query(() => [TypeCount])
-  async userBasedlikeTag(@CurrentUser() user: User): Promise<TypeCount[]> {
+  @Query(() => [TagCount])
+  async userBasedlikeTag(@CurrentUser() user: User): Promise<TagCount[]> {
     return this.userbasedrecoService.userBasedlikeTag(user);
-   
+  }
+
+  @Query(() => [GenreCount])
+  async userBasedlikeGenre(@CurrentUser() user: User): Promise<GenreCount[]> {
+    return this.userbasedrecoService.userBasedlikeGenre(user);
   }
   
 }

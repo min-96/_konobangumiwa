@@ -2,7 +2,8 @@ import { integer } from "@elastic/elasticsearch/api/types";
 import { Injectable } from "@nestjs/common";
 import { Animation, Genre, User } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
-import { TypeCount } from "./dto/response-type.dto";
+import { TagCount } from "./dto/response-tagCount.dto";
+import { GenreCount } from "./dto/response-genre.dto";
 
 
 @Injectable()
@@ -183,7 +184,7 @@ export class UserBasedSystemService {
     } 
 
 
-    async userBasedlikeTag(user:User) : Promise<TypeCount[]> {
+    async userBasedlikeTag(user:User) : Promise<TagCount[]> {
         const highRatedAnimations = await this.prisma.review.findMany({
             where: {
                 userId: user.id,
@@ -234,6 +235,58 @@ export class UserBasedSystemService {
         return top10TagCountArray;
     }
 
+
+
+    async userBasedlikeGenre(user:User) : Promise<GenreCount[]> {
+        const highRatedAnimations = await this.prisma.review.findMany({
+            where: {
+                userId: user.id,
+                evaluation: {
+                    gte: 4,
+                },
+            },
+            select: {
+                animationId: true,
+            },
+        });
+
+
+        const highRatedAnimationIds = highRatedAnimations.map(animation => animation.animationId);
+
+        const genreCount = await this.prisma.genre.findMany({
+            where: {
+                animationId: {
+                    in: highRatedAnimationIds,
+                },
+            },
+            select: {
+                genretypeId: true,
+            },
+        });
+
+        const genreCountMap: Map<string, number> = new Map(); 
+        genreCount.forEach((genre) => {
+          const genretypeId = genre.genretypeId.toString(); 
+          if (genreCountMap.has(genretypeId)) {
+            genreCountMap.set(genretypeId, genreCountMap.get(genretypeId) + 1);
+          } else {
+            genreCountMap.set(genretypeId, 1);
+          }
+        });
+
+        console.log(genreCountMap);
+      
+        const top10GenreCountArray = Array.from(genreCountMap.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(entry => ({ type: entry[0], count: entry[1] }));
+        
+        console.log(top10GenreCountArray);
+
+     
+
+        return top10GenreCountArray;
+    }
 
 
 
