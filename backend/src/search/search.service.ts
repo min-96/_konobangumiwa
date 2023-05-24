@@ -35,9 +35,13 @@ export class SearchService {
       index: 'animations',
       body: {
         query: {
-          match_phrase: {
-            decomposedTitle: decomposedTitle
+          fuzzy: {
+            decomposedTitle: {
+              value: decomposedTitle,
+              fuzziness: 2
+            }
           }
+
         },
         size: 10 
         
