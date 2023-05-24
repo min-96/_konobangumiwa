@@ -4,26 +4,30 @@ import CardFrame from '../Template/CardFrame';
 import ScrollFrame from '../Template/ScrollFrame';
 import ReviewCard from '../Molecule/Detail/ReviewCard';
 import ReviewModal from './ReviewModal';
-import { Review } from '../../types/movie';
+import { Review, ReviewUser, User } from '../../types/movie';
+import { useMovie } from '../Template/Detail';
 
 interface ReviewListProps {
   frameClassName: string;
   title: string;
-  movieId: number;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title, movieId}) => {
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
-  const [isModalOpen, setModalOpen] = useState(false);
+const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
+  const { movie } = useMovie();
 
-  const handleCardClick = (review : Review) => {
+  if (!movie) return null;
+
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const handleCardClick = (review : Review, user : User) => {
     setSelectedReview(review);
-    setModalOpen(true);
+    setSelectedUser(user);
   }
 
   const handleModalClose = () => {
-    setModalOpen(false);
     setSelectedReview(null);
+    setSelectedUser(null);
   }
 
   return (
@@ -35,15 +39,18 @@ const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title, movieId})
               <ReviewCard 
                 key={item.id} 
                 review={item} 
-                handleClick={() => handleCardClick(item)}
+                user={item.user}
+                handleClick={() => handleCardClick(item, item.user)}
               />
             ))
           }
         </ScrollFrame>
       </CardFrame>
-      {isModalOpen && (
+      {selectedReview && selectedUser && (
         <ReviewModal 
           review={selectedReview}
+          setReview={setSelectedReview}
+          targetUser={selectedUser}
           handleClose={handleModalClose}
         />
       )}

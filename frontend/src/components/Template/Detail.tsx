@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, createContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Movie, MovieDetail } from "../../types/movie";
 import ReviewList from "../Organism/ReviewList";
@@ -7,6 +7,22 @@ import DetailInfo from "../Organism/DetailInfo";
 import DetailHeader from "../Organism/DetailHeader";
 import * as API from "../../API/Animation";
 import { useError } from "../../hook/ErrorContext";
+import React from "react";
+
+interface MovieContextType {
+  movie: MovieDetail | null;
+  setMovie: (review: MovieDetail | null) => void;
+}
+
+const MovieContext = createContext<MovieContextType | undefined>(undefined);
+
+export const useMovie = () => {
+  const context = React.useContext(MovieContext);
+  if (!context) {
+    throw new Error("ReviewContext is not defined");
+  }
+  return context;
+};
 
 interface PageProps {
 };
@@ -36,12 +52,14 @@ const Detail: FC<PageProps> = ({ }) => {
     return null;
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <DetailHeader movie={movie} />
-      <DetailInfo frameClassName="mt-6 shadow-border rounded-lg" title="기본정보" movie={movie}/>
-      <ReviewList frameClassName="mt-6 shadow-border rounded-lg" title="리뷰" movieId={movie.id}/>
-      <MovieList frameClassName="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션" queryName=""/>
-    </div>
+    <MovieContext.Provider value={{movie, setMovie}}>
+      <div className="w-full flex flex-col items-center">
+        <DetailHeader />
+        <DetailInfo frameClassName="mt-6 shadow-border rounded-lg" title="기본정보" />
+        <ReviewList frameClassName="mt-6 shadow-border rounded-lg" title="리뷰" />
+        <MovieList frameClassName="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션" queryName=""/>
+      </div>
+    </MovieContext.Provider>
   );
 };
 
