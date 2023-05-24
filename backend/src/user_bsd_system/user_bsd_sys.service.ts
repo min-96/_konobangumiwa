@@ -2,6 +2,8 @@ import { integer } from "@elastic/elasticsearch/api/types";
 import { Injectable } from "@nestjs/common";
 import { Animation, Genre, User } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
+import { TypeCount } from "./dto/response-type.dto";
+
 
 @Injectable()
 export class UserBasedSystemService {
@@ -21,7 +23,6 @@ export class UserBasedSystemService {
             select: {
                 animationId: true,
             },
-            take: 30,
         });
 
         const highRatedAnimationIds = highRatedAnimations.map(animation => animation.animationId);
@@ -47,13 +48,10 @@ export class UserBasedSystemService {
             }
         });
 
-
-        const top5Genres = Object.entries(genreCountMap)
+        const top10Genres = Object.entries(genreCountMap)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
             .map(entry => entry[0]);
-
-
 
        const watchedAnimationIds =  await this.watchedAnimation(user);
 
@@ -64,7 +62,7 @@ export class UserBasedSystemService {
                         genreList: {
                             some: {
                                 genretypeId: {
-                                    in: top5Genres,
+                                    in: top10Genres,
                                 },
                             },
                         },
@@ -103,7 +101,6 @@ export class UserBasedSystemService {
             select: {
                 animationId: true,
             },
-            take: 30,
         });
 
         const highRatedAnimationIds = highRatedAnimations.map(animation => animation.animationId);
@@ -128,7 +125,7 @@ export class UserBasedSystemService {
             }
         });
 
-        const top5Tags = Object.entries(tagCountMap)
+        const top10Tags = Object.entries(tagCountMap)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(entry => entry[0]);
@@ -142,7 +139,7 @@ export class UserBasedSystemService {
                         tagList: {
                             some: {
                                 tagtypeId: {
-                                    in: top5Tags,
+                                    in: top10Tags,
                                 },
                             },
                         },
@@ -184,6 +181,59 @@ export class UserBasedSystemService {
 
         return watchedAnimationIds;
     } 
+
+
+    async userBasedlikeTag(user:User) : Promise<TypeCount[]> {
+        const highRatedAnimations = await this.prisma.review.findMany({
+            where: {
+                userId: user.id,
+                evaluation: {
+                    gte: 4,
+                },
+            },
+            select: {
+                animationId: true,
+            },
+        });
+
+
+        const highRatedAnimationIds = highRatedAnimations.map(animation => animation.animationId);
+
+        const tagCount = await this.prisma.tag.findMany({
+            where: {
+                animationId: {
+                    in: highRatedAnimationIds,
+                },
+            },
+            select: {
+                tagtypeId: true,
+            },
+        });
+
+        const tagCountMap: Map<string, number> = new Map(); 
+        tagCount.forEach((tag) => {
+          const tagtypeId = tag.tagtypeId.toString(); 
+          if (tagCountMap.has(tagtypeId)) {
+            tagCountMap.set(tagtypeId, tagCountMap.get(tagtypeId) + 1);
+          } else {
+            tagCountMap.set(tagtypeId, 1);
+          }
+        });
+
+        console.log(tagCountMap);
+      
+        const top10TagCountArray = Array.from(tagCountMap.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(entry => ({ type: entry[0], count: entry[1] }));
+        
+        console.log(top10TagCountArray);
+
+     
+
+        return top10TagCountArray;
+    }
+
 
 
 

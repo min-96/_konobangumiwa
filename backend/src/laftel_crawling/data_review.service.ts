@@ -58,7 +58,6 @@ export class CrawlingReviewService {
 
         const MAX_RETRIES = 5
         let retries = 0
-        let score, reviewCnt = 0;
 
         while (retries < MAX_RETRIES) {
 

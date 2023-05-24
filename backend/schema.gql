@@ -53,6 +53,11 @@ type UserReviewResponse {
   otherReviews: [Review]
 }
 
+type TypeCount {
+  type: String!
+  count: Int!
+}
+
 type Query {
   hello: String!
   users: [User!]!
@@ -75,6 +80,7 @@ type Query {
   indexAnimation: String!
   userBasedGenre: [Animation!]!
   userBasedTag: [Animation!]!
+  userBasedlikeTag: [TypeCount!]!
 }
 
 type Mutation {

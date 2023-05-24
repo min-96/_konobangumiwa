@@ -15,7 +15,7 @@ export class AnimationService {
     const result = await this.prisma.animation.findMany({
       where: {
         reviewCount: {
-          gte: 1000,
+          gte: 50,
         },
       },
       take: 10,
