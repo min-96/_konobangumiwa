@@ -5,14 +5,19 @@ import CardFrame from '../Template/CardFrame';
 import MovieThumbnail from '../Atom/MovieThumbnail';
 import { FaStar } from 'react-icons/fa'
 import { useUser } from '../../hook/UserContext';
+import { useMovie } from '../Template/Detail';
+import MovieProfile from '../Atom/MovieProfile';
 
 interface DetailHeaderProps {
-  movie: MovieDetail;
 }
 
-const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
-  const crops = movie.crops_ratio.split(',');
+const DetailHeader: React.FC<DetailHeaderProps> = () => {
   const { user } = useUser();
+  const { movie } = useMovie();
+
+  if (!movie) return null;
+
+  const crops = movie.crops_ratio.split(',');
 
   return (
     <>
@@ -29,31 +34,8 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({movie}) => {
           <div style={{width: '160px'}}>
             <MovieThumbnail src={movie.thumbnail} alt={movie.title} />
           </div>
-          <div className="ml-10 text-left">
-            <h2 className="mt-16 pt-2 text-2xl font-bold mb-2">
-              {movie.title}
-            </h2>
-            <div className="flex">
-              <div className="w-[200px]">
-                <p className="mb-1"><strong className="mr-2">출시</strong>{movie.release.split('|')[0]}</p>
-                <p className="flex items-center">
-                {
-                  movie.reviewCount ?
-                  <>
-                    <strong className="mr-2">평균</strong>
-                    <FaStar className="text-yellow-500 w-4 h-4 mr-1" />
-                    {movie.grade / movie.reviewCount} ({movie.reviewCount > 999 ? '999+' : movie.reviewCount})
-                  </>
-                  : <p>평가없음</p>
-                }
-                </p>
-              </div>
-              <div>
-                <p className="mb-1"><strong className="mr-2">장르</strong>
-                  {movie.genreList.map((ele: any)=>ele.genretypeId).join(", ")}
-                </p>
-              </div>
-            </div>
+          <div className="ml-10 text-left mt-16">
+            <MovieProfile movie={movie}/>
             {
               user ? <ReviewField/>
               : <p className="h-[80px] text-center p-4 text-lg text-blue-700">평가는 로그인이 필요합니다.</p>

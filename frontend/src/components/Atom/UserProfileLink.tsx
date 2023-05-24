@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 interface UserProfileLinkProps {
   userId: number;
-  profileUrl: string | undefined;
+  profileUrl: string | null;
   nickname: string;
   handleClick?: ()=>void;
 }

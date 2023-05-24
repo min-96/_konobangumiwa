@@ -12,11 +12,13 @@
 export interface Review {
   id: number,
   userId: number,
-  nickname: string,
-  profileUrl?: string,
-  content: string,
-  rating: number,
-  movieId: number,
+  comment: string,
+  evaluation: number,
+  animationId: number,
+}
+
+export interface ReviewUser extends Review {
+  user: User;
 }
 
 export interface User {

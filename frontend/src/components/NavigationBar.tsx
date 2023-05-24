@@ -73,16 +73,10 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
               웹툰
             </Link>
           </div>
-
-          <div className={`p-1 text-border`} onClick={testError}>
-            에러확인
-          </div>
         </div>
       </div>
       <div className={`navbar-item`}>
         <SearchInput isTransparent={isTransparent} />
-      </div>
-      <div className={`navbar-item`}>
         {user ? (
           <NavbarProfile user={user} />
         ) : (

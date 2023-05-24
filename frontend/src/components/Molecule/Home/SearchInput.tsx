@@ -11,7 +11,7 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({isTransparent}) => {
   const [searchText, setSearchText] = useState('');
-  const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
+  const [searchResults, setSearchResults] = useState<Movie[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { showError } = useError();
 
