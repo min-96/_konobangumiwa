@@ -8,13 +8,6 @@ interface PageProps {
 
 const Home: FC<PageProps> = ({}) => {
   
-  
-  // ============= testcode ================
-  function shuffleAndSlice(array: any[], start:number, end:number) {
-    return array.slice().sort(() => Math.random() - 0.5).slice(start, end + 1);
-  }
-  // ==============================
-
   return (
     <div className="home-page">
       <MovieList title="인기순" fontSize="2xl" queryName="popularityAnimations"/>

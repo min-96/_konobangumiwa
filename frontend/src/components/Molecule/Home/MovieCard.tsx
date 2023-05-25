@@ -8,13 +8,14 @@ import { FaStar } from 'react-icons/fa';
 interface MovieCardProps {
   movie: Movie,
   width?: string,
+  ratio?: string,
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, width }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, width, ratio }) => {
   return (
-    <div className="movie-card" style={{ width: width ? width : '200px' }}>
+    <div className="movie-card" style={{ minWidth: '100px', width: width }}>
       <Link to={`/contents/${movie.id}`}>
-        <MovieThumbnail src={movie.thumbnail} alt={movie.title}/>
+        <MovieThumbnail src={movie.thumbnail} alt={movie.title} ratio={ratio? ratio : '150%'}/> 
         <div className="movie-preview">
           <h4>{movie.title}</h4>
           {

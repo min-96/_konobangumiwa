@@ -32,7 +32,7 @@ const DetailHeader: React.FC<DetailHeaderProps> = () => {
       >
         <CardFrame className="flex absolute bottom-0 translate-y-3/4 left-1/2 -translate-x-1/2">
           <div style={{width: '160px'}}>
-            <MovieThumbnail src={movie.thumbnail} alt={movie.title} />
+            <MovieThumbnail src={movie.thumbnail} alt={movie.title} ratio={'150%'}/>
           </div>
           <div className="ml-10 text-left mt-16">
             <MovieProfile movie={movie}/>
