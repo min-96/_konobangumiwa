@@ -78,10 +78,12 @@ export class ReviewService {
 
   async readReivew(user: User): Promise<Review[]> {
     return this.prisma.review.findMany({
-      where: { userId: user.id }
+      where: { userId: user.id },
+      include : {
+        animation: true
+      }
     });
   }
-
 
   //트랜잭션 적용하기
   async updateReview(input: UpdateInputReview, user: User): Promise<Review> {

@@ -25,7 +25,6 @@ export class AnimationResolver {
         return this.animationService.newAnimations();
     } 
 
-
     @Query(()=> Animation)
     async detailAnimation(@Args('id', { type: () => Int }) id: number
     ) : Promise<Animation> {

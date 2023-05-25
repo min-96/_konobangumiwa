@@ -12,14 +12,19 @@ export class AnimationService {
   }
 
   async popularityAnimation(): Promise<Animation[]> {
+
     const result = await this.prisma.animation.findMany({
       where: {
         reviewCount: {
-          gte: 1000,
+          gte: 50,
         },
+      },
+      orderBy: {
+        reviewCount: 'desc', 
       },
       take: 10,
     });
+
     return result;
   }
 
@@ -36,7 +41,6 @@ export class AnimationService {
       take: 10,
     });
   }
-
 
   async detailAnimation(id: number): Promise<Animation> {
 

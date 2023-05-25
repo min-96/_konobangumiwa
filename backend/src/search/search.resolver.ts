@@ -8,9 +8,14 @@ export class SearchResolver {
     constructor(private searchService : SearchService) {}
 
     @Query(()=> [Animation])
-    async aniType(@Args('type') type: string) : Promise<Animation[]> {
+    async GenreTypeAnimations(@Args('type') type: string) : Promise<Animation[]> {
         return this.searchService.filteringGenre(type);
     }
+
+    @Query(()=> [Animation])
+    async tagTypeAnimations(@Args('type') type: string) : Promise<Animation[] | null> {
+        return this.searchService.filteringTag(type);
+    } 
 
     @Query(()=> [Animation])
     async searchTitle(@Args('title') title: string) : Promise<any> {

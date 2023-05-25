@@ -22,13 +22,13 @@ export class WishService {
         })
     }
 
-    async readWishList(user: User): Promise<Animation[]> {
+    async readWishList(user: User): Promise<Wish[]> {
         const wishList = await this.prisma.wish.findMany({
             where: { userId: user.id },
             include: { animation: true },
         });
 
-        return wishList.map(wish => wish.animation);
+        return wishList;
     }
 
 

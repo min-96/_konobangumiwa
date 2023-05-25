@@ -44,7 +44,7 @@ export class ReviewResolver {
   async deleteReview(
     @CurrentUser() user: User,
     @Args('id', { type: () => Int }) id: number): Promise<Review> {
-    return this.reviewService.deleteReview(id, user);
+  return this.reviewService.deleteReview(id, user);
   }
 
 

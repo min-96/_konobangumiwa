@@ -15,8 +15,8 @@ interface AnimationData {
   introduction: string;
   genreList: string[];
   tagList: string[];
-  author: string[];
-  release: string;
+  author?: string[] | null;
+  release?: string |null;
 }
 
 
@@ -70,7 +70,7 @@ export class CrawlongAnimationService {
       genreList: response.data.genres,
       tagList: response.data.tags,
       author: response.data.author,
-      release: response.data.air_year_quarter,
+      release: response.data.air_year_quarter ? response.data.air_year_quarter : null,
     };
   }
 
