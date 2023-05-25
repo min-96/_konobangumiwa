@@ -4,7 +4,8 @@ import { CreateInputReview } from './dto/create-review.dto';
 import { Prisma, Review, User } from '@prisma/client';
 import { UpdateInputReview } from './dto/update-review.dto';
 import { UserReviewResponse } from './dto/response-userReview.dto';
-import { OtherReviewResponse } from './dto/response-otherReview.dto';
+import { ConflictException } from '@nestjs/common';
+import { CustomException } from 'src/error/customException';
 
 @Injectable()
 export class ReviewService {
@@ -27,8 +28,7 @@ export class ReviewService {
     });
 
     if (existingReview) {
-      //TODO:에러처리 
-      throw new Error('You have already reviewed this animation.');
+      throw new CustomException('You have already reviewed this animation.', 409);
     }
     const animation = await this.selectAnimation(data.animationId);
 
