@@ -85,18 +85,6 @@ export class ReviewService {
     });
   }
 
-
-  async ReviewAniList(user: User) : Promise<Animation[]> {
-      const a = await this.prisma.animation.findMany({
-        include: {
-          reviewList: true
-        }
-      })
-
-      return
-  }
-
-
   //트랜잭션 적용하기
   async updateReview(input: UpdateInputReview, user: User): Promise<Review> {
 

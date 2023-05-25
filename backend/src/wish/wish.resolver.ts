@@ -20,9 +20,9 @@ export class WishResolver {
         return this.wishService.createWish(animationId, user);
     }
 
-    @Query(() => [Animation])
+    @Query(() => [Wish])
     @UseGuards(AuthGuard)
-    async readWishList(@CurrentUser() user: User): Promise<Animation[]> {
+    async readWishList(@CurrentUser() user: User): Promise<Wish[]> {
         return this.wishService.readWishList(user);
     }
 

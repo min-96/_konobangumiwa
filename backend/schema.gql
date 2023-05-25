@@ -31,6 +31,7 @@ type Wish {
   id: Float!
   animationId: Float!
   userId: Float!
+  animation: Animation
 }
 
 type Animation {
@@ -81,7 +82,7 @@ type Query {
   newAnimations: [Animation!]!
   detailAnimation(id: Int!): Animation!
   similarAnimation(id: Int!): [Animation!]!
-  readWishList: [Animation!]!
+  readWishList: [Wish!]!
   wishYN(animationId: Float!): Boolean!
   settingAnalyzer: String!
   indexAnimation: String!

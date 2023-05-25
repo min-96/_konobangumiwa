@@ -11,4 +11,8 @@ export class Wish {
 
     @Field()
     userId: number;
+
+    @Field(()=> Animation , {nullable:true})
+    animation? : Animation
+
 }
