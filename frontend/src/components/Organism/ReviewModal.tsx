@@ -55,7 +55,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, setReview, targetUser,
             <MovieProfile movie={movieData} width="400px"/>
           </div>
           <div style={{width: '80px'}}>
-            <MovieThumbnail src={movieData.thumbnail} alt={movieData.title} />
+            <MovieThumbnail src={movieData.thumbnail} alt={movieData.title} ratio={'150%'} />
           </div>
         </div>
         <hr className="mt-2 mb-2"/>

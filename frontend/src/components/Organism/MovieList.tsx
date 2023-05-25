@@ -39,7 +39,7 @@ const MovieList: React.FC<MovieListProps> = ({frameClassName, title, fontSize, c
           {movies.map((movie, index) => (
             <div key={movie.id} className="relative">
               <span className="w-7 h-7 absolute top-5 left-5 bg-black bg-opacity-50 text-white rounded flex items-center justify-center font-bold">{index + 1}</span>
-              <MovieCard movie={movie} width={cardWidth} />
+              <MovieCard movie={movie} width={cardWidth ? cardWidth : '200px'} />
             </div>
           ))}
         </ScrollFrame>
