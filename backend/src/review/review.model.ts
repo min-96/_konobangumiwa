@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { User } from 'src/auth/user.model';
-
+import { Animation } from 'src/animation/animation.model';
 @ObjectType()
 export class Review {
   @Field()
@@ -20,4 +20,7 @@ export class Review {
 
   @Field(()=> User, {nullable: true})
   user? : User;
+
+  @Field(()=> Animation,{nullable :true})
+  animation? : Animation;
 }

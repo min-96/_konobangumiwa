@@ -24,6 +24,7 @@ type Review {
   animationId: Float!
   userId: Float!
   user: User
+  animation: Animation
 }
 
 type Wish {
@@ -78,7 +79,6 @@ type Query {
   allAnimations: [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
-  tagAnimations(type: String!): [Animation!]!
   detailAnimation(id: Int!): Animation!
   similarAnimation(id: Int!): [Animation!]!
   readWishList: [Animation!]!

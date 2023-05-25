@@ -78,8 +78,22 @@ export class ReviewService {
 
   async readReivew(user: User): Promise<Review[]> {
     return this.prisma.review.findMany({
-      where: { userId: user.id }
+      where: { userId: user.id },
+      include : {
+        animation: true
+      }
     });
+  }
+
+
+  async ReviewAniList(user: User) : Promise<Animation[]> {
+      const a = await this.prisma.animation.findMany({
+        include: {
+          reviewList: true
+        }
+      })
+
+      return
   }
 
 

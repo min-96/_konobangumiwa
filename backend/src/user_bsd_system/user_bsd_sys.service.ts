@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { Animation, Genre, User } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
 import { TagCount } from "./dto/response-tagCount.dto";
-import { GenreCount } from "./dto/response-genre.dto";
+import { GenreCount } from "./dto/response-genreCount.dto";
 
 
 @Injectable()

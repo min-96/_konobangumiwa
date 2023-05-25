@@ -42,8 +42,8 @@ export class CrawlongAnimationService {
       const promises = data.map((id) => this.processItem(id));
       const data_res = await Promise.all(promises);
       const resultAni = await this.createAnimation(data_res);
-      // for (let i = 0; i < data.length ;i++)
-      //   await this.crawlingReviewService.createReview(resultAni[i], data[i], userSize);
+      for (let i = 0; i < data.length ;i++)
+        await this.crawlingReviewService.createReview(resultAni[i], data[i], userSize);
 
     } catch (error) {
       throw new Error(

@@ -4,7 +4,7 @@ import { UserBasedSystemService } from './user_bsd_sys.service';
 import { CurrentUser } from 'src/auth/current-user';
 import { User } from '@prisma/client';
 import { TagCount } from './dto/response-tagCount.dto';
-import { GenreCount } from './dto/response-genre.dto';
+import { GenreCount } from './dto/response-genreCount.dto';
 
 
 
