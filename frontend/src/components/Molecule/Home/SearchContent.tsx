@@ -4,12 +4,13 @@ import SearchedList from './SearchedList';
 import { Movie } from '../../../types/movie';
 import * as API from '../../../API/Animation';
 import { useError } from '../../../hook/ErrorContext';
+import SearchInput from '../../Atom/SearchInput';
 
-interface SearchInputProps {
+interface SearchContentProps {
   isTransparent: boolean
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({isTransparent}) => {
+const SearchContent: React.FC<SearchContentProps> = ({isTransparent}) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -32,19 +33,14 @@ const SearchInput: React.FC<SearchInputProps> = ({isTransparent}) => {
 
   return (
     <div className="flex-col relative w-72">
-      <input
-        type="text"
+      <SearchInput
         placeholder="컨텐츠를 검색해보세요"
         value={searchText}
         onChange={handleChange}
         onKeyDown={(event)=>{ if (event.key === 'enter') console.log();}}
-        className={`pl-8 pr-2 py-1 border border-gray-700 rounded text-white w-full focus:outline-none
-                    ${isTransparent ? 'bg-transparent text-border' : 'bg-primary'}`}
         onFocus={()=>{setIsOpen(searchText.length > 0)}}
+        isTransparent={isTransparent}
       />
-      <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-        <FiSearch className={`text-white ${isTransparent && 'text-border'}`} />
-      </div>
       { isOpen &&
         <SearchedList searchResults={searchResults} handleClose={()=>{setIsOpen(false)}}/>
       }
@@ -52,4 +48,4 @@ const SearchInput: React.FC<SearchInputProps> = ({isTransparent}) => {
   );
 };
 
-export default SearchInput;
+export default SearchContent;

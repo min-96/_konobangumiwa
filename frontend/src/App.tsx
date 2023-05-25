@@ -8,6 +8,7 @@ import Detail from './components/Template/Detail';
 import { UserProvider } from './hook/UserContext';
 import { ErrorProvider } from './hook/ErrorContext';
 import ErrorSnackbar from './components/Organism/ErrorSnackbar';
+import Finder from './components/Template/Finder';
 
 
 
@@ -21,6 +22,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/user/:userId" element={<User />} />
               <Route path="/contents/:contentId" element={<Detail />} />
+              <Route path="/finder" element={<Finder />} />
             </Route>
           </Routes>
         </BrowserRouter>

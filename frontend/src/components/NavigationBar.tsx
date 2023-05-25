@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, matchPath, useLocation } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
-import SearchInput from './Molecule/Home/SearchInput';
 import LoginModal from './Organism/LoginModal';
 import { useUser } from '../hook/UserContext';
 import NavbarProfile from './Molecule/Home/NavbarProfile';
-import { useError } from '../hook/ErrorContext';
+import SearchContent from './Molecule/Home/SearchContent';
 
 type ModalType = 'sign in' | 'sign up' | 'none';
 
@@ -17,12 +16,6 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
   const [isTransparent, setIsTransparent] = useState<boolean>(false);
   const [modalType, setModalType] = useState<ModalType>('none');
   const { user } = useUser();
-
-  const { showError } = useError();
-
-  function testError() {
-    showError('test', 'testmessage', 5000);
-  }
 
   useEffect(() => {
     setIsTransparent(isWithoutPaddingContent);
@@ -50,9 +43,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
   };
 
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const domain = searchParams.get('domain');
-  
+  const findMatch = matchPath(location.pathname, '/finder');
+
   return (
     <nav className={`navbar ${isTransparent ? 'transparent' : ''}`}>
       <div className={`navbar-item ml-4`}>
@@ -62,21 +54,15 @@ const NavigationBar: React.FC<NavigationBarProps> = ({isWithoutPaddingContent}) 
           </Link>
         </div>
         <div className={`navbar-item`}>
-          <div className={`p-1 text-border ${domain === 'animation' ? 'font-bold' : ''}`}>
-            <Link to="/?domain=animation" className="hover:underline">
-              애니메이션
-            </Link>
-          </div>
-
-          <div className={`p-1 text-border ${domain === 'webtoon' ? 'font-bold' : ''}`}>
-            <Link to="/?domain=webtoon" className="hover:underline">
-              웹툰
+          <div className={`p-1 text-border ${findMatch ? 'font-bold text-blue-500' : ' hover:text-blue-300'}`}>
+            <Link to="/finder" className="hover:underline">
+              장르검색
             </Link>
           </div>
         </div>
       </div>
       <div className={`navbar-item`}>
-        <SearchInput isTransparent={isTransparent} />
+        <SearchContent isTransparent={isTransparent} />
         {user ? (
           <NavbarProfile user={user} />
         ) : (
