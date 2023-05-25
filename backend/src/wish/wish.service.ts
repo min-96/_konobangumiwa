@@ -10,6 +10,7 @@ export class WishService {
     constructor(private prisma: PrismaService) { }
 
     async createWish(animationId: number, user: User): Promise<Wish> {
+        //TODO : 에러처리
         if(!user) {
             throw new Error('you must have login');
         }
@@ -39,7 +40,7 @@ export class WishService {
                 animationId: animationId
             }
         });
-
+        //TODO : 에러처리
         if(selectWish.userId !== user.id){
             throw new Error('Unauthorized');
         }

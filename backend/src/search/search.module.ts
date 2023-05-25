@@ -9,11 +9,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     ElasticsearchModule.registerAsync({
-      imports: [ConfigModule], // Import the ConfigModule to access environment variables
+      imports: [ConfigModule], 
       useFactory: async (configService: ConfigService) => ({
-        node: configService.get('ELASTICSEARCH_NODE'), // Retrieve the Elasticsearch node value from the environment variables
+        node: configService.get('ELASTICSEARCH_NODE'), 
       }),
-      inject: [ConfigService], // Inject the ConfigService dependency
+      inject: [ConfigService], 
     }),
  ],
   providers: [PrismaService, SearchResolver, SearchService, MyElasticSearchService],

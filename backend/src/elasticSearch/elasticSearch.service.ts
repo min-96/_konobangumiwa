@@ -64,47 +64,46 @@ export class MyElasticSearchService {
 
   async settingAnalyzer(): Promise<string> {
     try {
-        const existIndex = await this.elasticsearchService.indices.exists({ index: 'animations'});
-      
-        if(existIndex){
-            await this.deleteIndex('animations');
-            // Sleep for 1 second (or however long you think is necessary)
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-    
-        // 인덱스 생성과 설정 변경을 한 번에 처리합니다.
-        await this.elasticsearchService.indices.create({ 
-            index: 'animations',
-            body: {
-                settings: {
-                    index: {
-                        max_ngram_diff: 4
-                    },
-                    analysis: {
-                        analyzer: {
-                            default: {
-                                tokenizer: 'ngram_tokenizer',
-                                filter: ['lowercase'],
-                            },
-                        },
-                        tokenizer: {
-                            ngram_tokenizer: {
-                                type: 'ngram',
-                                min_gram: 1,
-                                max_gram: 5,
-                            },
-                        },
-                    },
-                },
-            },
-        });
+      const existIndex = await this.elasticsearchService.indices.exists({ index: 'animations' });
 
-        return "OK";
+      if (existIndex) {
+        await this.deleteIndex('animations');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+      // 인덱스 생성과 설정 변경을 한 번에 처리합니다.
+      await this.elasticsearchService.indices.create({
+        index: 'animations',
+        body: {
+          settings: {
+            index: {
+              max_ngram_diff: 4
+            },
+            analysis: {
+              analyzer: {
+                default: {
+                  tokenizer: 'ngram_tokenizer',
+                  filter: ['lowercase'],
+                },
+              },
+              tokenizer: {
+                ngram_tokenizer: {
+                  type: 'ngram',
+                  min_gram: 1,
+                  max_gram: 5,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return "OK";
 
     } catch (error) {
-        throw new Error(error);
+      throw new Error(error);
     }
-}
+  }
 
 
   async indexAnimation(animation): Promise<any> {

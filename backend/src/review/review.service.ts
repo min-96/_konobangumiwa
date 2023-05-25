@@ -14,26 +14,23 @@ export class ReviewService {
 
   private async selectAnimation(animationId: number) {
     const animation = await this.prisma.animation.findUnique({ where: { id: animationId } });
-    return animation ;
+    return animation;
   }
 
   //중복 체크하기
   async createReview(data: CreateInputReview, user: User): Promise<Review> {
-    if(!user){
-      throw new Error('You must have login');
-    }
-    
     const existingReview = await this.prisma.review.findFirst({
-      where: { 
-          userId: user.id,
-          animationId: data.animationId,
+      where: {
+        userId: user.id,
+        animationId: data.animationId,
       },
     });
-  
+
     if (existingReview) {
+      //TODO:에러처리 
       throw new Error('You have already reviewed this animation.');
     }
-    const animation  = await this.selectAnimation(data.animationId);
+    const animation = await this.selectAnimation(data.animationId);
 
     const MAX_RETRIES = 5
     let retries = 0
@@ -49,15 +46,17 @@ export class ReviewService {
               }
             }),
             this.prisma.wish.deleteMany({
-              where: { 
-                userId: user.id, 
-                animationId: data.animationId 
+              where: {
+                userId: user.id,
+                animationId: data.animationId
               }
             }),
             this.prisma.animation.update({
               where: { id: data.animationId },
-              data: { grade: animation.grade + data.evaluation ,
-              reviewCount : animation.reviewCount + 1}
+              data: {
+                grade: animation.grade + data.evaluation,
+                reviewCount: animation.reviewCount + 1
+              }
             })
           ],
           {
@@ -77,18 +76,22 @@ export class ReviewService {
   }
 
   async readReivew(user: User): Promise<Review[]> {
+
     return this.prisma.review.findMany({
       where: { userId: user.id },
-      include : {
+      include: {
         animation: true
       }
     });
+
   }
 
   //트랜잭션 적용하기
   async updateReview(input: UpdateInputReview, user: User): Promise<Review> {
 
     const oldReview = await this.prisma.review.findUnique({ where: { id: input.id } });
+
+    //TODO:에러처리 
     if (oldReview.userId !== user.id) throw new Error('Unauthorized');
 
     const animation = await this.selectAnimation(input.animationId);
@@ -112,7 +115,7 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: input.animationId },
-              data: { grade: animation.grade + diff}
+              data: { grade: animation.grade + diff }
             }),
           ],
           {
@@ -132,7 +135,12 @@ export class ReviewService {
 
   async deleteReview(reviewId: number, user: User): Promise<Review> {
     const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
-    if (!review) throw new NotFoundException(`Review with id ${reviewId} not found`);
+
+    //TODO:에러처리   
+    if (!review)
+      throw new NotFoundException(`Review with id ${reviewId} not found`);
+
+    //TODO:에러처리 
     if (review.userId !== user.id) throw new Error('Unauthorized');
 
     const animation = await this.selectAnimation(review.animationId);
@@ -141,7 +149,7 @@ export class ReviewService {
     if (animation.reviewCount === 1) {
       grade = 0;
     } else {
-     grade =  animation.grade - review.evaluation;
+      grade = animation.grade - review.evaluation;
     }
 
     const MAX_RETRIES = 5;
@@ -156,8 +164,10 @@ export class ReviewService {
             }),
             this.prisma.animation.update({
               where: { id: review.animationId },
-              data: { grade: grade,
-              reviewCount : animation.reviewCount - 1 }
+              data: {
+                grade: grade,
+                reviewCount: animation.reviewCount - 1
+              }
             })
           ],
           {
@@ -176,39 +186,37 @@ export class ReviewService {
     }
   }
 
-  
-  async detailReview(id: number, page:number, pageSize: number,user?:User) : Promise<UserReviewResponse> {
-    
-    let userReview : UserReviewResponse = {
+
+  async detailReview(id: number, page: number, pageSize: number, user?: User): Promise<UserReviewResponse> {
+
+    let userReview: UserReviewResponse = {
       userReview: null,
       otherReviews: null,
-  };
-    
+    };
 
-     if(user) {  
-       userReview.userReview = await this.prisma.review.findFirst({
-        where : {animationId : id , userId : user.id},
+
+    if (user) {
+      userReview.userReview = await this.prisma.review.findFirst({
+        where: { animationId: id, userId: user.id },
         include: {
           user: true,
         }
       });
     }
 
-        userReview.otherReviews = await this.prisma.review.findMany({
-        where: { animationId: id, comment: { not: null } },
-        skip: page * pageSize,
-        take: pageSize,
-        orderBy: {
-          id: 'desc',
-        },
-        include: {
-          user: true,
-        },
-      });
+    userReview.otherReviews = await this.prisma.review.findMany({
+      where: { animationId: id, comment: { not: null } },
+      skip: page * pageSize,
+      take: pageSize,
+      orderBy: {
+        id: 'desc',
+      },
+      include: {
+        user: true,
+      },
+    });
 
-      // const result = userReview ? {userReview , ...otherReviews} : otherReviews;
-      
-      return userReview;
+    return userReview;
   }
 }
 
