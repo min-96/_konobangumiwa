@@ -11,8 +11,9 @@ export class AnimationResolver {
     constructor(private animationService : AnimationService) {}
 
     @Query(()=> [Animation])
-    async allAnimations() : Promise<Animation[]> {
-        return this.animationService.findAllAnimation();
+    async allAnimations(@Args('page', { type: () => Int}) page: number,
+    @Args('pageSize', { type: () => Int }) pageSize: number,) : Promise<Animation[]> {
+        return this.animationService.findAllAnimation(page,pageSize);
     }
 
     @Query(()=> [Animation])

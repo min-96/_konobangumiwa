@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
-import { Animation, Genre } from "@prisma/client";
+import { Animation, Genre, GenreType } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
 import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service";
 
@@ -8,26 +8,31 @@ import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service"
 export class SearchService {
   constructor(private prisma: PrismaService
     , private readonly elasticsearchService: ElasticsearchService,
-    private myelasticSearchService : MyElasticSearchService
+    private myelasticSearchService: MyElasticSearchService
   ) { }
 
 
 
-  async filteringGenre(type: string): Promise<Animation[]> {
+  async filteringGenre(type: string[],page:number , pageSize:number ): Promise<Animation[]> {
     const animationsWithGenres = await this.prisma.animation.findMany({
       where: {
-        genreList: {
-          some: {
-            genretypeId: type,
+        AND: type.map(genre => ({
+          genreList: {
+            some: {
+              genretypeId: {
+                equals: genre,
+              },
+            },
           },
-        },
+        })),
       },
-      take:10
+      skip: page * pageSize,
+      take : pageSize,
     });
     return animationsWithGenres;
   }
 
- 
+
   async searchTitleInElastic(title: string): Promise<Animation[]> {
 
     const decomposedTitle = await this.myelasticSearchService.divideHangul(title);
@@ -44,8 +49,8 @@ export class SearchService {
           }
 
         },
-        size: 10 
-        
+        size: 10
+
       },
     });
 
@@ -64,12 +69,15 @@ export class SearchService {
         },
       },
       orderBy: {
-        reviewCount: 'desc', 
+        reviewCount: 'desc',
       },
-      take:10
+      take: 10
     });
     return animationsWithTag;
   }
-  
- 
+
+  async genreTypeList() : Promise<GenreType[]> {
+      return this.prisma.genreType.findMany();
+  }
+
 }

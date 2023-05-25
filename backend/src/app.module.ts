@@ -13,6 +13,8 @@ import { AnimationModule } from './animation/animation.module';
 import { WishModule } from './wish/wish.module';
 import { MyElasticSearchModule } from './elasticSearch/elasticSearch.module';
 import { UserBasedSystemModule } from './user_bsd_system/user_bsd_sys.module';
+import { APP_FILTER } from '@nestjs/core';
+import { CustomExceptionFilter } from './error/errorHandler';
 
 @Module({
   imports: [
@@ -34,6 +36,10 @@ import { UserBasedSystemModule } from './user_bsd_system/user_bsd_sys.module';
     MyElasticSearchModule,
     UserBasedSystemModule
   ],
-  providers: [AppResolver],
+  providers: [AppResolver,
+  {
+    provide: APP_FILTER,
+    useClass: CustomExceptionFilter,
+  }],
 })
 export class AppModule { }

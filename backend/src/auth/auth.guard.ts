@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
 import { Request as ExpressRequest } from 'express';
+import { CustomException } from 'src/error/customException';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,7 +17,7 @@ export class AuthGuard implements CanActivate {
         return true;
       }
     } catch (e) {
-      throw new UnauthorizedException();
+      throw new CustomException('권한없음.', 401);
     }
   }
 }

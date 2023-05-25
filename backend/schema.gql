@@ -50,6 +50,10 @@ type Animation {
   wishList: [Wish!]
 }
 
+type GenreType {
+  type: String!
+}
+
 type UserReviewResponse {
   userReview: Review
   otherReviews: [Review]
@@ -72,12 +76,13 @@ type Query {
   otherUser(id: Float!): User!
   createUserTest(offset: Float!, size: Float!): String!
   crawling_test(offset: Int!, size: Int!, userSize: Int!): String!
-  GenreTypeAnimations(type: String!): [Animation!]!
+  genreTypeAnimations(type: [String!]!, page: Int!, pageSize: Int!): [Animation!]!
   tagTypeAnimations(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
+  genreTypeList: [GenreType!]!
   readReivew: [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
-  allAnimations: [Animation!]!
+  allAnimations(page: Int!, pageSize: Int!): [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
   detailAnimation(id: Int!): Animation!

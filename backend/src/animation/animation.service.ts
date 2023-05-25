@@ -7,8 +7,11 @@ export class AnimationService {
 
   constructor(private prisma: PrismaService) { }
 
-  async findAllAnimation(): Promise<Animation[]> {
-    return this.prisma.animation.findMany();
+  async findAllAnimation(page:number,pageSize:number): Promise<Animation[]> {
+    return this.prisma.animation.findMany({
+      skip: page * pageSize,
+      take: pageSize
+    });
   }
 
   async popularityAnimation(): Promise<Animation[]> {
