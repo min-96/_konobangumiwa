@@ -8,7 +8,7 @@ import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service"
 export class SearchService {
   constructor(private prisma: PrismaService
     , private readonly elasticsearchService: ElasticsearchService,
-    private myelasticSearchService : MyElasticSearchService
+    private myelasticSearchService: MyElasticSearchService
   ) { }
 
 
@@ -22,12 +22,12 @@ export class SearchService {
           },
         },
       },
-      take:10
+      take: 10
     });
     return animationsWithGenres;
   }
 
- 
+
   async searchTitleInElastic(title: string): Promise<Animation[]> {
 
     const decomposedTitle = await this.myelasticSearchService.divideHangul(title);
@@ -44,8 +44,8 @@ export class SearchService {
           }
 
         },
-        size: 10 
-        
+        size: 10
+
       },
     });
 
@@ -64,12 +64,12 @@ export class SearchService {
         },
       },
       orderBy: {
-        reviewCount: 'desc', 
+        reviewCount: 'desc',
       },
-      take:10
+      take: 10
     });
     return animationsWithTag;
   }
-  
- 
+
+
 }

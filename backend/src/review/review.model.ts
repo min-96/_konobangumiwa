@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from 'src/auth/user.model';
+import { User } from 'src/user/user.model';
 import { Animation } from 'src/animation/animation.model';
 @ObjectType()
 export class Review {

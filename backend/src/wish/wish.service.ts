@@ -3,6 +3,7 @@ import { User, Wish } from "@prisma/client";
 import { error } from "console";
 import { PrismaService } from "prisma/prisma.service";
 import { Animation } from "src/animation/animation.model";
+import { CustomException } from "src/error/customException";
 
 @Injectable()
 export class WishService {
@@ -10,9 +11,6 @@ export class WishService {
     constructor(private prisma: PrismaService) { }
 
     async createWish(animationId: number, user: User): Promise<Wish> {
-        if(!user) {
-            throw new Error('you must have login');
-        }
 
         return this.prisma.wish.create({
             data: {
@@ -39,9 +37,9 @@ export class WishService {
                 animationId: animationId
             }
         });
-
+        
         if(selectWish.userId !== user.id){
-            throw new Error('Unauthorized');
+            throw new CustomException('해당 보고싶어요를 삭제하실수없습니다.', 403);
         }
 
         return this.prisma.wish.delete({

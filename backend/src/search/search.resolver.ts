@@ -8,7 +8,7 @@ export class SearchResolver {
     constructor(private searchService : SearchService) {}
 
     @Query(()=> [Animation])
-    async GenreTypeAnimations(@Args('type') type: string) : Promise<Animation[]> {
+    async GenreTypeAnimations(@Args('type') type: string) : Promise<Animation[]| null> {
         return this.searchService.filteringGenre(type);
     }
 
@@ -18,7 +18,7 @@ export class SearchResolver {
     } 
 
     @Query(()=> [Animation])
-    async searchTitle(@Args('title') title: string) : Promise<any> {
+    async searchTitle(@Args('title') title: string) : Promise<Animation[]> {
         return this.searchService.searchTitleInElastic(title);
     }
     

@@ -47,9 +47,6 @@ export class ReviewResolver {
   return this.reviewService.deleteReview(id, user);
   }
 
-
-
-  // TODO : 반환 type 수정하기
   @Query(()=> UserReviewResponse)
   async detailReview(@Args('animationId', { type: () => Int }) animationId: number,
   @Args('page', { type: () => Int}) page: number,

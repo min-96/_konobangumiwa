@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { Observable } from "rxjs";
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from "./auth.guard";
+import { CustomException } from "src/error/customException";
 
 @Injectable()
 export class AdminGuard extends AuthGuard {
@@ -17,7 +18,7 @@ export class AdminGuard extends AuthGuard {
                 return true;
             }
         }catch (e) {
-            throw new UnauthorizedException();
+            throw new CustomException('관리자권한입니다.', 401);
         }
       }
 
