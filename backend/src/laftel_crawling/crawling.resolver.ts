@@ -16,5 +16,7 @@ export class CrawlingResolver {
   ): Promise<string> {
     return this.crawlingService.fetchData(offset,size,userSize);
   }
+
+  
   
 }

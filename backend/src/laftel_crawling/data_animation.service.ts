@@ -83,6 +83,7 @@ export class CrawlongAnimationService {
       const animation = await this.prisma.$transaction(async (prisma) => {
         const animation: Animation = await prisma.animation.create({
           data: {
+            id,
             title,
             thumbnail,
             backgroundImg,
