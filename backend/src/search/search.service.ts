@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
-import { Animation, Genre } from "@prisma/client";
+import { Animation, Genre, GenreType } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
 import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service";
 
@@ -13,16 +13,21 @@ export class SearchService {
 
 
 
-  async filteringGenre(type: string): Promise<Animation[]> {
+  async filteringGenre(type: string[],page:number , pageSize:number ): Promise<Animation[]> {
     const animationsWithGenres = await this.prisma.animation.findMany({
       where: {
-        genreList: {
-          some: {
-            genretypeId: type,
+        AND: type.map(genre => ({
+          genreList: {
+            some: {
+              genretypeId: {
+                equals: genre,
+              },
+            },
           },
-        },
+        })),
       },
-      take: 10
+      skip: page * pageSize,
+      take : pageSize,
     });
     return animationsWithGenres;
   }
@@ -71,5 +76,8 @@ export class SearchService {
     return animationsWithTag;
   }
 
+  async genreTypeList() : Promise<GenreType[]> {
+      return this.prisma.genreType.findMany();
+  }
 
 }
