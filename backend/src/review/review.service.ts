@@ -28,7 +28,7 @@ export class ReviewService {
     });
 
     if (existingReview) {
-      throw new CustomException('You have already reviewed this animation.', 409);
+      throw new CustomException('이미 리뷰를 작성하셨습니다.', 409);
     }
     const animation = await this.selectAnimation(data.animationId);
 
@@ -91,8 +91,11 @@ export class ReviewService {
 
     const oldReview = await this.prisma.review.findUnique({ where: { id: input.id } });
 
-    //TODO:에러처리 
-    if (oldReview.userId !== user.id) throw new Error('Unauthorized');
+    if (!oldReview)
+    throw new CustomException('해당 리뷰가 존재하지 않습니다.', 409);
+
+    if (oldReview.userId !== user.id) 
+    throw new CustomException('해당 리뷰를 변경하실수없습니다.', 403);
 
     const animation = await this.selectAnimation(input.animationId);
 
@@ -136,12 +139,11 @@ export class ReviewService {
   async deleteReview(reviewId: number, user: User): Promise<Review> {
     const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
 
-    //TODO:에러처리   
     if (!review)
-      throw new NotFoundException(`Review with id ${reviewId} not found`);
-
-    //TODO:에러처리 
-    if (review.userId !== user.id) throw new Error('Unauthorized');
+    throw new CustomException('해당 리뷰가 존재하지 않습니다.', 409);
+  
+    if (review.userId !== user.id) 
+    throw new CustomException('해당 리뷰를 삭제하실수 없습니다.', 403);
 
     const animation = await this.selectAnimation(review.animationId);
 
