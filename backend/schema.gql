@@ -77,7 +77,7 @@ type Query {
   searchTitle(title: String!): [Animation!]!
   readReivew: [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
-  allAnimations: [Animation!]!
+  allAnimations(page: Int!, pageSize: Int!): [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
   detailAnimation(id: Int!): Animation!
