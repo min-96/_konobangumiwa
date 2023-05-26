@@ -15,6 +15,7 @@ import { MyElasticSearchModule } from './elasticSearch/elasticSearch.module';
 import { UserBasedSystemModule } from './user_bsd_system/user_bsd_sys.module';
 import { APP_FILTER } from '@nestjs/core';
 import { CustomExceptionFilter } from './error/errorHandler';
+import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { CustomExceptionFilter } from './error/errorHandler';
     AnimationModule,
     WishModule,
     MyElasticSearchModule,
-    UserBasedSystemModule
+    UserBasedSystemModule,
+    TestModule,
   ],
   providers: [AppResolver,
   {

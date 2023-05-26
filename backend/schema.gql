@@ -97,6 +97,8 @@ type Query {
   userBasedTag: [Animation!]!
   userBasedlikeTag: [TagCount!]!
   userBasedlikeGenre: [GenreCount!]!
+  createAnimationTest(offset: Float!, size: Float!): String!
+  createReviewTest(size: Float!): String!
 }
 
 type Mutation {
