@@ -24,7 +24,7 @@ enum UserRole {
 }
 
 model Animation {
-  id            Int     @id @default(autoincrement())
+  id            Int     @id
   title         String
   release       String?
   introduction  String

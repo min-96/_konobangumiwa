@@ -65,14 +65,15 @@ export class MyElasticSearchService {
   async settingAnalyzer(): Promise<string> {
     try {
       const existIndex = await this.elasticsearchService.indices.exists({ index: 'animations' });
-
-      if (existIndex) {
+    
+      if (existIndex.body) {
         await this.deleteIndex('animations');
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
-      // 인덱스 생성과 설정 변경을 한 번에 처리합니다.
+     
       await this.elasticsearchService.indices.create({
+
         index: 'animations',
         body: {
           settings: {
@@ -99,6 +100,7 @@ export class MyElasticSearchService {
       });
 
       return "OK";
+    
 
     } catch (error) {
       throw new Error(error);
@@ -145,7 +147,7 @@ export class MyElasticSearchService {
 
   }
 
-  private async createIndex(index: string): Promise<any> {
+   async createIndex(index: string): Promise<any> {
     try {
       await this.elasticsearchService.indices.create({ index: index });
       return 'Index created successfully.';
