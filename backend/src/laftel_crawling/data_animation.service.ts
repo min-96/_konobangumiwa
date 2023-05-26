@@ -21,11 +21,11 @@ interface AnimationData {
 
 
 @Injectable()
-export class CrawlongAnimationService {
+export class AnimationDataService {
   constructor(private prisma: PrismaService, private typeSerive: CrawlingTagTypeService, private myElasticSearchService: MyElasticSearchService
     , private crawlingReviewService: CrawlingReviewService) { }
 
-  async fetchData(response, userSize: number): Promise<any> {
+  async fetchAndProcessData(response): Promise<void> {
 
     const data = response.data.results.map((item) => {
       return {
@@ -33,17 +33,14 @@ export class CrawlongAnimationService {
       };
     });
 
-    await this.processAllItems(data,userSize);
-    return "OK";
+    await this.processAllItems(data);
   }
 
-  async processAllItems(data,userSize): Promise<void> {
+  async processAllItems(data): Promise<void> {
     try {
       const promises = data.map((id) => this.processItem(id));
       const data_res = await Promise.all(promises);
-      const resultAni = await this.createAnimation(data_res);
-      for (let i = 0; i < data.length ;i++)
-        await this.crawlingReviewService.createReview(resultAni[i], data[i], userSize);
+      await this.createAnimation(data_res);
 
     } catch (error) {
       throw new Error(
@@ -74,11 +71,15 @@ export class CrawlongAnimationService {
     };
   }
 
-  async createAnimation(animationDataList: AnimationData[]): Promise<Animation[]> {
-    const animations: Animation[] = [];
-
+  async createAnimation(animationDataList: AnimationData[]): Promise<void> {
     for (const animationData of animationDataList) {
       const { id, title, thumbnail, backgroundImg, crops_ratio, introduction, genreList, tagList, author, release } = animationData;
+
+
+      const existAnimation = await this.prisma.animation.findUnique({where: {id}});
+      if(existAnimation){
+        throw new Error('Animation already exists');
+      }
 
       const animation = await this.prisma.$transaction(async (prisma) => {
         const animation: Animation = await prisma.animation.create({
@@ -109,12 +110,9 @@ export class CrawlongAnimationService {
         await this.typeSerive.createTagType(tagList);
         await this.typeSerive.createTag(animation.id, tagList, prisma);
         await this.myElasticSearchService.indexAnimation(animation);
-        return animation;
 
       });
-      animations.push(animation);
     }
-    return animations;
   }
 }
 

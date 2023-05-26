@@ -7,15 +7,16 @@ import { Prisma } from "@prisma/client";
 export class CrawlingReviewService {
     constructor(private prisma: PrismaService) { }
 
-    async createReview(animation, animationDataId: { id: number }, userSize: number): Promise<void> {
+    async createReview(animationData,userSize: number,reviewSize:number): Promise<void> {
 
-        const url = `https://laftel.net/api/reviews/v2/list/?item_id=${animationDataId.id}&sorting=created&limit=20`;
+
+        const url = `https://laftel.net/api/reviews/v2/list/?item_id=${animationData.id}&sorting=created&limit=${reviewSize}`;
 
         const response = await axios.get(url);
 
         const reviews = response.data.results;
 
-        await this.transactionReviewCreate(reviews, userSize, animation);
+        await this.transactionReviewCreate(reviews, userSize, animationData);
 
 
     }
@@ -35,6 +36,7 @@ export class CrawlingReviewService {
                 reviewScore += score;
             
                 const numid = RandUserNum.pop();
+
                 await prisma.review.create({
                     data: {
                         animationId: animation.id,
