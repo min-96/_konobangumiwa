@@ -19,6 +19,8 @@ services:
     command: npm start
     environment:
       - NODE_ENV=development
+    ports:
+      - '3001:3001'
 
   nestjs-app:
     build: ./backend
@@ -43,6 +45,8 @@ services:
       - postgres-data:/var/lib/postgresql/data
     env_file:
       - backend/.env
+    ports:
+      - '5432:5432'
 
   redis:
     image: redis:latest

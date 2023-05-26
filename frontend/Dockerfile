@@ -12,7 +12,7 @@ COPY . .
 RUN npm install --force
 
 # Make port 3000 available to the world outside this container
-EXPOSE 3000
+EXPOSE 3001
 
 # Run npm start when the container launches
 CMD ["npm", "start"]
