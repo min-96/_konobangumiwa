@@ -20,9 +20,15 @@ export class WishService {
         })
     }
 
-    async readWishList(user: User): Promise<Wish[]> {
+    async readWishList(userId: number): Promise<Wish[]> {
+
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if(!user){
+          throw new CustomException('사용자를 찾을 수 없습니다.', 409);
+        }
+
         const wishList = await this.prisma.wish.findMany({
-            where: { userId: user.id },
+            where: { userId: userId },
             include: { animation: true },
         });
 

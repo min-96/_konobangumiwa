@@ -82,14 +82,14 @@ type Query {
   tagTypeAnimations(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   genreTypeList: [GenreType!]!
-  readReivew: [Review!]!
+  readReivewList(userId: Int!): [Review!]!
   detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
   allAnimations(page: Int!, pageSize: Int!): [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
   detailAnimation(id: Int!): Animation!
   similarAnimation(id: Int!): [Animation!]!
-  readWishList: [Wish!]!
+  readWishList(userId: Float!): [Wish!]!
   wishYN(animationId: Float!): Boolean!
   settingAnalyzer: String!
   indexAnimation: String!

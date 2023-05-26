@@ -21,9 +21,8 @@ export class WishResolver {
     }
 
     @Query(() => [Wish])
-    @UseGuards(AuthGuard)
-    async readWishList(@CurrentUser() user: User): Promise<Wish[]> {
-        return this.wishService.readWishList(user);
+    async readWishList( @Args('userId') userId: number): Promise<Wish[]> {
+        return this.wishService.readWishList(userId);
     }
 
     @Mutation(() => Wish)

@@ -75,10 +75,15 @@ export class ReviewService {
 
   }
 
-  async readReivew(user: User): Promise<Review[]> {
+  async readReivews(userId: number): Promise<Review[]> {
+
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if(!user){
+      throw new CustomException('사용자를 찾을 수 없습니다.', 409);
+    }
 
     return this.prisma.review.findMany({
-      where: { userId: user.id },
+      where: { userId: userId },
       include: {
         animation: true
       }
