@@ -4,7 +4,6 @@ export class CustomException extends Error {
   
     constructor(message: string, errorCode: number) {
       super(message);
-  
       this.errorCode = errorCode;
     }
   

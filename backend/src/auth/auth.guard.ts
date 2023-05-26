@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
         return true;
       }
     } catch (e) {
-      throw new CustomException('권한없음.', 401);
+      throw new UnauthorizedException();
     }
   }
 }
