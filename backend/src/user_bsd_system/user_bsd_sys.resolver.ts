@@ -1,4 +1,4 @@
-import { Resolver, Query, Int } from '@nestjs/graphql';
+import { Resolver, Query, Int, Args } from '@nestjs/graphql';
 import { Animation } from 'src/animation/animation.model';
 import { UserBasedSystemService } from './user_bsd_sys.service';
 import { CurrentUser } from 'src/auth/current-user';
@@ -38,6 +38,12 @@ export class UserBasedSystemResolver {
   @UseGuards(AuthGuard)
   async userBasedlikeGenre(@CurrentUser() user: User): Promise<GenreCount[]> {
     return this.userbasedrecoService.userBasedlikeGenre(user);
+  }
+
+
+  @Query(()=> [Animation])
+  async userBasedCollaborative(@Args('userId')userId : number) : Promise<Animation[]> {
+    return this.userbasedrecoService.userBasedCollaborateFiltering(userId);
   }
   
 }

@@ -97,6 +97,7 @@ type Query {
   userBasedTag: [Animation!]!
   userBasedlikeTag: [TagCount!]!
   userBasedlikeGenre: [GenreCount!]!
+  userBasedCollaborative(userId: Float!): [Animation!]!
   createAnimationTest(offset: Float!, size: Float!): String!
   createReviewTest(size: Float!): String!
 }
