@@ -54,7 +54,7 @@ export class UserBasedSystemService {
             .slice(0, 5)
             .map(entry => entry[0]);
 
-       const watchedAnimationIds =  await this.watchedAnimation(user);
+        const watchedAnimationIds = await this.watchedAnimation(user);
 
         const recommendedAnimations = await this.prisma.animation.findMany({
             where: {
@@ -91,7 +91,7 @@ export class UserBasedSystemService {
     }
 
 
-    async userBasedTagRecommend(user: User) : Promise<Animation[]>{
+    async userBasedTagRecommend(user: User): Promise<Animation[]> {
         const highRatedAnimations = await this.prisma.review.findMany({
             where: {
                 userId: user.id,
@@ -127,11 +127,11 @@ export class UserBasedSystemService {
         });
 
         const top10Tags = Object.entries(tagCountMap)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 10)
-        .map(entry => entry[0]);
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 10)
+            .map(entry => entry[0]);
 
-        const watchedAnimationIds =  await this.watchedAnimation(user);
+        const watchedAnimationIds = await this.watchedAnimation(user);
 
         const recommendedAnimations = await this.prisma.animation.findMany({
             where: {
@@ -164,14 +164,14 @@ export class UserBasedSystemService {
 
         return resultAnimation;
     }
-    
 
 
-   private async watchedAnimation(user: User) : Promise<integer[]> {
+
+    private async watchedAnimation(user: User): Promise<integer[]> {
 
         const watchedAnimations = await this.prisma.review.findMany({
             where: {
-                userId: user.id, 
+                userId: user.id,
             },
             select: {
                 animationId: true,
@@ -181,10 +181,10 @@ export class UserBasedSystemService {
         const watchedAnimationIds = watchedAnimations.map(animation => animation.animationId);
 
         return watchedAnimationIds;
-    } 
+    }
 
 
-    async userBasedlikeTag(user:User) : Promise<TagCount[]> {
+    async userBasedlikeTag(user: User): Promise<TagCount[]> {
         const highRatedAnimations = await this.prisma.review.findMany({
             where: {
                 userId: user.id,
@@ -211,33 +211,33 @@ export class UserBasedSystemService {
             },
         });
 
-        const tagCountMap: Map<string, number> = new Map(); 
+        const tagCountMap: Map<string, number> = new Map();
         tagCount.forEach((tag) => {
-          const tagtypeId = tag.tagtypeId.toString(); 
-          if (tagCountMap.has(tagtypeId)) {
-            tagCountMap.set(tagtypeId, tagCountMap.get(tagtypeId) + 1);
-          } else {
-            tagCountMap.set(tagtypeId, 1);
-          }
+            const tagtypeId = tag.tagtypeId.toString();
+            if (tagCountMap.has(tagtypeId)) {
+                tagCountMap.set(tagtypeId, tagCountMap.get(tagtypeId) + 1);
+            } else {
+                tagCountMap.set(tagtypeId, 1);
+            }
         });
 
         console.log(tagCountMap);
-      
+
         const top10TagCountArray = Array.from(tagCountMap.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 10)
-        .map(entry => ({ type: entry[0], count: entry[1] }));
-        
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 10)
+            .map(entry => ({ type: entry[0], count: entry[1] }));
+
         console.log(top10TagCountArray);
 
-     
+
 
         return top10TagCountArray;
     }
 
 
 
-    async userBasedlikeGenre(user:User) : Promise<GenreCount[]> {
+    async userBasedlikeGenre(user: User): Promise<GenreCount[]> {
         const highRatedAnimations = await this.prisma.review.findMany({
             where: {
                 userId: user.id,
@@ -264,31 +264,89 @@ export class UserBasedSystemService {
             },
         });
 
-        const genreCountMap: Map<string, number> = new Map(); 
+        const genreCountMap: Map<string, number> = new Map();
         genreCount.forEach((genre) => {
-          const genretypeId = genre.genretypeId.toString(); 
-          if (genreCountMap.has(genretypeId)) {
-            genreCountMap.set(genretypeId, genreCountMap.get(genretypeId) + 1);
-          } else {
-            genreCountMap.set(genretypeId, 1);
-          }
+            const genretypeId = genre.genretypeId.toString();
+            if (genreCountMap.has(genretypeId)) {
+                genreCountMap.set(genretypeId, genreCountMap.get(genretypeId) + 1);
+            } else {
+                genreCountMap.set(genretypeId, 1);
+            }
         });
 
         console.log(genreCountMap);
-      
+
         const top10GenreCountArray = Array.from(genreCountMap.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 10)
-        .map(entry => ({ type: entry[0], count: entry[1] }));
-        
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 10)
+            .map(entry => ({ type: entry[0], count: entry[1] }));
+
         console.log(top10GenreCountArray);
 
-     
+
 
         return top10GenreCountArray;
     }
 
 
+    async userBasedCollaborateFiltering(userId: number): Promise<Animation[]> {
+        const userReviews = await this.prisma.review.findMany({
+            where: {
+                userId: userId,
+                evaluation: {
+                    gte: 4,
+                },
+            },
+        });
+        const userReviewAnimationIds = userReviews.map(review => review.animationId);
+    
+        const similarUserCount = await this.prisma.review.groupBy({
+            by: ['userId'],
+            where: {
+                animationId: {
+                    in: userReviewAnimationIds
+                },
+                userId: {
+                    not: userId
+                },
+                evaluation: {
+                    gte: 4
+                }
+            },
+            _count: {
+                _all: true,
+            }
+        });
+        
+        
+       const similarUser = similarUserCount
+       .sort((a, b) => b._count._all - a._count._all)
+       .slice(0, 3)
+       .map(user => user.userId);
 
+       const similarUserReviews = await this.prisma.review.findMany({
+        where: {
+            userId: {
+                in: similarUser
+            },
+            evaluation: {
+                gte: 4
+            },
+            animationId: {
+                notIn: userReviewAnimationIds
+            }
+        },
+    });
+
+    const similarUserReviewAnimationIds = similarUserReviews.map(review => review.animationId);
+
+    const collaborateFilteringAnimation = await this.prisma.animation.findMany({
+            where: {   id : { in: similarUserReviewAnimationIds } },
+            take: 50,
+        });    
+
+    return collaborateFilteringAnimation;
+       
+    }
 
 }

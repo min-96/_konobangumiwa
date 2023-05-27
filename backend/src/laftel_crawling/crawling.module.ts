@@ -4,7 +4,7 @@ import { AdminGuard } from 'src/auth/auth.admin.guard';
 import { CrawlingResolver } from './crawling.resolver';
 import { CrawlingService } from './crawling.service';
 import { CrawlingGenreTypeService } from './data_genreType.service';
-import { CrawlongAnimationService } from './data_animation.service';
+import { AnimationDataService } from './data_animation.service';
 import { CrawlingTagTypeService } from './data_tagType.servie';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { MyElasticSearchService } from 'src/elasticSearch/elasticSearch.service';
@@ -23,7 +23,7 @@ import { CrawlingReviewService } from './data_review.service';
     }),
 
  ],
-  providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,CrawlongAnimationService
+  providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,AnimationDataService
     ,CrawlingTagTypeService, MyElasticSearchService,CrawlingReviewService],
 })
 export class CrawlingModule {}

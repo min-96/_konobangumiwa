@@ -25,10 +25,8 @@ export class ReviewResolver {
   }
 
   @Query(() => [Review])
-  @UseGuards(AuthGuard)
-  async readReivew(
-    @CurrentUser() user: User): Promise<Review[]> {
-    return this.reviewService.readReivew(user);
+  async readReivewList(@Args('userId', {type: ()=> Int}) userId: number): Promise<Review[]> {
+    return this.reviewService.readReivews(userId);
   }
 
   @Mutation(() => Review)
