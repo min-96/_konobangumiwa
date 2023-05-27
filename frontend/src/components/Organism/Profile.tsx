@@ -17,10 +17,7 @@ const Profile: React.FC<ProfileProps> = ({ frameClassName, targetUser }) => {
   const { user, setUser } = useUser();
   const { showError } = useError();
 
-  if (!user)
-    return null;
-
-  const isEditable = targetUser.id === user.id;
+  const isEditable = targetUser.id === user?.id;
 
   return (
     <CardFrame className={frameClassName} title=" ">
@@ -30,7 +27,7 @@ const Profile: React.FC<ProfileProps> = ({ frameClassName, targetUser }) => {
           saveProcess={(content: string)=>{
             try {
               API.updateUserData({pictureUrl: content});
-              setUser({...user, pictureUrl: content});
+              setUser({...targetUser, pictureUrl: content});
             }
             catch (error: any) {
               showError('EditProfile Error', error.message);
@@ -43,7 +40,7 @@ const Profile: React.FC<ProfileProps> = ({ frameClassName, targetUser }) => {
           saveProcess={(content: string)=>{
             try {
               API.updateUserData({displayName: content});
-              setUser({...user, displayName: content});
+              setUser({...targetUser, displayName: content});
             }
             catch (error: any) {
               showError('EditProfile Error', error.message);

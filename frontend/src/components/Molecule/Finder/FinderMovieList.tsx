@@ -49,8 +49,8 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
       hasMore={hasMore}
     >
       <div className="flex flex-wrap">
-        {movies.map((movie, index) => (
-          <div key={index} className="w-[calc(25%-1px)] max-w-[320px] mb-1">
+        {movies.map((movie) => (
+          <div key={`finder_${movie.id}`} className="w-[calc(25%-1px)] max-w-[320px] mb-1">
             <MovieCard movie={movie} ratio="75%" />
           </div>
         ))}
