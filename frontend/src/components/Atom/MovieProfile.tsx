@@ -11,7 +11,7 @@ const MovieProfile: React.FC<MovieProfileProps> = ({ movie, width }) => {
   
   return (
     <div style={{ width }}>
-      <h2 className={`pt-2 text-2xl font-bold mb-2 `}> 
+      <h2 className={`pt-2 text-2xl font-bold mb-2 line-clamp-1`}> 
         {movie.title}
       </h2>
       <div className="flex">
@@ -24,7 +24,7 @@ const MovieProfile: React.FC<MovieProfileProps> = ({ movie, width }) => {
               <>
                 <strong className={`mr-2 `}>평균</strong>
                 <FaStar className={`text-yellow-500 w-4 h-4 mr-1 `} /> 
-                {movie.grade / movie.reviewCount} ({movie.reviewCount > 999 ? '999+' : movie.reviewCount})
+                {(movie.grade / movie.reviewCount).toFixed(2)} ({movie.reviewCount > 999 ? '999+' : movie.reviewCount})
               </>
             ) : (
               <p className={''}>평가없음</p>

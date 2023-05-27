@@ -14,7 +14,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({review, user, handleClick}) => {
     <div className="flex-shrink-0 w-60 shadow-border m-2 p-2"
       onClick={handleClick}>
       <div className="flex justify-between items-center mb-2">
-        <UserProfileLink userId={review.id} profileUrl={user.pictureUrl} nickname={user.displayName} />
+        <UserProfileLink userId={review.userId} profileUrl={user.pictureUrl} nickname={user.displayName} />
         <ReviewRating rating={review.evaluation} />
       </div>
       <hr />

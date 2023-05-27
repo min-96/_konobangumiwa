@@ -14,7 +14,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, review, width, ratio }) => {
   return (
-    <div className="movie-card" style={{ minWidth: '100px', width: width }}>
+    <div className="movie-card" title={movie.title} style={{ minWidth: '100px', width: width }}>
       <Link to={`/contents/${movie.id}`}>
         <MovieThumbnail src={movie.thumbnail} alt={movie.title} ratio={ratio? ratio : '150%'}/> 
         <div className="movie-preview">

@@ -47,7 +47,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, setReview, targetUser,
         <div className="flex justify-between">
           <div className="flex flex-col">
             <div className="flex items-center">
-              <UserProfileLink userId={review.id} nickname={user.displayName} profileUrl={user.pictureUrl} handleClick={handleClose}/>
+              <UserProfileLink userId={review.userId} nickname={targetUser.displayName} profileUrl={targetUser.pictureUrl} handleClick={handleClose}/>
               <div className="ml-2">
                 <ReviewRating rating={review.evaluation} />
               </div>

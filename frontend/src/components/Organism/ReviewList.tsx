@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CardFrame from '../Template/CardFrame';
-import ScrollFrame from '../Template/ScrollFrame';
+import HorizontalScrollFrame from '../Template/HorizontalScrollFrame';
 import ReviewCard from '../Molecule/Detail/ReviewCard';
 import ReviewModal from './ReviewModal';
 import { Review, ReviewRelation, User } from '../../types/movie';
@@ -13,10 +13,10 @@ interface ReviewListProps {
   title: string;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
+const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
   const { movie } = useMovie();
-  const [ reviews, setReviews ] = useState<ReviewRelation[]>([]);
-  const [ page, setPage ] = useState(0);
+  const [reviews, setReviews] = useState<ReviewRelation[]>([]);
+  const [page, setPage] = useState(0);
   const { showError } = useError();
   const pageSize = 5;
 
@@ -31,73 +31,66 @@ const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
     pageRef.current = page;
   }, [page]);
 
-  async function getReviews(p:number) {
-    if (movie) {
-      const ret = await API.getAnimationReviews({animationId: movie.id, page: p, pageSize: pageSize});
-      console.log("=============");
-      console.log('befReviewsRef')
-      console.log(reviewsRef.current);
-      setReviews([...reviewsRef.current, ...ret]);
-      if (ret.length === pageSize)
-        setPage(pageRef.current + 1);
-      console.log('aftReviewsRef')
-      console.log(reviewsRef.current);
-      console.log('ret')
-      console.log(ret);
-      console.log("=============");
-      return (ret.length === pageSize);
+  const getReviews = async (p: number) => {
+    try {
+      if (movie) {
+        const ret = await API.getAnimationReviews({
+          animationId: movie.id,
+          page: p,
+          pageSize: pageSize,
+        });
+        setReviews((prev) => [...prev, ...ret]);
+        setPage((prevPage) => prevPage + 1);
+        return ret.length === pageSize;
+      }
+      return false;
+    } catch (e: any) {
+      showError('fetch Review Error', e.message);
+      return false;
     }
-    return (false);
-  }
+  };
 
   useEffect(() => {
-    try {
-      getReviews(page);
-    }
-    catch(e: any) {
-      showError("fetch Review Error", e.message);
-    }
-
-  },[]);
+    getReviews(0);
+  }, []);
 
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const handleScrollEnd = async () => {
-    const ret = await getReviews(pageRef.current);
-    return ret;
-  }
+    const shouldLoadMore = await getReviews(pageRef.current);
+    return shouldLoadMore;
+  };
 
-  const handleCardClick = (review : Review, user : User) => {
+  const handleCardClick = (review: Review, user: User) => {
     setSelectedReview(review);
     setSelectedUser(user);
-  }
+    console.log(review, user);
+  };
 
   const handleModalClose = () => {
     setSelectedReview(null);
     setSelectedUser(null);
-  }
+  };
 
-  if (!movie || !reviews.length) return null;
+  if (!movie) return null;
 
   return (
     <>
       <CardFrame className={frameClassName} title={title}>
-        <ScrollFrame handleScrollEnd={handleScrollEnd}>
-          {
-            reviews.map((item) => (
-              <ReviewCard 
-                key={item.id} 
-                review={item} 
-                user={item.user}
-                handleClick={() => handleCardClick(item, item.user)}
-              />
-            ))
-          }
-        </ScrollFrame>
+        <HorizontalScrollFrame handleScrollEnd={handleScrollEnd}>
+          {reviews.map((item) => (
+            <ReviewCard
+              key={`review_${item.id}`}
+              review={item}
+              user={item.user}
+              handleClick={() => handleCardClick(item, item.user)}
+            />
+          ))}
+        </HorizontalScrollFrame>
       </CardFrame>
       {selectedReview && selectedUser && (
-        <ReviewModal 
+        <ReviewModal
           review={selectedReview}
           setReview={setSelectedReview}
           targetUser={selectedUser}

@@ -9,12 +9,12 @@ interface PageProps {
 const Home: FC<PageProps> = ({}) => {
   
   return (
-    <div className="home-page">
+    <div className="home-page mb-12">
       <CardFrame title="인기순" fontSize="2xl">
-        <MovieList queryName="popularityAnimations"/>
+        <MovieList keyName="pop" queryName="popularityAnimations"/>
       </CardFrame>
       <CardFrame title="최신순" fontSize="2xl">
-        <MovieList queryName="newAnimations" />
+        <MovieList keyName="new" queryName="newAnimations" />
       </CardFrame>
       {/* <MovieList title="전체" fontSize="2xl" queryName="allAnimations" /> */}
     </div>

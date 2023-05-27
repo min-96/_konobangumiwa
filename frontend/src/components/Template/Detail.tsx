@@ -54,12 +54,12 @@ const Detail: FC<PageProps> = ({ }) => {
 
   return (
     <MovieContext.Provider value={{movie, setMovie}}>
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center mb-12">
         <DetailHeader />
         <DetailInfo frameClassName="mt-6 shadow-border rounded-lg" title="기본정보" />
         <ReviewList frameClassName="mt-6 shadow-border rounded-lg" title="리뷰" />
         <CardFrame className="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션">
-          <MovieList queryName="newAnimations"/>
+          <MovieList keyName="sim" queryName="similarAnimation" id={movie.id}/>
         </CardFrame>
       </div>
     </MovieContext.Provider>

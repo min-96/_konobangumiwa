@@ -59,7 +59,6 @@ const LikeTags: React.FC<LikeTagsProps> = ({ list }) => {
           // 충돌이 없으면 좌표 저장
           positions.push({ x, y, width, height });
         }
-        console.log("========");
       }
 
       return { x, y, width, height };
@@ -78,7 +77,7 @@ const LikeTags: React.FC<LikeTagsProps> = ({ list }) => {
 
           return (
             <span
-              key={elem.type}
+              key={`like_${elem.type}`}
               style={{
                 fontSize: `${fontSize}px`,
                 fontWeight: minBoldCount <= elem.count ? 'bold' : 'normal', 

@@ -26,7 +26,7 @@ const SelectTagList: React.FC<SelectTagListProps> = ({ selectTags, setSelectTags
     <div className="flex flex-wrap gap-2 p-4">
       {selectTags.map((tag) => (
         <div
-          key={tag}
+          key={`sel_${tag}`}
           className={`flex items-center justify-center px-2 py-1 rounded-full text-white cursor-pointer ${getTagColor(
             tag
           )}`}
