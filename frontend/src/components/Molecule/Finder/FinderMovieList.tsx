@@ -12,14 +12,18 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (page: number) => {
     try {
       setIsLoading(true);
-      const response = await API.getMovies({queryName:"allAnimations"});
+      const response = await API.getMovies({queryName:"genreTypeAnimations", type: selectTags, page: page, pageSize: 40});
       const newMovies = response;
-      setMovies((prev)=>[...prev, ...newMovies]);
+      if (page === 0)
+        setMovies(newMovies);
+      else {
+        setMovies((prev)=>[...prev, ...newMovies]);
+      }
       setHasMore(newMovies.length > 0);
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
@@ -30,11 +34,12 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
   };
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    fetchMovies(0);
+    setPage(0);
+  }, [selectTags]);
 
   const handleFetchNextPage = () => {
-    fetchMovies();
+    fetchMovies(page);
   };
 
   return (
@@ -43,13 +48,13 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
       isLoading={isLoading}
       hasMore={hasMore}
     >
-    <div className="flex flex-wrap justify-between">
-      {movies.map((movie, index) => (
-        <div key={movie.id} className="w-[calc(25%-1px)] mb-1">
-          <MovieCard movie={movie} ratio="75%" />
-        </div>
-      ))}
-    </div>
+      <div className="flex flex-wrap">
+        {movies.map((movie, index) => (
+          <div key={index} className="w-[calc(25%-1px)] max-w-[320px] mb-1">
+            <MovieCard movie={movie} ratio="75%" />
+          </div>
+        ))}
+      </div>
     </VerticalScrollFrame>
   );
 };

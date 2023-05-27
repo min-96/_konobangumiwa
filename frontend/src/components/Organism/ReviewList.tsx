@@ -34,17 +34,9 @@ const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
   async function getReviews(p:number) {
     if (movie) {
       const ret = await API.getAnimationReviews({animationId: movie.id, page: p, pageSize: pageSize});
-      console.log("=============");
-      console.log('befReviewsRef')
-      console.log(reviewsRef.current);
       setReviews([...reviewsRef.current, ...ret]);
       if (ret.length === pageSize)
         setPage(pageRef.current + 1);
-      console.log('aftReviewsRef')
-      console.log(reviewsRef.current);
-      console.log('ret')
-      console.log(ret);
-      console.log("=============");
       return (ret.length === pageSize);
     }
     return (false);

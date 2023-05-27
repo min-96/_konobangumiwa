@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import MovieCard from '../Molecule/Home/MovieCard';
 import { Movie } from '../../types/movie';
 import ScrollFrame from '../Template/ScrollFrame';
-import CardFrame from '../Template/CardFrame';
 import * as API from '../../API/Animation';
 import { useError } from '../../hook/ErrorContext';
 
 interface MovieListProps {
   cardWidth?: string;
   queryName: string;
+  id?: number;
 };
 
-const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName}) => {
+const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id}) => {
   const [ movies, setMovies ] = useState<Movie[] | null>(null);
 
   const { showError } = useError();
@@ -19,7 +19,7 @@ const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName}) => {
   useEffect(() => {
     async function fetchMovies() {
       try {
-        const data = await API.getMovies({queryName});
+        const data = await API.getMovies({queryName, id});
         setMovies(data);
       } catch (error: any) {
         showError('Movie Fetch Error', error.message); // 에러 처리

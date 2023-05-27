@@ -37,7 +37,6 @@ const SearchContent: React.FC<SearchContentProps> = ({isTransparent}) => {
         placeholder="컨텐츠를 검색해보세요"
         value={searchText}
         onChange={handleChange}
-        onKeyDown={(event)=>{ if (event.key === 'enter') console.log();}}
         onFocus={()=>{setIsOpen(searchText.length > 0)}}
         isTransparent={isTransparent}
       />

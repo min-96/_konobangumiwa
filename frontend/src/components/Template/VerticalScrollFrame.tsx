@@ -16,7 +16,7 @@ const VerticalScrollFrame: React.FC<VerticalScrollFrameProps> = ({
   className,
 }) => {
   const observer = useRef<IntersectionObserver | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const observeRef = useRef<HTMLDivElement | null>(null);
 
   const handleObserver = (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
@@ -30,25 +30,25 @@ const VerticalScrollFrame: React.FC<VerticalScrollFrameProps> = ({
     observer.current = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: '0px',
-      threshold: 1.0,
+      threshold: 0.8,
     });
 
-    if (containerRef.current) {
-      observer.current.observe(containerRef.current);
+    if (observeRef.current) {
+      observer.current.observe(observeRef.current);
     }
 
     return () => {
-      if (observer.current && containerRef.current) {
-        observer.current.unobserve(containerRef.current);
+      if (observer.current && observeRef.current) {
+        observer.current.unobserve(observeRef.current);
       }
     };
   }, [fetchNextPage]);
 
   return (
-    <div ref={containerRef} className={className}>
+    <div className={className}>
       {children}
+      <div ref={observeRef}></div>
       {isLoading && <p>Loading...</p>}
-      {!hasMore && <p>End of results</p>}
     </div>
   );
 };
