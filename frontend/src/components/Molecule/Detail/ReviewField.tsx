@@ -41,7 +41,6 @@ const ReviewField: React.FC<ReviewFieldProps> = ({ }) => {
       if (contentId) {
         try {
           const ret = await API.getAnimationMyReview({animationId});
-          console.log(ret);
           setReview(ret);
         }
         catch (e: any) {
