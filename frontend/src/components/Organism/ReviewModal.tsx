@@ -1,4 +1,4 @@
-import { Movie, MovieDetail, Review, ReviewUser, User } from '../../types/movie';
+import { Movie, MovieDetail, Review, ReviewRelation, User } from '../../types/movie';
 import ModalFrame from '../Template/ModalFrame';
 import ReviewRating from '../Atom/ReviewRating';
 import UserProfileLink from '../Atom/UserProfileLink';
