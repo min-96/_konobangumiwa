@@ -16,7 +16,7 @@ const UserProfileLink: React.FC<UserProfileLinkProps> = ({ userId, profileUrl, n
         {profileUrl 
           ? <img className="object-cover rounded-full h-8 w-8 mr-2" src={profileUrl} alt="Profile" />
           : <FaUser className="h-8 w-8 rounded-full bg-blue-200 text-gray-600 mr-2 p-1" />}
-        <div className="w-28 truncate" title={nickname}>{nickname}</div>
+        <div className="max-w-[150px] truncate" title={nickname}>{nickname}</div>
       </div>
     </Link>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MovieCard from '../Molecule/Home/MovieCard';
 import { Movie } from '../../types/movie';
-import ScrollFrame from '../Template/ScrollFrame';
+import HorizontalScrollFrame from '../Template/HorizontalScrollFrame';
 import * as API from '../../API/Animation';
 import { useError } from '../../hook/ErrorContext';
 
@@ -9,9 +9,10 @@ interface MovieListProps {
   cardWidth?: string;
   queryName: string;
   id?: number;
+  keyName: string;
 };
 
-const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id}) => {
+const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id, keyName}) => {
   const [ movies, setMovies ] = useState<Movie[] | null>(null);
 
   const { showError } = useError();
@@ -31,14 +32,14 @@ const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id}) => {
   if (!movies) return null;
 
   return (
-    <ScrollFrame>
+    <HorizontalScrollFrame>
       {movies.map((movie, index) => (
-        <div key={movie.id} className="relative">
+        <div key={`${keyName}_${movie.id}`} className="relative">
           <span className="w-7 h-7 absolute top-5 left-5 bg-black bg-opacity-50 text-white rounded flex items-center justify-center font-bold">{index + 1}</span>
           <MovieCard movie={movie} width={cardWidth ? cardWidth : '200px'} />
         </div>
       ))}
-    </ScrollFrame>
+    </HorizontalScrollFrame>
   );
 };
 

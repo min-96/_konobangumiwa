@@ -68,7 +68,7 @@ const FinderTagList: React.FC<FinderTagListProps> = ({ selectTags, setSelectTags
           const checked = selectTags.includes(tag);
           return (
             <label
-              key={tag}
+              key={`find_${tag}`}
               className={`flex items-center m-2 font-semibold ${checked && 'text-blue-300'}`}
             >
               <input

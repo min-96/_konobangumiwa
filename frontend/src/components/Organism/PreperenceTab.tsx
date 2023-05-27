@@ -20,7 +20,7 @@ const PreperenceTab: React.FC<PreperenceTabProps> = ({genres, tags}) => {
       <LikeTags list={tags}/>
       <hr/>
       <h2 className="text-xl font-semibold">추천 애니메이션</h2>
-      <MovieList queryName="userBasedTag"/>
+      <MovieList keyName="prep" queryName="userBasedTag"/>
     </div>
       
       
