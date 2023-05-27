@@ -138,3 +138,61 @@ export const logoutUser = async () => {
     throw error;
   }
 };
+
+export const getUserLikeGenres = async () => {
+  try {
+    const response = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            userBasedlikeGenre {
+              type
+              count
+            }
+          }
+        `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result.data.userBasedlikeGenre;
+
+  } catch (error: any) {
+    throw error;
+  }
+}
+
+export const getUserLikeTags = async () => {
+  try {
+    const response = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            userBasedlikeTag {
+              type
+              count
+            }
+          }
+        `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result.data.userBasedlikeTag;
+
+  } catch (error: any) {
+    throw error;
+  }
+}

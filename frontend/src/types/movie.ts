@@ -17,8 +17,9 @@ export interface Review {
   animationId: number,
 }
 
-export interface ReviewUser extends Review {
+export interface ReviewRelation extends Review {
   user: User;
+  animation: Movie;
 }
 
 export interface User {
@@ -45,4 +46,16 @@ export interface MovieDetail extends Movie {
   crops_ratio: string;
   author: string;
   genreList: string[];
+}
+
+export interface Wish {
+  id: number;
+  animationId: number;
+  userId: number;
+  animation: Movie;
+}
+
+export interface TypeCount {
+  type: string;
+  count: number;
 }

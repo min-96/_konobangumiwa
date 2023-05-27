@@ -3,7 +3,7 @@ import CardFrame from '../Template/CardFrame';
 import ScrollFrame from '../Template/ScrollFrame';
 import ReviewCard from '../Molecule/Detail/ReviewCard';
 import ReviewModal from './ReviewModal';
-import { Review, ReviewUser, User } from '../../types/movie';
+import { Review, ReviewRelation, User } from '../../types/movie';
 import { useMovie } from '../Template/Detail';
 import * as API from '../../API/Review';
 import { useError } from '../../hook/ErrorContext';
@@ -15,12 +15,12 @@ interface ReviewListProps {
 
 const ReviewList: React.FC<ReviewListProps> = ({frameClassName, title}) => {
   const { movie } = useMovie();
-  const [ reviews, setReviews ] = useState<ReviewUser[]>([]);
+  const [ reviews, setReviews ] = useState<ReviewRelation[]>([]);
   const [ page, setPage ] = useState(0);
   const { showError } = useError();
   const pageSize = 5;
 
-  const reviewsRef = useRef<ReviewUser[]>([]);
+  const reviewsRef = useRef<ReviewRelation[]>([]);
   const pageRef = useRef<number>(0);
 
   // State들의 최신 상태 유지

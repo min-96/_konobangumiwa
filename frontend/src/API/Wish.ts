@@ -90,3 +90,43 @@ export const createAnimationMyWish = async (
     throw error;
   }
 }
+
+export const getUserWishes = async (
+  {userId}
+  : {userId:number}
+  ) => {
+  try {
+    const response = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            readWishList {
+              id
+              animationId
+              userId
+              animation {
+                id   
+                title
+                thumbnail
+                grade
+                reviewCount
+              }
+            }
+          }
+        `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result.data.readWishList;
+
+  } catch (error: any) {
+    throw error;
+  }
+}

@@ -8,6 +8,7 @@ import DetailHeader from "../Organism/DetailHeader";
 import * as API from "../../API/Animation";
 import { useError } from "../../hook/ErrorContext";
 import React from "react";
+import CardFrame from "./CardFrame";
 
 interface MovieContextType {
   movie: MovieDetail | null;
@@ -57,7 +58,9 @@ const Detail: FC<PageProps> = ({ }) => {
         <DetailHeader />
         <DetailInfo frameClassName="mt-6 shadow-border rounded-lg" title="기본정보" />
         <ReviewList frameClassName="mt-6 shadow-border rounded-lg" title="리뷰" />
-        <MovieList frameClassName="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션" queryName=""/>
+        <CardFrame className="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션">
+          <MovieList queryName="newAnimations"/>
+        </CardFrame>
       </div>
     </MovieContext.Provider>
   );

@@ -7,14 +7,11 @@ import * as API from '../../API/Animation';
 import { useError } from '../../hook/ErrorContext';
 
 interface MovieListProps {
-  title: string;
-  fontSize?: string;
-  frameClassName?: string;
   cardWidth?: string;
   queryName: string;
 };
 
-const MovieList: React.FC<MovieListProps> = ({frameClassName, title, fontSize, cardWidth, queryName}) => {
+const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName}) => {
   const [ movies, setMovies ] = useState<Movie[] | null>(null);
 
   const { showError } = useError();
@@ -31,20 +28,17 @@ const MovieList: React.FC<MovieListProps> = ({frameClassName, title, fontSize, c
     fetchMovies();
   }, []);
 
+  if (!movies) return null;
+
   return (
-    <CardFrame className={frameClassName} title={title} fontSize={fontSize}>
-      {
-        movies && 
-        <ScrollFrame>
-          {movies.map((movie, index) => (
-            <div key={movie.id} className="relative">
-              <span className="w-7 h-7 absolute top-5 left-5 bg-black bg-opacity-50 text-white rounded flex items-center justify-center font-bold">{index + 1}</span>
-              <MovieCard movie={movie} width={cardWidth ? cardWidth : '200px'} />
-            </div>
-          ))}
-        </ScrollFrame>
-      }
-    </CardFrame>
+    <ScrollFrame>
+      {movies.map((movie, index) => (
+        <div key={movie.id} className="relative">
+          <span className="w-7 h-7 absolute top-5 left-5 bg-black bg-opacity-50 text-white rounded flex items-center justify-center font-bold">{index + 1}</span>
+          <MovieCard movie={movie} width={cardWidth ? cardWidth : '200px'} />
+        </div>
+      ))}
+    </ScrollFrame>
   );
 };
 

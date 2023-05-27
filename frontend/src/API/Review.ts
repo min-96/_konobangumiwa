@@ -203,3 +203,45 @@ export const updateAnimationReview = async (
     throw error;
   }
 }
+
+export const getUserReviews = async (
+  {userId}
+  : {userId:number}
+  ) => {
+  try {
+    const response = await fetch('/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            readReivew {
+              id
+              userId
+              comment
+              evaluation
+              animationId
+              animation {
+                id   
+                title
+                thumbnail
+                grade
+                reviewCount
+              }
+            }
+          }
+        `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result.data.readReivew;
+
+  } catch (error: any) {
+    throw error;
+  }
+}
