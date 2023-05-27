@@ -9,7 +9,7 @@ interface PageProps {
 const ScrollFrame: FC<PageProps> = ({children, handleScrollEnd}) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isLeftEnd, setIsLeftEnd] = useState(true);
-  const [isRightEnd, setIsRightEnd] = useState(false);
+  const [isRightEnd, setIsRightEnd] = useState(true);
   const [befScrollWidth, setBefScrollWidth] = useState(0);
   
   const checkScrollEnd = () => {

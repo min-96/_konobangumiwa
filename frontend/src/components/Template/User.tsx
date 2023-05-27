@@ -27,7 +27,7 @@ const User: FC<PageProps> = ({ }) => {
     return null;
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center mb-12">
       <Profile frameClassName="mt-6 shadow-border rounded-lg" targetUser={targetUser}/>
       <UserMovieList frameClassName="mt-6 shadow-border rounded-lg" userId={Number.parseInt(userId, 10)}/>
     </div>

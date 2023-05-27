@@ -104,7 +104,7 @@ export const getUserWishes = async (
       body: JSON.stringify({
         query: `
           query {
-            readWishList {
+            readWishList(userId: ${userId}) {
               id
               animationId
               userId

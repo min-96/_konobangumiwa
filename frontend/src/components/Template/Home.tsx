@@ -9,7 +9,7 @@ interface PageProps {
 const Home: FC<PageProps> = ({}) => {
   
   return (
-    <div className="home-page">
+    <div className="home-page mb-12">
       <CardFrame title="인기순" fontSize="2xl">
         <MovieList queryName="popularityAnimations"/>
       </CardFrame>
