@@ -72,20 +72,4 @@ export class UserService {
     return otherUser;
   }
 
-async  createUserTest(offset:number, size: number) : Promise<string> {
-  try {
-    for (let i = offset; i <= size; i++) {
-      const user = {
-        googleId: `googleId${i}`,
-        email: `email${i}@example.com`,
-        displayName: `User ${i}`,
-      };
-
-       await this.prisma.user.create({ data: user });
-    }
-    return 'OK';
-  } catch (error) {
-    console.error('Error creating users:', error);
-  }
-}
 }
