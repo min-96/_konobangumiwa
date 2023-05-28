@@ -25,7 +25,7 @@ export class CrawlingResolver {
 
 
   @Query(()=> String)
-  async crawling_review2(@Args('animationId',{type: ()=> Int})animationId: number,
+  async crawling_review_byanimationId(@Args('animationId',{type: ()=> Int})animationId: number,
     @Args('userSize',{type: ()=> Int})userSize: number,
   @Args('reviewSize',{type: ()=> Int})reviewSize: number): Promise<string> {
     return this.crawlingService.fetchDataReview(animationId,reviewSize,userSize);

@@ -1,7 +1,8 @@
 import { Resolver,Query, Args, Int } from "@nestjs/graphql";
 import { Animation } from "src/animation/animation.model";
 import { SearchService } from "./search.service";
-import { GenreType } from "src/genre/genreType.model";
+import { GenreType } from "src/genre_tag/genreType.model";
+import { TagType } from "src/genre_tag/tagType.model";
 
 @Resolver(()=> Animation)
 export class SearchResolver {
@@ -28,6 +29,12 @@ export class SearchResolver {
     @Query(()=> [GenreType])
     async genreTypeList() : Promise<GenreType[]> {
         return this.searchService.genreTypeList();
+    }
+
+    
+    @Query(()=> [TagType])
+    async tagTypeList() : Promise<TagType[]> {
+        return this.searchService.tagTypeList();
     }
     
 }

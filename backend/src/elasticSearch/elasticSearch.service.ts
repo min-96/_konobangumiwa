@@ -67,6 +67,7 @@ export class MyElasticSearchService {
       const existIndex = await this.elasticsearchService.indices.exists({ index: 'animations' });
     
       if (existIndex.body) {
+
         await this.deleteIndex('animations');
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
@@ -78,7 +79,7 @@ export class MyElasticSearchService {
         body: {
           settings: {
             index: {
-              max_ngram_diff: 4
+              max_ngram_diff: 1
             },
             analysis: {
               analyzer: {
@@ -91,7 +92,7 @@ export class MyElasticSearchService {
                 ngram_tokenizer: {
                   type: 'ngram',
                   min_gram: 1,
-                  max_gram: 5,
+                  max_gram: 2,
                 },
               },
             },

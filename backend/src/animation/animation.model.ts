@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
-import { Genre } from "src/genre/genre.model";
+import { Genre } from "src/genre_tag/genre.model";
 import { Review } from "src/review/review.model";
 import { Wish } from "src/wish/wish.model";
 

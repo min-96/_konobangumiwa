@@ -74,7 +74,6 @@ type Query {
   users: [User!]!
   userRead: User
   otherUser(id: Float!): User!
-  createUserTest(offset: Float!, size: Float!): String!
   crawling_animation(offset: Int!, size: Int!): String!
   crawling_review(userSize: Int!, reviewSize: Int!): String!
   crawling_review2(animationId: Int!, userSize: Int!, reviewSize: Int!): String!
@@ -97,8 +96,9 @@ type Query {
   userBasedTag: [Animation!]!
   userBasedlikeTag: [TagCount!]!
   userBasedlikeGenre: [GenreCount!]!
-  userBasedCollaborative(userId: Float!): [Animation!]!
+  userBasedCollaborative: [Animation!]!
   createAnimationTest(offset: Float!, size: Float!): String!
+  createUserTest(offset: Float!, size: Float!): String!
   createReviewTest(size: Float!): String!
 }
 

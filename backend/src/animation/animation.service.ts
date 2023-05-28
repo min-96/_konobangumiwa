@@ -32,10 +32,11 @@ export class AnimationService {
   }
 
   async newAnimations(): Promise<Animation[]> {
+   
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
 
-    return this.prisma.animation.findMany({
+    const result = await this.prisma.animation.findMany({
       where: {
         release: {
           contains: currentYear.toString(),
@@ -43,6 +44,10 @@ export class AnimationService {
       },
       take: 10,
     });
+
+
+    return result;
+    
   }
 
   async detailAnimation(id: number): Promise<Animation> {
@@ -59,6 +64,7 @@ export class AnimationService {
 
 
   async similarAnimation(id: number): Promise<Animation[]> {
+   
     const animation = await this.prisma.animation.findUnique({
       where: { id: id },
       include: {
@@ -69,13 +75,15 @@ export class AnimationService {
     const author = animation.author;
     const genreTypeIds = animation.genreList.map((genre) => genre.genretypeId);
 
+
     const authorMatchedAnimations = await this.prisma.animation.findMany({
       where: {
         author: { equals: author, not: "" },
         NOT: { id: id },
       },
     });
-  
+
+
     const genreMatchedAnimations = await this.prisma.animation.findMany({
       where: {
         genreList: { every: { genretypeId: { in: genreTypeIds } } },
@@ -84,8 +92,10 @@ export class AnimationService {
       take: 10,
     });
   
+  
+ 
     const similarAnimations = [...authorMatchedAnimations, ...genreMatchedAnimations];
-
+ 
     return similarAnimations;
   }
 
