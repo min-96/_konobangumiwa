@@ -12,8 +12,8 @@ export class TestResolver {
     }
 
     @Query(() => String)
-    async createUserTest(@Args('offset') offset: number, @Args('size') size: number): Promise<string> {
-        return this.testService.createUserTest(offset, size);
+    async createUserTest(@Args('size') size: number): Promise<string> {
+        return this.testService.createUserTest(size);
     }
 
 
