@@ -8,7 +8,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UpdateInputReview } from './dto/update-review.dto';
 import { Animation } from 'src/animation/animation.model';
-import { UserReviewResponse } from './dto/response-userReview.dto';
+import { DetailReviewResponse } from './dto/response-userReview.dto';
 import { OtherReviewResponse } from './dto/response-otherReview.dto';
 
 @Resolver(() => Review)
@@ -25,7 +25,7 @@ export class ReviewResolver {
   }
 
   @Query(() => [Review])
-  async readReivewList(@Args('userId', {type: ()=> Int}) userId: number): Promise<Review[]> {
+  async readReviewList(@Args('userId', {type: ()=> Int}) userId: number): Promise<Review[]> {
     return this.reviewService.readReivews(userId);
   }
 
@@ -45,11 +45,11 @@ export class ReviewResolver {
   return this.reviewService.deleteReview(id, user);
   }
 
-  @Query(()=> UserReviewResponse)
+  @Query(()=> DetailReviewResponse)
   async detailReview(@Args('animationId', { type: () => Int }) animationId: number,
   @Args('page', { type: () => Int}) page: number,
   @Args('pageSize', { type: () => Int }) pageSize: number,
-  @CurrentUser() user: User | null) : Promise<UserReviewResponse> {
+  @CurrentUser() user: User | null) : Promise<DetailReviewResponse> {
     return this.reviewService.detailReview(animationId,page,pageSize,user);
   }
 }
