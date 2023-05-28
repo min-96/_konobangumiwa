@@ -3,6 +3,7 @@ import VerticalScrollFrame from '../../Template/VerticalScrollFrame';
 import * as API from '../../../API/Animation';
 import { Movie } from '../../../types/movie';
 import MovieCard from '../Home/MovieCard';
+import { useUser } from '../../../hook/UserContext';
 
 interface FinderMovieListProps {
   selectTags: string[];
@@ -13,6 +14,8 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
+
+  const { myReviews } = useUser();
 
   const fetchMovies = async (page: number) => {
     try {
@@ -51,7 +54,7 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
       <div className="flex flex-wrap">
         {movies.map((movie) => (
           <div key={`finder_${movie.id}`} className="w-[calc(25%-1px)] max-w-[320px] mb-1">
-            <MovieCard movie={movie} ratio="75%" />
+            <MovieCard movie={movie} review={myReviews.find((elem) => (elem.animationId === movie.id))} ratio="75%" />
           </div>
         ))}
       </div>

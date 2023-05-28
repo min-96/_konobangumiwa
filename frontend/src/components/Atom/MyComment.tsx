@@ -4,13 +4,14 @@ import ReviewModal from '../Organism/ReviewModal';
 import { useReview } from '../Molecule/Detail/ReviewField';
 import { useUser } from '../../hook/UserContext';
 import { useMovie } from '../Template/Detail';
+import { Review } from '../../types/movie';
 
 interface MyCommentProps {
 }
 
 const MyComment: React.FC<MyCommentProps> = () => {
   const { review, setReview } = useReview();
-  const { user } = useUser();
+  const { setMyReviews, user } = useUser();
   const { movie } = useMovie();
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -52,7 +53,16 @@ const MyComment: React.FC<MyCommentProps> = () => {
       {isModalOpen && review && (
         <ReviewModal 
           review={review}
-          setReview={setReview}
+          setReview={(review: Review)=>{
+            setReview(review); 
+            setMyReviews((prev) => (prev.map((elem)=>{
+              if (elem.id === review.id)
+                return review;
+              else
+                return elem;
+            })));
+          }}
+
           targetUser={user}
           movie={movie}
           handleClose={handleModalClose}

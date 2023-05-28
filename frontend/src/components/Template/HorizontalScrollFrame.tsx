@@ -21,7 +21,6 @@ const ScrollFrame: FC<ScrollFrameProps> = ({ children, handleScrollEnd }) => {
     if (scrollContainerRef.current) {
       const { scrollLeft, clientWidth, scrollWidth } = scrollContainerRef.current;
       const isScrollEnd = scrollLeft + clientWidth + 1 >= scrollWidth;
-      console.log(isScrollEnd, scrollLeft, scrollWidth, clientWidth);
       setIsLeftEnd(scrollLeft === 0);
       setIsRightEnd(isScrollEnd);
 

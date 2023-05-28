@@ -39,7 +39,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
           page: p,
           pageSize: pageSize,
         });
-        setReviews((prev) => [...prev, ...ret]);
+        if (p === 0)
+          setReviews(ret);
+        else
+          setReviews((prev) => [...prev, ...ret]);
         setPage((prevPage) => prevPage + 1);
         return ret.length === pageSize;
       }
@@ -52,7 +55,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
 
   useEffect(() => {
     getReviews(0);
-  }, []);
+  }, [movie]);
 
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -65,7 +68,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
   const handleCardClick = (review: Review, user: User) => {
     setSelectedReview(review);
     setSelectedUser(user);
-    console.log(review, user);
   };
 
   const handleModalClose = () => {
