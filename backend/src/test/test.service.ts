@@ -29,9 +29,9 @@ export class TestSerive {
         }
     }
 
-    async createUserTest(offset: number, size: number): Promise<string> {
+    async createUserTest(size: number): Promise<string> {
         try {
-            for (let i = offset; i <= size; i++) {
+            for (let i = 0; i < size; i++) {
                 const user = {
                     googleId: `googleId${i}`,
                     email: `email${i}@example.com`,

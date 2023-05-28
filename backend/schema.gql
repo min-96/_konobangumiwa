@@ -54,7 +54,11 @@ type GenreType {
   type: String!
 }
 
-type UserReviewResponse {
+type TagType {
+  type: String!
+}
+
+type DetailReviewResponse {
   userReview: Review
   otherReviews: [Review]
 }
@@ -72,17 +76,18 @@ type GenreCount {
 type Query {
   hello: String!
   users: [User!]!
-  userRead: User
+  readUser: User
   otherUser(id: Float!): User!
   crawling_animation(offset: Int!, size: Int!): String!
   crawling_review(userSize: Int!, reviewSize: Int!): String!
-  crawling_review2(animationId: Int!, userSize: Int!, reviewSize: Int!): String!
+  crawling_review_byanimationId(animationId: Int!, userSize: Int!, reviewSize: Int!): String!
   genreTypeAnimations(type: [String!]!, page: Int!, pageSize: Int!): [Animation!]!
   tagTypeAnimations(type: String!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   genreTypeList: [GenreType!]!
-  readReivewList(userId: Int!): [Review!]!
-  detailReview(animationId: Int!, page: Int!, pageSize: Int!): UserReviewResponse!
+  tagTypeList: [TagType!]!
+  readReviewList(userId: Int!): [Review!]!
+  detailReview(animationId: Int!, page: Int!, pageSize: Int!): DetailReviewResponse!
   allAnimations(page: Int!, pageSize: Int!): [Animation!]!
   popularityAnimations: [Animation!]!
   newAnimations: [Animation!]!
@@ -98,7 +103,7 @@ type Query {
   userBasedlikeGenre: [GenreCount!]!
   userBasedCollaborative: [Animation!]!
   createAnimationTest(offset: Float!, size: Float!): String!
-  createUserTest(offset: Float!, size: Float!): String!
+  createUserTest(size: Float!): String!
   createReviewTest(size: Float!): String!
 }
 
