@@ -42,8 +42,9 @@ export class UserBasedSystemResolver {
 
 
   @Query(()=> [Animation])
-  async userBasedCollaborative(@Args('userId')userId : number) : Promise<Animation[]> {
-    return this.userbasedrecoService.userBasedCollaborateFiltering(userId);
+  @UseGuards(AuthGuard)
+  async userBasedCollaborative(@CurrentUser() user: User) : Promise<Animation[]> {
+    return this.userbasedrecoService.userBasedCollaborateFiltering(user);
   }
   
 }

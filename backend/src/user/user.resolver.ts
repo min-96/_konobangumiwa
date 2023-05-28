@@ -18,7 +18,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { nullable: true })
- @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   async userRead(
     @CurrentUser() user:User
   ): Promise<User | null> {
@@ -41,11 +41,5 @@ export class UserResolver {
   async otherUser(@Args('id') id : number):Promise<User | null> {
     return this.userService.otherUser(id);
   }
-
-  @Query(()=> String)
-  async createUserTest(@Args('offset') offset: number, @Args('size') size : number) : Promise<string> {
-    return this.userService.createUserTest(offset, size);
-  }
-
 
 }

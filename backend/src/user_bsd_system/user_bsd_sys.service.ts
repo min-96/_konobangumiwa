@@ -4,6 +4,7 @@ import { Animation, Genre, User } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
 import { TagCount } from "./dto/response-tagCount.dto";
 import { GenreCount } from "./dto/response-genreCount.dto";
+import { use } from "passport";
 
 
 @Injectable()
@@ -92,6 +93,7 @@ export class UserBasedSystemService {
 
 
     async userBasedTagRecommend(user: User): Promise<Animation[]> {
+        
         const highRatedAnimations = await this.prisma.review.findMany({
             where: {
                 userId: user.id,
@@ -289,10 +291,11 @@ export class UserBasedSystemService {
     }
 
 
-    async userBasedCollaborateFiltering(userId: number): Promise<Animation[]> {
+    async userBasedCollaborateFiltering(user: User): Promise<Animation[]> {
+  
         const userReviews = await this.prisma.review.findMany({
             where: {
-                userId: userId,
+                userId: user.id,
                 evaluation: {
                     gte: 4,
                 },
@@ -307,7 +310,7 @@ export class UserBasedSystemService {
                     in: userReviewAnimationIds
                 },
                 userId: {
-                    not: userId
+                    not: user.id
                 },
                 evaluation: {
                     gte: 4
@@ -345,6 +348,7 @@ export class UserBasedSystemService {
             take: 50,
         });    
 
+    
     return collaborateFilteringAnimation;
        
     }

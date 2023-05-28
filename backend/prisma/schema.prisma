@@ -38,6 +38,8 @@ model Animation {
   reviewList    Review[]
   wishList      Wish[]
   tagList       Tag[]
+
+  @@index([reviewCount])
 }
 
 model Genre {
@@ -75,6 +77,9 @@ model Review {
   animationId   Int  
   user          User  @relation(fields: [userId], references: [id])  
   userId        Int
+
+  @@index([userId, evaluation])
+  @@index([animationId])
 }
 
 model Wish {
