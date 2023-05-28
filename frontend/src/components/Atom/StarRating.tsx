@@ -14,6 +14,7 @@ const StarRating: React.FC<StarRatingProps> = () => {
   const [rating, setRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState(0);
   const { showError } = useError();
+  const { setMyReviews } = useUser();
 
   useEffect(() => {
     setRating(review?.evaluation || 0);
@@ -37,6 +38,7 @@ const StarRating: React.FC<StarRatingProps> = () => {
           }
           const ret = await API.deleteAnimationReview({id: review.id});
           setReview(null);
+          setMyReviews((prev) => (prev.filter((elem) => elem.id !== review.id)));
           setWish(false);
           setRating(0);
         }
@@ -47,11 +49,18 @@ const StarRating: React.FC<StarRatingProps> = () => {
         if (rating === 0) {
           const ret = await API.createAnimationReview({animationId, evaluation: index});
           setReview(ret);
+          setMyReviews((prev) => ([...prev, ret]));
         }
         else {
           if (review) {
             const ret = await API.updateAnimationReview({id: review.id ,animationId, evaluation: index});
             setReview(ret);
+            setMyReviews((prev) => (prev.map((elem)=>{
+              if (elem.id === review.id)
+                return {...elem, evaluation: index}
+              else
+                return elem;
+            })));
           }
         }
         setWish(false);
@@ -71,11 +80,11 @@ const StarRating: React.FC<StarRatingProps> = () => {
             <FaStar
               className={`h-8 w-8 p-0.5 cursor-pointer ${
                 hoverRating === rating && index <= hoverRating
-                  ? "text-red-400"
+                  ? "text-gray-600"
                   : hoverRating >= index
                   ? "text-blue-400"
                   : rating >= index
-                  ? "text-yellow-400"
+                  ? "text-red-400"
                   : "text-gray-400"
               }`}
               onMouseEnter={() => onMouseEnter(index)}

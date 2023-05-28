@@ -8,11 +8,12 @@ import { FaStar } from 'react-icons/fa';
 interface MovieCardProps {
   movie: Movie,
   review?: Review;
+  otherReview?: Review;
   width?: string,
   ratio?: string,
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, review, width, ratio }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, review, otherReview, width, ratio }) => {
   return (
     <div className="movie-card" title={movie.title} style={{ minWidth: '100px', width: width }}>
       <Link to={`/contents/${movie.id}`}>
@@ -20,12 +21,25 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, review, width, ratio }) =>
         <div className="movie-preview">
           <h4>{movie.title}</h4>
           {
-            review ?
-              <div className="flex items-center">
-                <p className="text-sm mr-2">평가함</p>
-                <FaStar className="text-red-500 w-4 h-4 mr-1" />
-                <p>{review.evaluation}</p>
-              </div>
+            otherReview || review ?
+            <div className="flex items-center">
+              {
+                otherReview && otherReview.userId !== review?.userId &&
+                <>
+                  <FaStar className="text-blue-500 w-4 h-4 mr-1" />
+                  <p>{otherReview.evaluation}</p>
+                  { review && <div className="mx-2"></div>}
+                </>
+              }
+              {
+                review &&
+                <>
+                  <FaStar className="text-red-500 w-4 h-4 mr-1" />
+                  <p className="font-semibold">{review.evaluation}</p>
+                  <p className="text-sm ml-2 font-semibold">평가함</p>
+                </>
+              }
+            </div>
             :
             movie.reviewCount ?
             <p className="flex items-center">

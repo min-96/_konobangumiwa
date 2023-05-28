@@ -27,7 +27,7 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
   const [isLoadPrep, setIsLoadPrep] = useState(false);
 
   const { showError } = useError();
-  const { user } = useUser();
+  const { user, myReviews } = useUser();
 
   useEffect(() => {
     async function getReviews() {
@@ -125,13 +125,13 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
       {selectedMenu === '평가함' &&
         ratedMovies.map((review) => (
           <div key={`rated_${review.id}`} className="w-[calc(25%-1px)] mb-1">
-            <MovieCard movie={review.animation} review={review} ratio="75%" />
+            <MovieCard movie={review.animation} review={myReviews.find((elem)=>(elem.animationId === review.animationId))} otherReview={review} ratio="75%" />
           </div>
       ))}
       {selectedMenu === '보고싶어요' &&
         wishMovies.map((wish) => (
           <div key={`wish_${wish.id}`} className="w-[calc(25%-1px)] mb-1">
-            <MovieCard movie={wish.animation} ratio="75%" />
+            <MovieCard movie={wish.animation} review={myReviews.find((elem)=>(elem.animationId === wish.animationId))} ratio="75%" />
           </div>
       ))}
       </div>

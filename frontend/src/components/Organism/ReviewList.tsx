@@ -68,7 +68,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
   const handleCardClick = (review: Review, user: User) => {
     setSelectedReview(review);
     setSelectedUser(user);
-    console.log(review, user);
   };
 
   const handleModalClose = () => {
