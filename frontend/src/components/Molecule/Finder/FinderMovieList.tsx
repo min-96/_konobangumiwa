@@ -20,7 +20,10 @@ const FinderMovieList : React.FC<FinderMovieListProps> = ({selectTags}) => {
   const fetchMovies = async (page: number) => {
     try {
       setIsLoading(true);
-      const response = await API.getMovies({queryName:"genreTypeAnimations", type: selectTags, page: page, pageSize: 40});
+      const response = await API.getMovies({
+        queryName:`genreTypeAnimations`,
+        queryParams:`(type: ${JSON.stringify(selectTags)}, page: ${page}, pageSize: ${40})`
+      });
       const newMovies = response;
       if (page === 0)
         setMovies(newMovies);

@@ -4,11 +4,10 @@ import { TypeCount } from '../../types/movie';
 import MovieList from './MovieList';
 
 interface PreperenceTabProps {
-  genres: TypeCount[];
   tags: TypeCount[];
 }
 
-const PreperenceTab: React.FC<PreperenceTabProps> = ({genres, tags}) => {
+const PreperenceTab: React.FC<PreperenceTabProps> = ({tags}) => {
 
   return (
     <div className="m-6 space-y-6">

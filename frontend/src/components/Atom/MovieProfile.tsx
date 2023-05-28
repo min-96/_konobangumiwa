@@ -19,7 +19,7 @@ const MovieProfile: React.FC<MovieProfileProps> = ({ movie, width }) => {
           <p className={`mb-1 `}>
             <strong className="mr-2">출시</strong>{movie.release.split('|')[0]}
           </p>
-          <p className="flex items-center">
+          <div className="flex items-center">
             {movie.reviewCount ? (
               <>
                 <strong className={`mr-2 `}>평균</strong>
@@ -29,7 +29,7 @@ const MovieProfile: React.FC<MovieProfileProps> = ({ movie, width }) => {
             ) : (
               <p className={''}>평가없음</p>
             )}
-          </p>
+          </div>
         </div>
         <div>
           <p className={`mb-1`}> 

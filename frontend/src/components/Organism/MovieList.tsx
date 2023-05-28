@@ -9,11 +9,11 @@ import { useUser } from '../../hook/UserContext';
 interface MovieListProps {
   cardWidth?: string;
   queryName: string;
-  id?: number;
+  queryParams?: string;
   keyName: string;
 };
 
-const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id, keyName}) => {
+const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, keyName, queryParams}) => {
   const [ movies, setMovies ] = useState<Movie[] | null>(null);
   const { myReviews } = useUser();
 
@@ -22,7 +22,7 @@ const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id, keyName}
   useEffect(() => {
     async function fetchMovies() {
       try {
-        const data = await API.getMovies({queryName, id});
+        const data = await API.getMovies({queryName, queryParams});
         setMovies(data);
       } catch (error: any) {
         showError('Movie Fetch Error', error.message); // 에러 처리
