@@ -82,7 +82,7 @@ type Query {
   crawling_review(userSize: Int!, reviewSize: Int!): String!
   crawling_review_byanimationId(animationId: Int!, userSize: Int!, reviewSize: Int!): String!
   genreTypeAnimations(type: [String!]!, page: Int!, pageSize: Int!): [Animation!]!
-  tagTypeAnimations(type: String!): [Animation!]!
+  tagTypeAnimations(type: [String!]!): [Animation!]!
   searchTitle(title: String!): [Animation!]!
   genreTypeList: [GenreType!]!
   tagTypeList: [TagType!]!

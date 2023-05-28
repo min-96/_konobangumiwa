@@ -17,7 +17,7 @@ export class SearchResolver {
     }
 
     @Query(()=> [Animation])
-    async tagTypeAnimations(@Args('type') type: string) : Promise<Animation[] | null> {
+    async tagTypeAnimations(@Args('type', { type: () => [String]},) type: string[]) : Promise<Animation[] | null> {
         return this.searchService.filteringTag(type);
     } 
 
