@@ -3,7 +3,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { CreateInputReview } from './dto/create-review.dto';
 import { Prisma, Review, User } from '@prisma/client';
 import { UpdateInputReview } from './dto/update-review.dto';
-import { UserReviewResponse } from './dto/response-userReview.dto';
+import { DetailReviewResponse } from './dto/response-userReview.dto';
 import { ConflictException } from '@nestjs/common';
 import { CustomException } from 'src/error/customException';
 
@@ -194,9 +194,9 @@ export class ReviewService {
   }
 
 
-  async detailReview(id: number, page: number, pageSize: number, user?: User): Promise<UserReviewResponse> {
+  async detailReview(id: number, page: number, pageSize: number, user?: User): Promise<DetailReviewResponse> {
 
-    let userReview: UserReviewResponse = {
+    let userReview: DetailReviewResponse = {
       userReview: null,
       otherReviews: null,
     };

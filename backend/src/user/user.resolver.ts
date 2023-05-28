@@ -19,7 +19,7 @@ export class UserResolver {
 
   @Query(() => User, { nullable: true })
   @UseGuards(AuthGuard)
-  async userRead(
+  async readUser(
     @CurrentUser() user:User
   ): Promise<User | null> {
    return this.userService.findUserById(user.id);   
