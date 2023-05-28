@@ -13,12 +13,12 @@
 
 ## 👥  KONOBANGUMIWA 개발자
 
-🖥️  **FRONTEND Developer**   
-    [DongKim🐴] [https://github.com/parktest0325]
+🖥️  **FRONTEND Developer DongKim**  
+   [https://github.com/parktest0325]
    
 
-💾  **BACKEND Developer**.  
-    [Minyong🐻] [https://github.com/min-96]
+💾  **BACKEND Developer Minyong**   
+    [https://github.com/min-96]
 
 
 <br>
