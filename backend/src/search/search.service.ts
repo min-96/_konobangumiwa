@@ -58,13 +58,20 @@ export class SearchService {
     return results;
   }
 
-  async filteringTag(type: string): Promise<Animation[]> {
+  async filteringTag(type: string[]): Promise<Animation[]> {
     const animationsWithTag = await this.prisma.animation.findMany({
       where: {
-        tagList: {
-          some: {
-            tagtypeId: type,
+        AND: type.map(tag => ({
+          tagList: {
+            some: {
+              tagtypeId: {
+                equals: tag,
+              },
+            },
           },
+        })),
+        reviewCount: {
+          gte: 50,
         },
       },
       orderBy: {
