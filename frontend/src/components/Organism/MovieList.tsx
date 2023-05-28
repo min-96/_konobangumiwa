@@ -4,6 +4,7 @@ import { Movie } from '../../types/movie';
 import HorizontalScrollFrame from '../Template/HorizontalScrollFrame';
 import * as API from '../../API/Animation';
 import { useError } from '../../hook/ErrorContext';
+import { useUser } from '../../hook/UserContext';
 
 interface MovieListProps {
   cardWidth?: string;
@@ -14,6 +15,7 @@ interface MovieListProps {
 
 const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id, keyName}) => {
   const [ movies, setMovies ] = useState<Movie[] | null>(null);
+  const { myReviews } = useUser();
 
   const { showError } = useError();
 
@@ -36,7 +38,7 @@ const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, id, keyName}
       {movies.map((movie, index) => (
         <div key={`${keyName}_${movie.id}`} className="relative">
           <span className="w-7 h-7 absolute top-5 left-5 bg-black bg-opacity-50 text-white rounded flex items-center justify-center font-bold">{index + 1}</span>
-          <MovieCard movie={movie} width={cardWidth ? cardWidth : '200px'} />
+          <MovieCard movie={movie} review={myReviews.find((elem)=>(elem.animationId === movie.id))} width={cardWidth ? cardWidth : '200px'} />
         </div>
       ))}
     </HorizontalScrollFrame>

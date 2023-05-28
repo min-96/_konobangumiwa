@@ -7,6 +7,7 @@ import { useError } from '../../../hook/ErrorContext';
 import { Review } from '../../../types/movie';
 import * as API from '../../../API/Review';
 import { createContext } from "react";
+import { useUser } from '../../../hook/UserContext';
 
 interface ReviewContextType {
   review: Review | null;
@@ -31,25 +32,19 @@ interface ReviewFieldProps {
 
 const ReviewField: React.FC<ReviewFieldProps> = ({ }) => {
   const { contentId } = useParams<{ contentId: string }>();
-  const { showError } = useError();
+  const animationId = Number.parseInt(contentId || '0');
+  const { myReviews } = useUser();
   const [ review, setReview ] = useState<Review | null>(null);
   const [ wish, setWish ] = useState<boolean>(false);
-  const animationId = Number.parseInt(contentId || '0');
 
   useEffect(() => {
     async function getMyReview() {
       if (contentId) {
-        try {
-          const ret = await API.getAnimationMyReview({animationId});
-          setReview(ret);
-        }
-        catch (e: any) {
-          showError("fetch Review Error", e.message);
-        }
+        setReview(myReviews.find((elem)=>(elem.animationId === animationId)) || null);
       }
     }
     getMyReview();
-  }, [contentId]);
+  }, [contentId, myReviews]);
 
   if (!contentId)
     return null;

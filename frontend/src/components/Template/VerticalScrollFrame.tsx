@@ -47,7 +47,7 @@ const VerticalScrollFrame: React.FC<VerticalScrollFrameProps> = ({
   return (
     <div className={className}>
       {children}
-      <div ref={observeRef}></div>
+      <div className="border-primary border-2 " ref={observeRef}></div>
       {isLoading && <p>Loading...</p>}
     </div>
   );

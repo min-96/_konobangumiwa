@@ -14,6 +14,7 @@ const User: FC<PageProps> = ({ }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setTargetUser(null);
     async function fetchUser() {
       if (userId) {
         const fetchedUser = await API.getUserData({id: Number.parseInt(userId)});
