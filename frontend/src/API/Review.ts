@@ -217,7 +217,7 @@ export const getUserReviews = async (
       body: JSON.stringify({
         query: `
           query {
-            readReivewList(userId: ${userId}) {
+            readReviewList(userId: ${userId}) {
               id
               userId
               comment
@@ -239,7 +239,7 @@ export const getUserReviews = async (
       throw new Error('Network response was not ok');
     }
     const result = await response.json();
-    return result.data.readReivewList;
+    return result.data.readReviewList;
 
   } catch (error: any) {
     throw error;

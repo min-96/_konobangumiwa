@@ -19,7 +19,7 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
   const [ratedMovies, setRatedMovies] = useState<ReviewRelation[]>([]);
   const [wishMovies, setWishMovies] = useState<Wish[]>([]);
 
-  const [likeGenres, setLikeGenres] = useState<TypeCount[]>([]);
+  // const [likeGenres, setLikeGenres] = useState<TypeCount[]>([]);
   const [likeTags, setLikeTags] = useState<TypeCount[]>([]);
 
   const [isLoadRate, setIsLoadRate] = useState(false);
@@ -49,15 +49,15 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
         showError("fetch Wish Error",e.message);
       }
     }
-    async function getLikeGenres() {
-      try {
-        const ret = await User_API.getUserLikeGenres()
-        setLikeGenres(ret);
-      }
-      catch (e:any) {
-        showError("fetch Like Genres Error",e.message);
-      }
-    }
+    // async function getLikeGenres() {
+    //   try {
+    //     const ret = await User_API.getUserLikeGenres()
+    //     setLikeGenres(ret);
+    //   }
+    //   catch (e:any) {
+    //     showError("fetch Like Genres Error",e.message);
+    //   }
+    // }
 
     async function getLikeTags() {
       try {
@@ -78,7 +78,7 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
       setIsLoadWish(true);
     }
     if (selectedMenu === '취향분석' && !isLoadPrep) {
-      getLikeGenres();
+      // getLikeGenres();
       getLikeTags();
       setIsLoadPrep(true);
     }
@@ -136,7 +136,7 @@ const UserMovieList: React.FC<UserMovieListProps> = ({frameClassName, userId}) =
       ))}
       </div>
       {selectedMenu === '취향분석' &&
-        <PreperenceTab genres={likeGenres} tags={likeTags} />
+        <PreperenceTab tags={likeTags} />
       }
     </CardFrame>
   );

@@ -1,12 +1,12 @@
 import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 
-interface ScrollFrameProps {
+interface HorizontalScrollFrameProps {
   children: ReactNode;
   handleScrollEnd?: () => Promise<boolean>;
 }
 
-const ScrollFrame: FC<ScrollFrameProps> = ({ children, handleScrollEnd }) => {
+const HorizontalScrollFrame: FC<HorizontalScrollFrameProps> = ({ children, handleScrollEnd }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isLeftEnd, setIsLeftEnd] = useState(true);
   const [isRightEnd, setIsRightEnd] = useState(true);
@@ -72,4 +72,4 @@ const ScrollFrame: FC<ScrollFrameProps> = ({ children, handleScrollEnd }) => {
   );
 };
 
-export default ScrollFrame;
+export default HorizontalScrollFrame;
