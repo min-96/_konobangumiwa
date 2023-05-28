@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
-import { Animation, Genre, GenreType } from "@prisma/client";
+import { Animation, Genre, GenreType, TagType } from "@prisma/client";
 import { PrismaService } from "prisma/prisma.service";
 import { MyElasticSearchService } from "src/elasticSearch/elasticSearch.service";
 
@@ -79,4 +79,7 @@ export class SearchService {
       return this.prisma.genreType.findMany();
   }
 
+  async tagTypeList() : Promise<TagType[]> {
+    return this.prisma.tagType.findMany();
+  }
 }
