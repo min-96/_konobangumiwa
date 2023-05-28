@@ -57,7 +57,7 @@ const ReviewField: React.FC<ReviewFieldProps> = ({ }) => {
           <StarRating />
         </div>
         <div className="flex items-center justify-center pl-6 pr-6">
-          <div className="flex w-full">
+          <div className="flex lg:flex-row md:flex-col w-full md:space-y-2">
             <div className="flex items-center mr-6">
               <MyWish />
             </div> 

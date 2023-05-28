@@ -10,7 +10,7 @@ export const getMyData = async () => {
       body: JSON.stringify({
         query: `
           query {
-            userRead {
+            readUser {
               id
               googleId
               email
@@ -26,7 +26,7 @@ export const getMyData = async () => {
       throw new Error('Network response was not ok');
     }
     const result = await response.json();
-    return result.data.userRead;
+    return result.data.readUser;
 
   } catch (error: any) {
     throw error;

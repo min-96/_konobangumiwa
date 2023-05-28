@@ -59,7 +59,7 @@ const Detail: FC<PageProps> = ({ }) => {
         <DetailInfo frameClassName="mt-6 shadow-border rounded-lg" title="기본정보" />
         <ReviewList frameClassName="mt-6 shadow-border rounded-lg" title="리뷰" />
         <CardFrame className="mt-6 shadow-border rounded-lg" title="비슷한 애니메이션">
-          <MovieList keyName="sim" queryName="similarAnimation" id={movie.id}/>
+          <MovieList keyName="sim" queryName={`similarAnimation`} queryParams={`(id: ${movie.id})`}/>
         </CardFrame>
       </div>
     </MovieContext.Provider>
