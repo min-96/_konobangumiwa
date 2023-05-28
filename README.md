@@ -42,7 +42,7 @@ docker-compose up
 <br>
 <br>
 
-<div align=center><h1>📚 STACKS</h1></div>
+## 📚 KONOBANGUMIWA 기술
 
 <div align=center> 
   
