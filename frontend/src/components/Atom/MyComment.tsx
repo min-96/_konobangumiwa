@@ -36,8 +36,8 @@ const MyComment: React.FC<MyCommentProps> = () => {
         title={review ? "": "평가 후 작성할 수 있습니다"}
       >
         {
-          review ? <TbPencilPlus className="h-5 w-5 mr-2"/>
-          : <TbPencilOff className="h-5 w-5 mr-2"/>
+          review ? <TbPencilPlus className="h-5 w-5 mr-1"/>
+          : <TbPencilOff className="h-5 w-5 mr-1"/>
         }
         {
           review?.comment ? 

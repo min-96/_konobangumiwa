@@ -80,8 +80,7 @@ const EditableTextarea: React.FC<EditableTextareaProps> = ({
       <hr className="mt-2 mb-2" />
       <div className="flex justify-between">
         <div className="flex items-center">
-          <FaHeart className="text-red-500 mr-1" />
-          <p>0</p>
+          <img src={`/logo-black.svg`} alt="Logo" className="w-20"/>
         </div>
         {
           isEditable &&
