@@ -41,10 +41,9 @@ export class SearchService {
       index: 'animations',
       body: {
         query: {
-          fuzzy: {
+          match: {
             decomposedTitle: {
-              value: decomposedTitle,
-              fuzziness: 2
+              query: decomposedTitle,
             }
           }
 
