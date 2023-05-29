@@ -25,6 +25,39 @@
 <br>
 
 ## 🔨 KONOBANGUMIWA 설치 및 실행방법
+#### 구글 OAUTH 클라이언트 ID 생성
+1. https://console.cloud.google.com/apis/credentials 링크에서 프로젝트 생성
+2. 사용자 인증정보 생성
+3. 승인된 자바스크립트 원본: http://localhost
+4. 승인된 리디렉션 URI: http://localhost/api/auth/google/callback
+
+#### 환경변수 파일 세팅
+1. backend/.env
+```
+REDIS_URL = 'redis://redis:6379'
+
+DATABASE_URL = 'postgresql://min96:1q2w3e4r!@postgres:5432/konobangumiwa'
+
+POSTGRES_HOST = 'postgres'
+POSTGRES_USER = 'min96'
+POSTGRES_DB = 'konobangumiwa'
+POSTGRES_PASSWORD = '1q2w3e4r!'
+POSTGRES_PORT = 5432
+
+ELASTICSEARCH_NODE = 'http://elasticsearch:9200'
+
+GOOGLE_CLIENT_ID = 위에서 생성한 구글 OAuth CLIENT ID
+GOOGLE_CLIENT_SECRET = 구글 OAuth 클라이언트 보안 비밀번호
+
+SESSION_SECRET = 'hard_session_secret_key'
+GOOGLE_CALLBACK_URL = 'http://localhost/api/auth/google/callback'
+```
+
+2. frontend/.env.local
+```
+REACT_APP_API_URL='http://localhost/'
+```
+
 
 #### for MAC
 ```
@@ -38,6 +71,15 @@ docker-compose up
 * backend/entrypoint.sh 파일의 End Of Line을 CRLF => LF로 변경
 * 이후 프로젝트 루트 디렉토리에서 `docker-compose up` 
  
+
+#### 실행 및 환경
+`http://localhost` 주소로 접속
+* **nginx**: localhost:80
+* **nestjs**: localhost:3000
+* **react**: localhost:3001
+* **postgres**: localhost:5432
+
+
 
 <br>
 <br>
