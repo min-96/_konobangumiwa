@@ -17,7 +17,7 @@ const MovieProfile: React.FC<MovieProfileProps> = ({ movie, width }) => {
       <div className="flex">
         <div className={`w-[200px] `}>
           <p className={`mb-1 `}>
-            <strong className="mr-2">출시</strong>{movie.release.split('|')[0]}
+            <strong className="mr-2">출시</strong>{movie.release?.split('|')[0]}
           </p>
           <div className="flex items-center">
             {movie.reviewCount ? (

@@ -39,7 +39,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, setReview, targetUser,
     }
   }, []);
 
-  if (!review || !movieData || !user) return null;
+  if (!review || !movieData || !targetUser) return null;
 
   return (
     <ModalFrame handleModalClose={handleClose}>
@@ -98,7 +98,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({review, setReview, targetUser,
           }}
           align="left"
           maxChars={1000}
-          isEditable={targetUser.id === user.id}
+          isEditable={targetUser.id === user?.id}
         />
       </div>
     </ModalFrame>

@@ -86,7 +86,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
   return (
     <>
       <CardFrame className={frameClassName} title={title}>
-        <HorizontalScrollFrame handleScrollEnd={handleScrollEnd} isLoading={isLoading}>
+        <HorizontalScrollFrame key={`h_${movie.id}`} handleScrollEnd={handleScrollEnd} isLoading={isLoading}>
           {reviews.map((item) => (
             <ReviewCard
               key={`review_${item.id}`}
