@@ -87,7 +87,8 @@ export class AnimationService {
     const genreMatchedAnimations = await this.prisma.animation.findMany({
       where: {
         genreList: { every: { genretypeId: { in: genreTypeIds } } },
-        NOT: { id: id, author: author },
+        AND : { id: { not: id }}, author: { not: author}
+       // NOT: { id: id, author: author },
       },
       take: 10,
     });
