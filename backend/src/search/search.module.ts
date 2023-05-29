@@ -3,8 +3,8 @@ import { PrismaService } from 'prisma/prisma.service';
 import { SearchResolver } from './search.resolver';
 import { SearchService } from './search.service';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
-import { MyElasticSearchService } from 'src/elasticSearch/elasticSearch.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MyElasticSearchModule } from 'src/elasticSearch/elasticSearch.module';
 
 @Module({
   imports: [
@@ -15,7 +15,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService], 
     }),
+    MyElasticSearchModule
  ],
-  providers: [PrismaService, SearchResolver, SearchService, MyElasticSearchService],
+  providers: [PrismaService, SearchResolver, SearchService],
 })
 export class SearchModule {}
