@@ -25,13 +25,15 @@
 <br>
 
 ## 🔨 KONOBANGUMIWA 설치 및 실행방법
-#### 구글 OAUTH 클라이언트 ID 생성
+### 구글 OAUTH 클라이언트 ID 생성
 1. https://console.cloud.google.com/apis/credentials 링크에서 프로젝트 생성
-2. 사용자 인증정보 생성
+2. 사용자 인증정보 만들기 => OAuth 클라이언트 ID
 3. 승인된 자바스크립트 원본: http://localhost
 4. 승인된 리디렉션 URI: http://localhost/api/auth/google/callback
 
-#### 환경변수 파일 세팅
+<br>
+
+### 환경변수 파일 세팅
 1. backend/.env
 ```
 REDIS_URL = 'redis://redis:6379'
@@ -58,8 +60,9 @@ GOOGLE_CALLBACK_URL = 'http://localhost/api/auth/google/callback'
 REACT_APP_API_URL='http://localhost/'
 ```
 
+<br>
 
-#### for MAC
+### for MAC
 ```
 git clone https://github.com/min-96/_konobangumiwa.git
 cd _konobangumiwa
@@ -67,12 +70,15 @@ chmod 777 backend/entrypoint.sh
 docker-compose up
 ```
 
-#### for Windows
+<br>
+
+### for Windows
 * backend/entrypoint.sh 파일의 End Of Line을 CRLF => LF로 변경
 * 이후 프로젝트 루트 디렉토리에서 `docker-compose up` 
  
+<br>
 
-#### 실행 및 환경
+### 실행 및 환경
 `http://localhost` 주소로 접속
 * **nginx**: localhost:80
 * **nestjs**: localhost:3000
@@ -84,7 +90,7 @@ docker-compose up
 <br>
 <br>
 
-## 📚 KONOBANGUMIWA 기술
+## 📚 KONOBANGUMIWA 기술스택
 
 <div align=center> 
   
