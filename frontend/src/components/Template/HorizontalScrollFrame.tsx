@@ -4,9 +4,10 @@ import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 interface HorizontalScrollFrameProps {
   children: ReactNode;
   handleScrollEnd?: () => Promise<boolean>;
+  isLoading?: boolean;
 }
 
-const HorizontalScrollFrame: FC<HorizontalScrollFrameProps> = ({ children, handleScrollEnd }) => {
+const HorizontalScrollFrame: FC<HorizontalScrollFrameProps> = ({ children, handleScrollEnd, isLoading }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isLeftEnd, setIsLeftEnd] = useState(true);
   const [isRightEnd, setIsRightEnd] = useState(true);
@@ -20,16 +21,13 @@ const HorizontalScrollFrame: FC<HorizontalScrollFrameProps> = ({ children, handl
   const handleScroll = async () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, clientWidth, scrollWidth } = scrollContainerRef.current;
-      const isScrollEnd = scrollLeft + clientWidth + 1 >= scrollWidth;
+      const isScrollEnd = scrollLeft + clientWidth >= scrollWidth;
       setIsLeftEnd(scrollLeft === 0);
       setIsRightEnd(isScrollEnd);
 
-      if (handleScrollEnd && isScrollEnd) {
+      if (handleScrollEnd && isScrollEnd && !isLoading) {
         const shouldLoadMore = await handleScrollEnd();
         setIsRightEnd(!shouldLoadMore);
-        if (shouldLoadMore) {
-          scrollContainerRef.current.scrollTo({ left: scrollWidth, behavior: "smooth" });
-        }
       }
     }
   };
