@@ -29,7 +29,7 @@ const MovieList: React.FC<MovieListProps> = ({cardWidth, queryName, keyName, que
       }
     }
     fetchMovies();
-  }, []);
+  }, [queryParams]);
 
   if (!movies) return null;
 
