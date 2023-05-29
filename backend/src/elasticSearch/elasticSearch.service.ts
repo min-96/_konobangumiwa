@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { PrismaService } from "prisma/prisma.service";
 
 @Injectable()
-export class MyElasticSearchService {
+export class MyElasticSearchService implements OnModuleInit{
   CHO_HANGUL = [
     'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
     'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
@@ -34,6 +34,13 @@ export class MyElasticSearchService {
   constructor(private prisma: PrismaService
     , private readonly elasticsearchService: ElasticsearchService
   ) { }
+
+
+  async onModuleInit() {
+    await this.settingAnalyzer();
+    await this.indexAnimationList();
+  }
+
 
   async divideHangul(title: string): Promise<string> {
     const letter = Object.assign([], title);
@@ -126,7 +133,7 @@ export class MyElasticSearchService {
 
 
 
-  async indexAnimationList(): Promise<any> {
+   async indexAnimationList(): Promise<any> {
     try {
       const animations = await this.prisma.animation.findMany();
       animations.forEach(async (animation) => {
