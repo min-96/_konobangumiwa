@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - nestjs-app
+
+  nestjs-app:
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    entrypoint: /usr/src/app/entrypoint.sh
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    env_file:
+      - backend/.env
+      
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgresql:/docker-entrypoint-initdb.d
+    env_file:
+      - backend/.env
+
+  redis:
+    image: redis:latest
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+
+volumes:
+  postgres-data:
+  elasticsearch-data:
