@@ -78,13 +78,9 @@ docker-compose up
  
 <br>
 
-### 실행 및 환경
+### 릴리즈 환경 실행
 `http://localhost` 주소로 접속
-* **nginx**: localhost:80
-* **nestjs**: localhost:3000
-* **react**: localhost:3001
-* **postgres**: localhost:5432
-
+* 릴리즈 환경에서 80번을 제외한 나머지 포트는 닫혀있습니다. 
 
 
 <br>
