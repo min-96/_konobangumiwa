@@ -7,9 +7,9 @@ import { CrawlingGenreTypeService } from './data_genreType.service';
 import { AnimationDataService } from './data_animation.service';
 import { CrawlingTagTypeService } from './data_tagType.servie';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
-import { MyElasticSearchService } from 'src/elasticSearch/elasticSearch.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CrawlingReviewService } from './data_review.service';
+import { MyElasticSearchModule } from 'src/elasticSearch/elasticSearch.module';
 
 
 @Module({
@@ -21,9 +21,9 @@ import { CrawlingReviewService } from './data_review.service';
       }),
       inject: [ConfigService], 
     }),
-
+    MyElasticSearchModule
  ],
   providers: [PrismaService, AdminGuard, CrawlingResolver,CrawlingService,CrawlingGenreTypeService,AnimationDataService
-    ,CrawlingTagTypeService, MyElasticSearchService,CrawlingReviewService],
+    ,CrawlingTagTypeService, CrawlingReviewService],
 })
 export class CrawlingModule {}
