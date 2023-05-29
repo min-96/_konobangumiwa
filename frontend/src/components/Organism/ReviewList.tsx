@@ -17,6 +17,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
   const { movie } = useMovie();
   const [reviews, setReviews] = useState<ReviewRelation[]>([]);
   const [page, setPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const { showError } = useError();
   const pageSize = 5;
 
@@ -33,6 +34,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
 
   const getReviews = async (p: number) => {
     try {
+      setIsLoading(true);
       if (movie) {
         const ret = await API.getAnimationReviews({
           animationId: movie.id,
@@ -43,12 +45,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
           setReviews(ret);
         else
           setReviews((prev) => [...prev, ...ret]);
-        setPage((prevPage) => prevPage + 1);
-        return ret.length === pageSize;
+        if (ret.length > 0)
+          setPage((prevPage) => prevPage + 1);
+        setIsLoading(false);
+        return ret.length > 0;
       }
+      setIsLoading(false);
       return false;
     } catch (e: any) {
       showError('fetch Review Error', e.message);
+      setIsLoading(false);
       return false;
     }
   };
@@ -80,7 +86,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ frameClassName, title }) => {
   return (
     <>
       <CardFrame className={frameClassName} title={title}>
-        <HorizontalScrollFrame handleScrollEnd={handleScrollEnd}>
+        <HorizontalScrollFrame handleScrollEnd={handleScrollEnd} isLoading={isLoading}>
           {reviews.map((item) => (
             <ReviewCard
               key={`review_${item.id}`}
