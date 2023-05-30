@@ -1,0 +1,139 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  googleId: String!
+  email: String!
+  displayName: String!
+  introduction: String
+  pictureUrl: String
+}
+
+type Genre {
+  id: Int!
+  animationId: Float!
+  genretypeId: String!
+}
+
+type Review {
+  id: Float!
+  evaluation: Float!
+  comment: String
+  animationId: Float!
+  userId: Float!
+  user: User
+  animation: Animation
+}
+
+type Wish {
+  id: Float!
+  animationId: Float!
+  userId: Float!
+  animation: Animation
+}
+
+type Animation {
+  id: Int!
+  title: String!
+  release: String
+  introduction: String
+  thumbnail: String
+  backgroundImg: String
+  crops_ratio: String
+  grade: Float
+  author: String
+  reviewCount: Float
+  genreList: [Genre!]
+  reviewList: [Review!]
+  wishList: [Wish!]
+}
+
+type GenreType {
+  type: String!
+}
+
+type TagType {
+  type: String!
+}
+
+type DetailReviewResponse {
+  userReview: Review
+  otherReviews: [Review]
+}
+
+type TagCount {
+  type: String!
+  count: Int!
+}
+
+type GenreCount {
+  type: String!
+  count: Int!
+}
+
+type Query {
+  hello: String!
+  users: [User!]!
+  readUser: User
+  otherUser(id: Float!): User!
+  crawling_animation(offset: Int!, size: Int!): String!
+  crawling_review(userSize: Int!, reviewSize: Int!): String!
+  crawling_review_byanimationId(animationId: Int!, userSize: Int!, reviewSize: Int!): String!
+  genreTypeAnimations(type: [String!]!, page: Int!, pageSize: Int!): [Animation!]!
+  tagTypeAnimations(type: [String!]!): [Animation!]!
+  searchTitle(title: String!): [Animation!]!
+  genreTypeList: [GenreType!]!
+  tagTypeList: [TagType!]!
+  readReviewList(userId: Int!): [Review!]!
+  detailReview(animationId: Int!, page: Int!, pageSize: Int!): DetailReviewResponse!
+  allAnimations(page: Int!, pageSize: Int!): [Animation!]!
+  popularityAnimations: [Animation!]!
+  newAnimations: [Animation!]!
+  detailAnimation(id: Int!): Animation!
+  similarAnimation(id: Int!): [Animation!]!
+  readWishList(userId: Float!): [Wish!]!
+  wishYN(animationId: Float!): Boolean!
+  settingAnalyzer: String!
+  indexAnimation: String!
+  userBasedGenre: [Animation!]!
+  userBasedTag: [Animation!]!
+  userBasedlikeTag: [TagCount!]!
+  userBasedlikeGenre: [GenreCount!]!
+  userBasedCollaborative: [Animation!]!
+  createAnimationTest(offset: Float!, size: Float!): String!
+  createUserTest(size: Float!): String!
+  createReviewTest(size: Float!): String!
+}
+
+type Mutation {
+  updateUser(input: UpdateUserInput!): User!
+  deleteUser: User!
+  createReview(input: CreateInputReview!): Review!
+  updateReview(input: UpdateInputReview!): Review!
+  deleteReview(id: Int!): Review!
+  createWish(animationId: Float!): Wish!
+  deleteWish(animationId: Float!): Wish!
+}
+
+input UpdateUserInput {
+  displayName: String
+  introduction: String
+  pictureUrl: String
+}
+
+input CreateInputReview {
+  evaluation: Float!
+  comment: String
+  animationId: Float!
+  userId: Float
+}
+
+input UpdateInputReview {
+  id: Float!
+  evaluation: Float!
+  comment: String
+  animationId: Float!
+  userId: Float
+}
