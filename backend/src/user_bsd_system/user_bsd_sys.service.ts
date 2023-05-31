@@ -302,6 +302,7 @@ export class UserBasedSystemService {
             },
         });
         const userReviewAnimationIds = userReviews.map(review => review.animationId);
+        const watchedAnimationIds = await this.watchedAnimation(user);
     
         const similarUserCount = await this.prisma.review.groupBy({
             by: ['userId'],
@@ -336,7 +337,7 @@ export class UserBasedSystemService {
                 gte: 4
             },
             animationId: {
-                notIn: userReviewAnimationIds
+                notIn: watchedAnimationIds
             }
         },
     });
