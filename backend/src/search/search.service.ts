@@ -36,15 +36,14 @@ export class SearchService {
   async searchTitleInElastic(title: string): Promise<Animation[]> {
 
     const decomposedTitle = await this.myelasticSearchService.divideHangul(title);
-
+    const chosungTitle = await this.myelasticSearchService.extractChosung(title);
     const { body } = await this.elasticsearchService.search({
       index: 'animations',
       body: {
         query: {
-          match: {
-            decomposedTitle: {
+          multi_match: {
               query: decomposedTitle,
-            }
+              fields: ['decomposedTitle', 'chosungTitle']  
           }
 
         },
