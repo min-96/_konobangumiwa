@@ -1,6 +1,6 @@
 # KONOBANGUMIWA 
 
-![image](https://github.com/min-96/_konobangumiwa/assets/67457956/f7d520b6-c054-40cc-a9e5-63d01c614c24)
+![image](https://github.com/min-96/_konobangumiwa/assets/67457956/db40bc8b-3213-4e41-92ee-595ffc4f2557)
 
 
 ## 🏷️  KONOBANGUMIWA 소개 
