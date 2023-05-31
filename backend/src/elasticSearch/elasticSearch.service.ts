@@ -69,6 +69,30 @@ export class MyElasticSearchService implements OnModuleInit{
     return result;
   }
 
+
+  async extractChosung(title: string): Promise<string> {
+    const letter = Object.assign([], title);
+    let result = '';
+    letter.map((ele) => {
+
+      const letterCode = ele.charCodeAt(0);
+
+      if (!(this.HANGUL_START_CHARCODE <= letterCode && letterCode <= this.HANGUL_END_CHARCODE)) {
+        result += ele;
+        return ele;
+      }
+
+      const charCode = letterCode - this.HANGUL_START_CHARCODE;
+
+      const choIndex = Math.floor(charCode / this.CHO_PERIOD);
+
+      result += this.CHO_HANGUL[choIndex];
+    })
+
+    return result;
+  }
+
+
   async settingAnalyzer(): Promise<string> {
     try {
       const existIndex = await this.elasticsearchService.indices.exists({ index: 'animations' });
@@ -118,12 +142,14 @@ export class MyElasticSearchService implements OnModuleInit{
 
   async indexAnimation(animation): Promise<any> {
     const decomposedTitle = await this.divideHangul(animation.title);
+    const chosungTitle = await this.extractChosung(animation.title);
     await this.elasticsearchService.index({
       index: 'animations',
       id: String(animation.id),
       body: {
         title: animation.title,
         decomposedTitle: decomposedTitle,
+        chosungTitle: chosungTitle,
       },
     });
 
@@ -138,12 +164,14 @@ export class MyElasticSearchService implements OnModuleInit{
       const animations = await this.prisma.animation.findMany();
       animations.forEach(async (animation) => {
         const decomposedTitle = await this.divideHangul(animation.title);
+        const chosungTitle = await this.extractChosung(animation.title);
         await this.elasticsearchService.index({
           index: 'animations',
           id: String(animation.id),
           body: {
             title: animation.title,
             decomposedTitle: decomposedTitle,
+            chosungTitle: chosungTitle,
           },
         });
       });

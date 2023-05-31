@@ -15,7 +15,7 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, "google") {
       scope: ['email', 'profile'],
     });
   }
-ㅜㄷ
+
   async validate(
     _accessToken: string,
     _refreshToken: string,
