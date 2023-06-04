@@ -5,6 +5,8 @@
 
 ## 🏷️  KONOBANGUMIWA 소개 
 
+[ http://konobangumiwa.wiki ]
+
 * 이제는 당당한 오타쿠가 되기 위한 애니메이션 평가 사이트
 * MZ세대들의 취미는 애니보기! 본 애니메이션을 기록하고 보고싶은 애니를 찜꽁하자 
 * 퍼스널 애니메이션 이제는 개인의 취향에 맞게 골라보자! 평가한 애니메이션 기반으로 취향분석에 맞는 애니메이션 추천 
@@ -111,4 +113,5 @@ docker-compose up
   <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=black">
   <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=black">
   <img src="https://img.shields.io/badge/elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=black"> 
+  <img src="https://img.shields.io/badge/amazonec2-ff9900?style=for-the-badge&logo=amazonec2&logoColor=black"> 
 </div>
