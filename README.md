@@ -2,10 +2,17 @@
 
 ![image](https://github.com/min-96/_konobangumiwa/assets/67457956/db40bc8b-3213-4e41-92ee-595ffc4f2557)
 
+## 🚀 KONOBANGUMIWA 사이트 바로가기. 
+
+<h3> http://konobangumiwa.wiki </h3>
+   사이트는 비용문제로 9AM ~ 6PM 에만 열어뒀습니다.
+
+<br>
+<br>
+
+
 
 ## 🏷️  KONOBANGUMIWA 소개 
-
-[ http://konobangumiwa.wiki ]
 
 * 이제는 당당한 오타쿠가 되기 위한 애니메이션 평가 사이트
 * MZ세대들의 취미는 애니보기! 본 애니메이션을 기록하고 보고싶은 애니를 찜꽁하자 
