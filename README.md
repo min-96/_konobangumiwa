@@ -5,7 +5,7 @@
 ## 🚀 KONOBANGUMIWA 사이트 바로가기. 
 
 <h3> http://konobangumiwa.wiki </h3>
-   사이트는 비용문제로 9AM ~ 6PM 에만 열어뒀습니다.
+   사이트는 비용문제로 9AM ~ 9PM 에만 열어뒀습니다.
 
 <br>
 <br>
